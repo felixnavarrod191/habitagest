@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-reservas
+  version: 1.0.0
+  description: Zonas comunes, disponibilidad y reservas. Contrato escrito antes que el código (ADR-004); se accede
+    por el API Gateway.
+servers:
+- url: http://localhost:8083
+  description: Local
+tags:
+- name: Zonas
+- name: Reservas
+paths:
+  /zonas:
+    post:
+      tags:
+      - Zonas
+      summary: Definir una zona común con su horario
+      x-requisitos: REQ-PH-018
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZonaNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zona'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '409':
+          $ref: '#/components/responses/E409'
+    get:
+      tags:
+      - Zonas
+      summary: Listar las zonas comunes
+      x-requisitos: REQ-PH-018
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zona'
+        '403':
+          $ref: '#/components/responses/E403'
+  /zonas/{id}/disponibilidad:
+    get:
+      tags:
+      - Zonas
+      summary: Consultar los horarios libres y ocupados de una zona
+      x-requisitos: REQ-PH-019
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador de la zona
+        schema: &id001
+          type: string
+      - name: fecha
+        in: query
+        required: true
+        description: Fecha AAAA-MM-DD
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Horario'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /reservas:
+    post:
+      tags:
+      - Reservas
+      summary: Reservar una zona común
+      x-requisitos: REQ-PH-020, REQ-PH-021, REQ-PH-022
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaNueva'
+      responses:
+        '201':
+          description: Reserva confirmada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /reservas/{id}/cancelaciones:
+    post:
+      tags:
+      - Reservas
+      summary: Cancelar una reserva
+      x-requisitos: REQ-PH-023, REQ-PH-024
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador de la reserva
+        schema: *id001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cancelacion'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo: *id001
+        mensaje: *id001
+      required:
+      - codigo
+      - mensaje
+    ZonaNueva:
+      type: object
+      properties:
+        nombre: *id001
+        horaInicio:
+          type: string
+          example: 08:00
+        horaFin:
+          type: string
+          example: '22:00'
+      required:
+      - nombre
+      - horaInicio
+      - horaFin
+    Zona:
+      type: object
+      properties:
+        id: &id003
+          type: string
+          description: Identificador del recurso
+        nombre: *id001
+        horaInicio: *id001
+        horaFin: *id001
+    Horario:
+      type: object
+      properties:
+        inicio: &id002
+          type: string
+          format: date-time
+        fin: *id002
+        estado:
+          type: string
+          enum:
+          - LIBRE
+          - OCUPADO
+    ReservaNueva:
+      type: object
+      properties:
+        zonaId: *id003
+        apartamentoId: *id003
+        inicio: *id002
+        fin: *id002
+      required:
+      - zonaId
+      - apartamentoId
+      - inicio
+      - fin
+    Reserva:
+      type: object
+      properties:
+        id: *id003
+        zonaId: *id003
+        apartamentoId: *id003
+        inicio: *id002
+        fin: *id002
+        estado:
+          type: string
+          enum:
+          - CONFIRMADA
+          - CANCELADA
+    Cancelacion:
+      type: object
+      properties:
+        solicitante:
+          type: string
+          enum:
+          - RESIDENTE
+          - ADMINISTRADOR
+      required:
+      - solicitante

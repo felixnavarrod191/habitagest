@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-porteria
+  version: 1.0.0
+  description: Visitas, ingresos, paquetes y novedades de seguridad. Contrato escrito antes que el código (ADR-004);
+    se accede por el API Gateway.
+servers:
+- url: http://localhost:8085
+  description: Local
+tags:
+- name: Visitas
+- name: Paquetes
+- name: Novedades
+paths:
+  /visitas:
+    post:
+      tags:
+      - Visitas
+      summary: Autorizar una visita
+      x-requisitos: REQ-PH-033
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisitaNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visita'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+    get:
+      tags:
+      - Visitas
+      summary: Listar las visitas autorizadas de una fecha
+      x-requisitos: REQ-PH-033
+      parameters:
+      - name: fecha
+        in: query
+        required: true
+        description: Fecha AAAA-MM-DD
+        schema: &id002
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visita'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+  /ingresos:
+    post:
+      tags:
+      - Visitas
+      summary: Registrar el ingreso o la salida de un visitante autorizado
+      x-requisitos: REQ-PH-034, REQ-PH-035
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngresoNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingreso'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /paquetes:
+    post:
+      tags:
+      - Paquetes
+      summary: Registrar un paquete para un apartamento
+      x-requisitos: REQ-PH-036
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaqueteNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paquete'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Paquetes
+      summary: Listar los paquetes de un apartamento
+      x-requisitos: REQ-PH-036
+      parameters:
+      - name: apartamentoId
+        in: query
+        required: true
+        description: Apartamento
+        schema: &id001
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Paquete'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+  /paquetes/{id}/entrega:
+    post:
+      tags:
+      - Paquetes
+      summary: Marcar un paquete como entregado
+      x-requisitos: REQ-PH-036
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema: *id001
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paquete'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /novedades:
+    post:
+      tags:
+      - Novedades
+      summary: Registrar una novedad de seguridad
+      x-requisitos: REQ-PH-037
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovedadNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Novedad'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Novedades
+      summary: Listar las novedades
+      x-requisitos: REQ-PH-037
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Novedad'
+        '403':
+          $ref: '#/components/responses/E403'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo: *id001
+        mensaje: *id001
+      required:
+      - codigo
+      - mensaje
+    VisitaNueva:
+      type: object
+      properties:
+        apartamentoId: &id003
+          type: string
+          description: Identificador del recurso
+        nombre: *id001
+        documento: *id001
+        fecha: *id002
+      required:
+      - apartamentoId
+      - nombre
+      - documento
+      - fecha
+    Visita:
+      type: object
+      properties:
+        id: *id003
+        apartamentoId: *id003
+        nombre: *id001
+        documento: *id001
+        fecha: *id002
+    IngresoNuevo:
+      type: object
+      properties:
+        visitaId: *id003
+        tipo:
+          type: string
+          enum:
+          - ENTRADA
+          - SALIDA
+      required:
+      - visitaId
+      - tipo
+    Ingreso:
+      type: object
+      properties:
+        id: *id003
+        visitaId: *id003
+        tipo: *id001
+        hora: &id004
+          type: string
+          format: date-time
+        registradoPor: *id001
+    PaqueteNuevo:
+      type: object
+      properties:
+        apartamentoId: *id003
+        descripcion: *id001
+      required:
+      - apartamentoId
+      - descripcion
+    Paquete:
+      type: object
+      properties:
+        id: *id003
+        apartamentoId: *id003
+        descripcion: *id001
+        estado:
+          type: string
+          enum:
+          - PENDIENTE
+          - ENTREGADO
+    NovedadNueva:
+      type: object
+      properties:
+        texto: *id001
+      required:
+      - texto
+    Novedad:
+      type: object
+      properties:
+        id: *id003
+        texto: *id001
+        autor: *id001
+        fecha: *id004
