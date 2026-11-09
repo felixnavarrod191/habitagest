@@ -1,41 +1,41 @@
 # tasks.md · HabitaGest
 
-Versión 1.0 · 2026-11-07 · Se aprueba en la Puerta 3 (`docs/actas/puerta-3.md`)
+Versión 1.0 · 2026-11-08 · Se aprueba en la Puerta 3 (`docs/actas/puerta-3.md`)
 
 Convenciones: `[P]` = se puede hacer en paralelo · `[USn]` = historia HU-n · entre paréntesis, los requisitos y criterios que cubre. En cada fase, la prueba va antes que la implementación. Cada tarea dura como máximo medio día y toca un solo servicio.
 
 ## Fase 0 · Preparación (Sprint 1)
 
-- [ ] T001 [P] Prueba de humo de cada módulo: sin `MONGODB_URI` el servicio no arranca y lo informa (NFR-PH-005)
-- [ ] T002 Crear el repositorio `habitagest`, proteger `main`, estructura de carpetas, `.gitignore` y README (constitución, principio 4)
-- [ ] T003 [P] Crear el clúster de Atlas, el usuario y las 7 bases (copropiedad_db, finanzas_db, reservas_db, pqr_db, porteria_db, mantenimiento_db y web_db); la conexión solo en `MONGODB_URI`
-- [ ] T004 [P] Crear el módulo ms-copropiedad con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-copropiedad
-- [ ] T005 [P] Crear el módulo ms-finanzas con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-finanzas
-- [ ] T006 [P] Crear el módulo ms-reservas con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-reservas
-- [ ] T007 [P] Crear el módulo ms-pqr con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-pqr
-- [ ] T008 [P] Crear el módulo ms-porteria con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-porteria
-- [ ] T009 [P] Crear el módulo ms-mantenimiento con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-mantenimiento
-- [ ] T010 [P] Crear el módulo api-gateway con las rutas a los 6 servicios por variables de entorno · api-gateway
-- [ ] T011 [P] Crear el módulo web con Thymeleaf, Bootstrap y Spring Security base · web
-- [ ] T012 [P] Dockerfile de dos etapas y .dockerignore en cada módulo (NFR-PH-005)
-- [ ] T013 Verificar `mvn verify` y el arranque local de los 8 módulos; guardar la evidencia de health en UP
+- [x] T001 [P] Prueba de humo de cada módulo: sin `MONGODB_URI` el servicio no arranca y lo informa (NFR-PH-005)
+- [x] T002 Crear el repositorio `habitagest`, proteger `main`, estructura de carpetas, `.gitignore` y README (constitución, principio 4)
+- [x] T003 [P] Crear el clúster de Atlas, el usuario y las 7 bases (copropiedad_db, finanzas_db, reservas_db, pqr_db, porteria_db, mantenimiento_db y web_db); la conexión solo en `MONGODB_URI`
+- [x] T004 [P] Crear el módulo ms-copropiedad con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-copropiedad
+- [x] T005 [P] Crear el módulo ms-finanzas con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-finanzas
+- [x] T006 [P] Crear el módulo ms-reservas con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-reservas
+- [x] T007 [P] Crear el módulo ms-pqr con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-pqr
+- [x] T008 [P] Crear el módulo ms-porteria con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-porteria
+- [x] T009 [P] Crear el módulo ms-mantenimiento con health, Swagger y validación de configuración (NFR-PH-005, NFR-PH-006) · ms-mantenimiento
+- [x] T010 [P] Crear el módulo api-gateway con las rutas a los 6 servicios por variables de entorno · api-gateway
+- [x] T011 [P] Crear el módulo web con Thymeleaf, Bootstrap y Spring Security base · web
+- [x] T012 [P] Dockerfile de dos etapas y .dockerignore en cada módulo (NFR-PH-005)
+- [x] T013 Verificar `mvn verify` y el arranque local de los 8 módulos; guardar la evidencia de health en UP
 
 Punto de control: los 8 módulos compilan, arrancan y no hay secretos en el repositorio.
 
 ## Fase 1 · Fundamentos (bloquea las demás)
 
-- [ ] T014 [P] [US2] Prueba: AC-001.1 (REQ-PH-001) · web
-- [ ] T015 [US2] Mostrar a cada usuario solo las opciones de su rol (REQ-PH-001) · web
-- [ ] T016 [P] [US2] Prueba: AC-003.1 (REQ-PH-003) · web
-- [ ] T017 [US2] Rechazar el acceso a pantallas de otro rol (REQ-PH-003) · web
-- [ ] T018 [P] [US1] Prueba: AC-002.1 (REQ-PH-002) · web
-- [ ] T019 [US1] Crear usuarios con rol y contraseña cifrada (REQ-PH-002) · web
-- [ ] T020 [US1] Enum de los 11 roles, entidad Usuario y repositorio sobre web_db (REQ-PH-002) · web
-- [ ] T021 [US2] Configurar Spring Security: formulario de inicio de sesión, BCrypt, rutas por rol y página 403 (REQ-PH-001, REQ-PH-003) · web
-- [ ] T022 [US2] Pantallas de inicio de sesión, inicio con menú por rol y 403 (REQ-PH-001) · web
-- [ ] T023 [US1] Pantalla de usuarios del administrador del sistema (REQ-PH-002) · web
-- [ ] T024 Datos de arranque: administrador desde `ADMIN_PASSWORD` y usuarios de demostración con `APP_DEMO=true` (NFR-PH-004) · web
-- [ ] T025 [P] Prueba por tabla de los 11 roles: cada uno entra a su área y es rechazado en las demás (NFR-PH-002) · web
+- [x] T014 [P] [US2] Prueba: AC-001.1 (REQ-PH-001) · web
+- [x] T015 [US2] Mostrar a cada usuario solo las opciones de su rol (REQ-PH-001) · web
+- [x] T016 [P] [US2] Prueba: AC-003.1 (REQ-PH-003) · web
+- [x] T017 [US2] Rechazar el acceso a pantallas de otro rol (REQ-PH-003) · web
+- [x] T018 [P] [US1] Prueba: AC-002.1 (REQ-PH-002) · web
+- [x] T019 [US1] Crear usuarios con rol y contraseña cifrada (REQ-PH-002) · web
+- [x] T020 [US1] Enum de los 11 roles, entidad Usuario y repositorio sobre web_db (REQ-PH-002) · web
+- [x] T021 [US2] Configurar Spring Security: formulario de inicio de sesión, BCrypt, rutas por rol y página 403 (REQ-PH-001, REQ-PH-003) · web
+- [x] T022 [US2] Pantallas de inicio de sesión, inicio con menú por rol y 403 (REQ-PH-001) · web
+- [x] T023 [US1] Pantalla de usuarios del administrador del sistema (REQ-PH-002) · web
+- [x] T024 Datos de arranque: administrador desde `ADMIN_PASSWORD` y usuarios de demostración con `APP_DEMO=true` (NFR-PH-004) · web
+- [x] T025 [P] Prueba por tabla de los 11 roles: cada uno entra a su área y es rechazado en las demás (NFR-PH-002) · web
 
 Punto de control (Sprint 1): inicio de sesión de los 11 roles probado.
 
