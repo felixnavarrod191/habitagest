@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HabitaGest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">HabitaGest</a>
+        <form th:action="@{/logout}" method="post" class="d-flex align-items-center gap-3">
+            <span class="text-white" sec:authentication="name"></span>
+            <button class="btn btn-outline-light btn-sm" type="submit">Salir</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <h1 class="h4 mb-3">Usuarios</h1>
+    <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+    <form th:action="@{/sistema/usuarios}" method="post" class="card card-body shadow-sm mb-4">
+        <div class="row g-3">
+            <div class="col-md-4"><input class="form-control" name="usuario" placeholder="Usuario" required></div>
+            <div class="col-md-4"><input class="form-control" type="password" name="contrasena" placeholder="Contraseña inicial (mínimo 8)" required></div>
+            <div class="col-md-3">
+                <select class="form-select" name="rol" required>
+                    <option th:each="r : ${roles}" th:value="${r}" th:text="${r.etiqueta()}"></option>
+                </select>
+            </div>
+            <div class="col-md-1"><button class="btn btn-primary" type="submit">Crear</button></div>
+        </div>
+    </form>
+    <table class="table table-sm bg-white">
+        <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+            <tr th:each="u : ${usuarios}">
+                <td th:text="${u.usuario}"></td>
+                <td th:text="${u.rol.etiqueta()}"></td>
+                <td th:text="${u.activo} ? 'Activo' : 'Inactivo'"></td>
+                <td>
+                    <form th:action="@{/sistema/usuarios/{id}/estado(id=${u.id})}" method="post">
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">Activar o desactivar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
