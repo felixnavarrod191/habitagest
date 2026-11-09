@@ -1,9 +1,9 @@
 # Acta de la Puerta 0
 
 - **Documento:** constitution.md y AGENTS.md
-- **Duración prevista:** 30 minutos
+- **Modalidad:** revisión por escrito en el pull request (sin reunión)
 - **Fecha:** 8 de noviembre de 2026
-- **Participantes:** Felix José Navarro Ortiz, Angel Daniel Moreno Lazcano y Estiven Alexander Rodríguez Pérez
+- **Participantes:** Estiven Alexander Rodríguez Pérez (autor) y Angel Daniel Moreno Lazcano (revisor)
 - **Autor:** Estiven Alexander Rodríguez Pérez · **Revisor:** Angel Daniel Moreno Lazcano
 
 ## Lista de comprobación
@@ -19,7 +19,7 @@
 
 ## Hallazgos
 
-(Se anotan aquí los hallazgos de la revisión.)
+(Se copian aquí los hallazgos que el revisor dejó por escrito en el pull request.)
 
 ## Decisión
 
