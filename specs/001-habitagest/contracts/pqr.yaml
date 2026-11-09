@@ -1,0 +1,353 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-pqr
+  version: 1.0.0
+  description: PQR con su flujo de estados, su auditoría y los comunicados. Contrato escrito antes que el código (ADR-004);
+    se accede por el API Gateway.
+servers:
+- url: http://localhost:8084
+  description: Local
+tags:
+- name: PQR
+- name: Comunicados
+paths:
+  /pqr:
+    post:
+      tags:
+      - PQR
+      summary: Radicar una PQR
+      x-requisitos: REQ-PH-025
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PqrNueva'
+      responses:
+        '201':
+          description: PQR radicada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pqr'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - PQR
+      summary: Listar PQR
+      x-requisitos: REQ-PH-028
+      parameters:
+      - name: residenteId
+        in: query
+        required: false
+        description: Filtra por residente
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pqr'
+        '403':
+          $ref: '#/components/responses/E403'
+  /pqr/{id}:
+    get:
+      tags:
+      - PQR
+      summary: Consultar una PQR con su historial
+      x-requisitos: REQ-PH-028
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pqr'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /pqr/{id}/estado:
+    post:
+      tags:
+      - PQR
+      summary: Pasar la PQR al estado siguiente
+      x-requisitos: REQ-PH-026, REQ-PH-027
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CambioEstado'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pqr'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /pqr/{id}/cierre:
+    post:
+      tags:
+      - PQR
+      summary: Cerrar una PQR resuelta con su respuesta
+      x-requisitos: REQ-PH-029
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CierrePqr'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pqr'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /pqr/{id}/auditoria:
+    get:
+      tags:
+      - PQR
+      summary: Consultar la auditoría de una PQR
+      x-requisitos: REQ-PH-030
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cambio'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /comunicados:
+    post:
+      tags:
+      - Comunicados
+      summary: Publicar un comunicado
+      x-requisitos: REQ-PH-031
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComunicadoNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comunicado'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Comunicados
+      summary: Listar los comunicados vigentes
+      x-requisitos: REQ-PH-031, REQ-PH-032
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comunicado'
+        '403':
+          $ref: '#/components/responses/E403'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+      required:
+      - codigo
+      - mensaje
+    PqrNueva:
+      type: object
+      properties:
+        residenteId:
+          type: string
+          description: Identificador del recurso
+        asunto:
+          type: string
+        descripcion:
+          type: string
+      required:
+      - residenteId
+      - asunto
+      - descripcion
+    Pqr:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        numero:
+          type: string
+        residenteId:
+          type: string
+          description: Identificador del recurso
+        asunto:
+          type: string
+        descripcion:
+          type: string
+        estado:
+          type: string
+          enum:
+          - RADICADA
+          - EN_REVISION
+          - EN_GESTION
+          - RESUELTA
+          - CERRADA
+        respuesta:
+          type: string
+        historial:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cambio'
+    CambioEstado:
+      type: object
+      properties:
+        estado:
+          type: string
+          enum:
+          - EN_REVISION
+          - EN_GESTION
+          - RESUELTA
+      required:
+      - estado
+    CierrePqr:
+      type: object
+      properties:
+        respuesta:
+          type: string
+      required:
+      - respuesta
+    Cambio:
+      type: object
+      properties:
+        estadoAnterior:
+          type: string
+        estadoNuevo:
+          type: string
+        usuario:
+          type: string
+        fecha:
+          type: string
+          format: date-time
+    ComunicadoNuevo:
+      type: object
+      properties:
+        titulo:
+          type: string
+        texto:
+          type: string
+        vigenteHasta:
+          type: string
+          format: date
+      required:
+      - titulo
+      - texto
+      - vigenteHasta
+    Comunicado:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        titulo:
+          type: string
+        texto:
+          type: string
+        vigenteHasta:
+          type: string
+          format: date

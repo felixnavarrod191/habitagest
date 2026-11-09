@@ -1,0 +1,510 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-finanzas
+  version: 1.0.0
+  description: Presupuesto, cuotas, pagos, mora, cartera, estado de cuenta, resumen y observaciones. Contrato escrito antes
+    que el código (ADR-004); se accede por el API Gateway.
+servers:
+- url: http://localhost:8082
+  description: Local
+tags:
+- name: Presupuestos
+- name: Cuotas
+- name: Pagos
+- name: Mora
+- name: Cartera
+- name: Observaciones
+paths:
+  /presupuestos:
+    post:
+      tags:
+      - Presupuestos
+      summary: Definir el presupuesto mensual
+      x-requisitos: REQ-PH-008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresupuestoNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Presupuesto'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '409':
+          $ref: '#/components/responses/E409'
+    get:
+      tags:
+      - Presupuestos
+      summary: Consultar el presupuesto de un mes
+      x-requisitos: REQ-PH-008
+      parameters:
+      - name: mes
+        in: query
+        required: true
+        description: Mes en formato AAAA-MM
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Presupuesto'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /cuotas/generaciones:
+    post:
+      tags:
+      - Cuotas
+      summary: Generar las cuotas del mes de todos los apartamentos
+      x-requisitos: REQ-PH-009, REQ-PH-010
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneracionCuotas'
+      responses:
+        '201':
+          description: Cuotas generadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cuota'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '409':
+          $ref: '#/components/responses/E409'
+  /cuotas:
+    get:
+      tags:
+      - Cuotas
+      summary: Consultar cuotas
+      x-requisitos: REQ-PH-015
+      parameters:
+      - name: apartamentoId
+        in: query
+        required: false
+        description: Filtra por apartamento
+        schema:
+          type: string
+      - name: mes
+        in: query
+        required: false
+        description: Filtra por mes (AAAA-MM)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cuota'
+        '403':
+          $ref: '#/components/responses/E403'
+  /pagos:
+    post:
+      tags:
+      - Pagos
+      summary: Registrar el pago de una cuota
+      x-requisitos: REQ-PH-011, REQ-PH-012
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagoNuevo'
+      responses:
+        '201':
+          description: Pago registrado; devuelve la cuota con su nuevo saldo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuota'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /mora/aplicaciones:
+    post:
+      tags:
+      - Mora
+      summary: Aplicar el interés de mora a las cuotas vencidas
+      x-requisitos: REQ-PH-013
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AplicacionMora'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cuota'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+  /apartamentos/{id}/mora:
+    get:
+      tags:
+      - Mora
+      summary: Saber si un apartamento está en mora
+      x-requisitos: REQ-PH-014
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador del apartamento
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstadoMora'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /cartera:
+    get:
+      tags:
+      - Cartera
+      summary: Consultar la cartera por torre
+      x-requisitos: REQ-PH-016
+      parameters:
+      - name: torre
+        in: query
+        required: false
+        description: Filtra por torre
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarteraItem'
+        '403':
+          $ref: '#/components/responses/E403'
+  /estado-de-cuenta/{apartamentoId}:
+    get:
+      tags:
+      - Cartera
+      summary: Consultar el estado de cuenta de un apartamento
+      x-requisitos: REQ-PH-015
+      parameters:
+      - name: apartamentoId
+        in: path
+        required: true
+        description: Identificador del apartamento
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstadoCuenta'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /observaciones:
+    post:
+      tags:
+      - Observaciones
+      summary: Dejar una observación de auditoría
+      x-requisitos: REQ-PH-044
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObservacionNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Observacion'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Observaciones
+      summary: Listar las observaciones de auditoría
+      x-requisitos: REQ-PH-044
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Observacion'
+        '403':
+          $ref: '#/components/responses/E403'
+  /resumen:
+    get:
+      tags:
+      - Cartera
+      summary: Resumen de cartera para el Consejo
+      x-requisitos: REQ-PH-043
+      parameters:
+      - name: mes
+        in: query
+        required: true
+        description: Mes en formato AAAA-MM
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumenFinanciero'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+      required:
+      - codigo
+      - mensaje
+    PresupuestoNuevo:
+      type: object
+      properties:
+        mes:
+          type: string
+          description: AAAA-MM
+        valor:
+          type: number
+          format: double
+      required:
+      - mes
+      - valor
+    Presupuesto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        mes:
+          type: string
+        valor:
+          type: number
+          format: double
+    GeneracionCuotas:
+      type: object
+      properties:
+        mes:
+          type: string
+          description: AAAA-MM
+      required:
+      - mes
+    Cuota:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        mes:
+          type: string
+        valor:
+          type: number
+          format: double
+        saldo:
+          type: number
+          format: double
+        mora:
+          type: number
+          format: double
+        estado:
+          type: string
+          enum:
+          - PENDIENTE
+          - PAGADA
+          - VENCIDA
+    PagoNuevo:
+      type: object
+      properties:
+        cuotaId:
+          type: string
+          description: Identificador del recurso
+        valor:
+          type: number
+          format: double
+      required:
+      - cuotaId
+      - valor
+    AplicacionMora:
+      type: object
+      properties:
+        mes:
+          type: string
+          description: AAAA-MM; si se omite, todas las cuotas vencidas
+    EstadoMora:
+      type: object
+      properties:
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        enMora:
+          type: boolean
+        saldoVencido:
+          type: number
+          format: double
+    CarteraItem:
+      type: object
+      properties:
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        torre:
+          type: string
+        numero:
+          type: string
+        saldo:
+          type: number
+          format: double
+        enMora:
+          type: boolean
+    EstadoCuenta:
+      type: object
+      properties:
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        cuotas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cuota'
+        pagos:
+          type: array
+          items:
+            type: object
+            properties:
+              valor:
+                type: number
+                format: double
+              fecha:
+                type: string
+                format: date-time
+        saldo:
+          type: number
+          format: double
+        mora:
+          type: number
+          format: double
+    ObservacionNueva:
+      type: object
+      properties:
+        referencia:
+          type: string
+        texto:
+          type: string
+      required:
+      - referencia
+      - texto
+    Observacion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        referencia:
+          type: string
+        texto:
+          type: string
+        autor:
+          type: string
+        fecha:
+          type: string
+          format: date-time
+    ResumenFinanciero:
+      type: object
+      properties:
+        mes:
+          type: string
+        totalCartera:
+          type: number
+          format: double
+        gastosMantenimiento:
+          type: number
+          format: double

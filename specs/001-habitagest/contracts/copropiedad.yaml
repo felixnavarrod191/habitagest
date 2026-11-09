@@ -1,0 +1,367 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-copropiedad
+  version: 1.0.0
+  description: Torres, apartamentos con coeficiente, propietarios y residentes. Contrato escrito antes que el código (ADR-004);
+    se accede por el API Gateway.
+servers:
+- url: http://localhost:8081
+  description: Local
+tags:
+- name: Torres
+- name: Apartamentos
+- name: Propietarios
+- name: Residentes
+paths:
+  /torres:
+    get:
+      tags:
+      - Torres
+      summary: Listar las torres
+      x-requisitos: ''
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Torre'
+        '403':
+          $ref: '#/components/responses/E403'
+    post:
+      tags:
+      - Torres
+      summary: Registrar una torre
+      x-requisitos: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TorreNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Torre'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '409':
+          $ref: '#/components/responses/E409'
+  /apartamentos:
+    get:
+      tags:
+      - Apartamentos
+      summary: Listar los apartamentos
+      x-requisitos: REQ-PH-004
+      parameters:
+      - name: torre
+        in: query
+        required: false
+        description: Filtra por torre
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Apartamento'
+        '403':
+          $ref: '#/components/responses/E403'
+    post:
+      tags:
+      - Apartamentos
+      summary: Registrar un apartamento con su coeficiente
+      x-requisitos: REQ-PH-004, REQ-PH-005
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApartamentoNuevo'
+      responses:
+        '201':
+          description: Apartamento registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apartamento'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '409':
+          $ref: '#/components/responses/E409'
+  /apartamentos/{id}:
+    get:
+      tags:
+      - Apartamentos
+      summary: Consultar un apartamento
+      x-requisitos: REQ-PH-006
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apartamento'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /apartamentos/{id}/residentes:
+    get:
+      tags:
+      - Residentes
+      summary: Listar los residentes de un apartamento
+      x-requisitos: REQ-PH-007
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Residente'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /propietarios:
+    post:
+      tags:
+      - Propietarios
+      summary: Registrar un propietario y asociarlo a su apartamento
+      x-requisitos: REQ-PH-006
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropietarioNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Propietario'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /propietarios/{id}:
+    get:
+      tags:
+      - Propietarios
+      summary: Consultar un propietario
+      x-requisitos: REQ-PH-006
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Propietario'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /residentes:
+    post:
+      tags:
+      - Residentes
+      summary: Registrar un residente en un apartamento
+      x-requisitos: REQ-PH-007
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidenteNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Residente'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+      required:
+      - codigo
+      - mensaje
+    TorreNueva:
+      type: object
+      properties:
+        nombre:
+          type: string
+      required:
+      - nombre
+    Torre:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+    ApartamentoNuevo:
+      type: object
+      properties:
+        torre:
+          type: string
+        numero:
+          type: string
+        coeficiente:
+          type: number
+          format: double
+          description: Porcentaje, entre 0 y 100
+      required:
+      - torre
+      - numero
+      - coeficiente
+    Apartamento:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        torre:
+          type: string
+        numero:
+          type: string
+        coeficiente:
+          type: number
+          format: double
+        propietarioId:
+          type: string
+          description: Identificador del recurso
+    PropietarioNuevo:
+      type: object
+      properties:
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+      required:
+      - nombre
+      - documento
+      - apartamentoId
+    Propietario:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+    ResidenteNuevo:
+      type: object
+      properties:
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+      required:
+      - nombre
+      - documento
+      - apartamentoId
+    Residente:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso

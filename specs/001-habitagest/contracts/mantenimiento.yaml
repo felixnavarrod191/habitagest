@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-mantenimiento
+  version: 1.0.0
+  description: Órdenes de mantenimiento con aprobación del Consejo, materiales y auditoría. Contrato escrito antes que el
+    código (ADR-004); se accede por el API Gateway.
+servers:
+- url: http://localhost:8086
+  description: Local
+tags:
+- name: Órdenes
+- name: Gastos
+paths:
+  /ordenes:
+    post:
+      tags:
+      - Órdenes
+      summary: Crear una orden de mantenimiento
+      x-requisitos: REQ-PH-038
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdenNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orden'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Órdenes
+      summary: Listar órdenes
+      x-requisitos: REQ-PH-042
+      parameters:
+      - name: estado
+        in: query
+        required: false
+        description: Filtra por estado
+        schema:
+          type: string
+      - name: proveedorId
+        in: query
+        required: false
+        description: Filtra por proveedor
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orden'
+        '403':
+          $ref: '#/components/responses/E403'
+  /ordenes/{id}:
+    get:
+      tags:
+      - Órdenes
+      summary: Consultar una orden
+      x-requisitos: REQ-PH-038
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orden'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /ordenes/{id}/aprobacion:
+    post:
+      tags:
+      - Órdenes
+      summary: Aprobar una orden
+      x-requisitos: REQ-PH-039, REQ-PH-040
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aprobacion'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orden'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /ordenes/{id}/ejecucion:
+    post:
+      tags:
+      - Órdenes
+      summary: Ejecutar una orden aprobada y registrar sus materiales
+      x-requisitos: REQ-PH-041
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ejecucion'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orden'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /ordenes/{id}/auditoria:
+    get:
+      tags:
+      - Órdenes
+      summary: Consultar la auditoría de una orden
+      x-requisitos: REQ-PH-030
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cambio'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+  /gastos:
+    get:
+      tags:
+      - Gastos
+      summary: Total de gastos de mantenimiento de un mes
+      x-requisitos: REQ-PH-043
+      parameters:
+      - name: mes
+        in: query
+        required: true
+        description: Mes en formato AAAA-MM
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GastosMes'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+      required:
+      - codigo
+      - mensaje
+    OrdenNueva:
+      type: object
+      properties:
+        descripcion:
+          type: string
+        zona:
+          type: string
+        costoEstimado:
+          type: number
+          format: double
+        proveedorId:
+          type: string
+          description: Identificador del recurso
+      required:
+      - descripcion
+      - zona
+      - costoEstimado
+    Orden:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
+        zona:
+          type: string
+        costoEstimado:
+          type: number
+          format: double
+        costoFinal:
+          type: number
+          format: double
+        proveedorId:
+          type: string
+          description: Identificador del recurso
+        estado:
+          type: string
+          enum:
+          - SOLICITADA
+          - APROBADA
+          - EN_EJECUCION
+          - COMPLETADA
+        materiales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Material'
+        historial:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cambio'
+    Aprobacion:
+      type: object
+      properties:
+        aprobadoPor:
+          type: string
+          enum:
+          - ADMIN_CONJUNTO
+          - CONSEJO
+      required:
+      - aprobadoPor
+    Ejecucion:
+      type: object
+      properties:
+        materiales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Material'
+      required:
+      - materiales
+    Material:
+      type: object
+      properties:
+        descripcion:
+          type: string
+        valor:
+          type: number
+          format: double
+      required:
+      - descripcion
+      - valor
+    Cambio:
+      type: object
+      properties:
+        estadoAnterior:
+          type: string
+        estadoNuevo:
+          type: string
+        usuario:
+          type: string
+        fecha:
+          type: string
+          format: date-time
+    GastosMes:
+      type: object
+      properties:
+        mes:
+          type: string
+        total:
+          type: number
+          format: double

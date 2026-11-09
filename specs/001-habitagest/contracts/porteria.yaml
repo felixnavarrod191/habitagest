@@ -1,0 +1,353 @@
+openapi: 3.0.3
+info:
+  title: HabitaGest · ms-porteria
+  version: 1.0.0
+  description: Visitas, ingresos, paquetes y novedades de seguridad. Contrato escrito antes que el código (ADR-004); se accede
+    por el API Gateway.
+servers:
+- url: http://localhost:8085
+  description: Local
+tags:
+- name: Visitas
+- name: Paquetes
+- name: Novedades
+paths:
+  /visitas:
+    post:
+      tags:
+      - Visitas
+      summary: Autorizar una visita
+      x-requisitos: REQ-PH-033
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisitaNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visita'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+    get:
+      tags:
+      - Visitas
+      summary: Listar las visitas autorizadas de una fecha
+      x-requisitos: REQ-PH-033
+      parameters:
+      - name: fecha
+        in: query
+        required: true
+        description: Fecha AAAA-MM-DD
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visita'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+  /ingresos:
+    post:
+      tags:
+      - Visitas
+      summary: Registrar el ingreso o la salida de un visitante autorizado
+      x-requisitos: REQ-PH-034, REQ-PH-035
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngresoNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingreso'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /paquetes:
+    post:
+      tags:
+      - Paquetes
+      summary: Registrar un paquete para un apartamento
+      x-requisitos: REQ-PH-036
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaqueteNuevo'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paquete'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Paquetes
+      summary: Listar los paquetes de un apartamento
+      x-requisitos: REQ-PH-036
+      parameters:
+      - name: apartamentoId
+        in: query
+        required: true
+        description: Apartamento
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Paquete'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+  /paquetes/{id}/entrega:
+    post:
+      tags:
+      - Paquetes
+      summary: Marcar un paquete como entregado
+      x-requisitos: REQ-PH-036
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paquete'
+        '403':
+          $ref: '#/components/responses/E403'
+        '404':
+          $ref: '#/components/responses/E404'
+        '409':
+          $ref: '#/components/responses/E409'
+  /novedades:
+    post:
+      tags:
+      - Novedades
+      summary: Registrar una novedad de seguridad
+      x-requisitos: REQ-PH-037
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovedadNueva'
+      responses:
+        '201':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Novedad'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
+    get:
+      tags:
+      - Novedades
+      summary: Listar las novedades
+      x-requisitos: REQ-PH-037
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Novedad'
+        '403':
+          $ref: '#/components/responses/E403'
+components:
+  responses:
+    E400:
+      description: Solicitud inválida (datos faltantes o con formato incorrecto)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E403:
+      description: El rol del usuario no tiene permiso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E404:
+      description: El recurso no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    E409:
+      description: La solicitud viola una regla de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+      required:
+      - codigo
+      - mensaje
+    VisitaNueva:
+      type: object
+      properties:
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        fecha:
+          type: string
+          format: date
+      required:
+      - apartamentoId
+      - nombre
+      - documento
+      - fecha
+    Visita:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        fecha:
+          type: string
+          format: date
+    IngresoNuevo:
+      type: object
+      properties:
+        visitaId:
+          type: string
+          description: Identificador del recurso
+        tipo:
+          type: string
+          enum:
+          - ENTRADA
+          - SALIDA
+      required:
+      - visitaId
+      - tipo
+    Ingreso:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        visitaId:
+          type: string
+          description: Identificador del recurso
+        tipo:
+          type: string
+        hora:
+          type: string
+          format: date-time
+        registradoPor:
+          type: string
+    PaqueteNuevo:
+      type: object
+      properties:
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
+      required:
+      - apartamentoId
+      - descripcion
+    Paquete:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
+        estado:
+          type: string
+          enum:
+          - PENDIENTE
+          - ENTREGADO
+    NovedadNueva:
+      type: object
+      properties:
+        texto:
+          type: string
+      required:
+      - texto
+    Novedad:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del recurso
+        texto:
+          type: string
+        autor:
+          type: string
+        fecha:
+          type: string
+          format: date-time
