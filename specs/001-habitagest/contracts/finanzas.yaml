@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-finanzas
   version: 1.0.0
-  description: Presupuesto, cuotas, pagos, mora, cartera, estado de cuenta, resumen y observaciones. Contrato escrito
-    antes que el código (ADR-004); se accede por el API Gateway.
+  description: Presupuesto, cuotas, pagos, mora, cartera, estado de cuenta, resumen y observaciones. Contrato escrito antes
+    que el código (ADR-004); se accede por el API Gateway.
 servers:
 - url: http://localhost:8082
   description: Local
@@ -50,7 +50,7 @@ paths:
         in: query
         required: true
         description: Mes en formato AAAA-MM
-        schema: &id001
+        schema:
           type: string
       responses:
         '200':
@@ -101,12 +101,14 @@ paths:
         in: query
         required: false
         description: Filtra por apartamento
-        schema: *id001
+        schema:
+          type: string
       - name: mes
         in: query
         required: false
         description: Filtra por mes (AAAA-MM)
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -181,7 +183,8 @@ paths:
         in: path
         required: true
         description: Identificador del apartamento
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -204,7 +207,8 @@ paths:
         in: query
         required: false
         description: Filtra por torre
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -227,7 +231,8 @@ paths:
         in: path
         required: true
         description: Identificador del apartamento
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -289,7 +294,8 @@ paths:
         in: query
         required: true
         description: Mes en formato AAAA-MM
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -331,8 +337,10 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
@@ -342,7 +350,7 @@ components:
         mes:
           type: string
           description: AAAA-MM
-        valor: &id002
+        valor:
           type: number
           format: double
       required:
@@ -351,11 +359,14 @@ components:
     Presupuesto:
       type: object
       properties:
-        id: &id003
+        id:
           type: string
           description: Identificador del recurso
-        mes: *id001
-        valor: *id002
+        mes:
+          type: string
+        valor:
+          type: number
+          format: double
     GeneracionCuotas:
       type: object
       properties:
@@ -367,12 +378,23 @@ components:
     Cuota:
       type: object
       properties:
-        id: *id003
-        apartamentoId: *id003
-        mes: *id001
-        valor: *id002
-        saldo: *id002
-        mora: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        mes:
+          type: string
+        valor:
+          type: number
+          format: double
+        saldo:
+          type: number
+          format: double
+        mora:
+          type: number
+          format: double
         estado:
           type: string
           enum:
@@ -382,8 +404,12 @@ components:
     PagoNuevo:
       type: object
       properties:
-        cuotaId: *id003
-        valor: *id002
+        cuotaId:
+          type: string
+          description: Identificador del recurso
+        valor:
+          type: number
+          format: double
       required:
       - cuotaId
       - valor
@@ -396,22 +422,35 @@ components:
     EstadoMora:
       type: object
       properties:
-        apartamentoId: *id003
-        enMora: &id004
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        enMora:
           type: boolean
-        saldoVencido: *id002
+        saldoVencido:
+          type: number
+          format: double
     CarteraItem:
       type: object
       properties:
-        apartamentoId: *id003
-        torre: *id001
-        numero: *id001
-        saldo: *id002
-        enMora: *id004
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        torre:
+          type: string
+        numero:
+          type: string
+        saldo:
+          type: number
+          format: double
+        enMora:
+          type: boolean
     EstadoCuenta:
       type: object
       properties:
-        apartamentoId: *id003
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
         cuotas:
           type: array
           items:
@@ -421,31 +460,51 @@ components:
           items:
             type: object
             properties:
-              valor: *id002
-              fecha: &id005
+              valor:
+                type: number
+                format: double
+              fecha:
                 type: string
                 format: date-time
-        saldo: *id002
-        mora: *id002
+        saldo:
+          type: number
+          format: double
+        mora:
+          type: number
+          format: double
     ObservacionNueva:
       type: object
       properties:
-        referencia: *id001
-        texto: *id001
+        referencia:
+          type: string
+        texto:
+          type: string
       required:
       - referencia
       - texto
     Observacion:
       type: object
       properties:
-        id: *id003
-        referencia: *id001
-        texto: *id001
-        autor: *id001
-        fecha: *id005
+        id:
+          type: string
+          description: Identificador del recurso
+        referencia:
+          type: string
+        texto:
+          type: string
+        autor:
+          type: string
+        fecha:
+          type: string
+          format: date-time
     ResumenFinanciero:
       type: object
       properties:
-        mes: *id001
-        totalCartera: *id002
-        gastosMantenimiento: *id002
+        mes:
+          type: string
+        totalCartera:
+          type: number
+          format: double
+        gastosMantenimiento:
+          type: number
+          format: double

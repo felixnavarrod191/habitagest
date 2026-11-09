@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-copropiedad
   version: 1.0.0
-  description: Torres, apartamentos con coeficiente, propietarios y residentes. Contrato escrito antes que el código
-    (ADR-004); se accede por el API Gateway.
+  description: Torres, apartamentos con coeficiente, propietarios y residentes. Contrato escrito antes que el código (ADR-004);
+    se accede por el API Gateway.
 servers:
 - url: http://localhost:8081
   description: Local
@@ -65,7 +65,7 @@ paths:
         in: query
         required: false
         description: Filtra por torre
-        schema: &id001
+        schema:
           type: string
       responses:
         '200':
@@ -113,7 +113,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -136,7 +137,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -188,7 +190,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -255,29 +258,35 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
     TorreNueva:
       type: object
       properties:
-        nombre: *id001
+        nombre:
+          type: string
       required:
       - nombre
     Torre:
       type: object
       properties:
-        id: &id002
+        id:
           type: string
           description: Identificador del recurso
-        nombre: *id001
+        nombre:
+          type: string
     ApartamentoNuevo:
       type: object
       properties:
-        torre: *id001
-        numero: *id001
+        torre:
+          type: string
+        numero:
+          type: string
         coeficiente:
           type: number
           format: double
@@ -289,19 +298,29 @@ components:
     Apartamento:
       type: object
       properties:
-        id: *id002
-        torre: *id001
-        numero: *id001
+        id:
+          type: string
+          description: Identificador del recurso
+        torre:
+          type: string
+        numero:
+          type: string
         coeficiente:
           type: number
           format: double
-        propietarioId: *id002
+        propietarioId:
+          type: string
+          description: Identificador del recurso
     PropietarioNuevo:
       type: object
       properties:
-        nombre: *id001
-        documento: *id001
-        apartamentoId: *id002
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
       required:
       - nombre
       - documento
@@ -309,16 +328,26 @@ components:
     Propietario:
       type: object
       properties:
-        id: *id002
-        nombre: *id001
-        documento: *id001
-        apartamentoId: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
     ResidenteNuevo:
       type: object
       properties:
-        nombre: *id001
-        documento: *id001
-        apartamentoId: *id002
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
       required:
       - nombre
       - documento
@@ -326,7 +355,13 @@ components:
     Residente:
       type: object
       properties:
-        id: *id002
-        nombre: *id001
-        documento: *id001
-        apartamentoId: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        apartamentoId:
+          type: string
+          description: Identificador del recurso

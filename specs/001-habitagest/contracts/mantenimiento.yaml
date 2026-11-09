@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-mantenimiento
   version: 1.0.0
-  description: Órdenes de mantenimiento con aprobación del Consejo, materiales y auditoría. Contrato escrito antes
-    que el código (ADR-004); se accede por el API Gateway.
+  description: Órdenes de mantenimiento con aprobación del Consejo, materiales y auditoría. Contrato escrito antes que el
+    código (ADR-004); se accede por el API Gateway.
 servers:
 - url: http://localhost:8086
   description: Local
@@ -44,13 +44,14 @@ paths:
         in: query
         required: false
         description: Filtra por estado
-        schema: &id001
+        schema:
           type: string
       - name: proveedorId
         in: query
         required: false
         description: Filtra por proveedor
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -73,7 +74,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -96,7 +98,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -129,7 +132,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -162,7 +166,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -187,7 +192,8 @@ paths:
         in: query
         required: true
         description: Mes en formato AAAA-MM
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -229,20 +235,24 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
     OrdenNueva:
       type: object
       properties:
-        descripcion: *id001
-        zona: *id001
-        costoEstimado: &id003
+        descripcion:
+          type: string
+        zona:
+          type: string
+        costoEstimado:
           type: number
           format: double
-        proveedorId: &id002
+        proveedorId:
           type: string
           description: Identificador del recurso
       required:
@@ -252,12 +262,22 @@ components:
     Orden:
       type: object
       properties:
-        id: *id002
-        descripcion: *id001
-        zona: *id001
-        costoEstimado: *id003
-        costoFinal: *id003
-        proveedorId: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
+        zona:
+          type: string
+        costoEstimado:
+          type: number
+          format: double
+        costoFinal:
+          type: number
+          format: double
+        proveedorId:
+          type: string
+          description: Identificador del recurso
         estado:
           type: string
           enum:
@@ -295,22 +315,31 @@ components:
     Material:
       type: object
       properties:
-        descripcion: *id001
-        valor: *id003
+        descripcion:
+          type: string
+        valor:
+          type: number
+          format: double
       required:
       - descripcion
       - valor
     Cambio:
       type: object
       properties:
-        estadoAnterior: *id001
-        estadoNuevo: *id001
-        usuario: *id001
+        estadoAnterior:
+          type: string
+        estadoNuevo:
+          type: string
+        usuario:
+          type: string
         fecha:
           type: string
           format: date-time
     GastosMes:
       type: object
       properties:
-        mes: *id001
-        total: *id003
+        mes:
+          type: string
+        total:
+          type: number
+          format: double

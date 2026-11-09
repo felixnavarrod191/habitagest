@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-porteria
   version: 1.0.0
-  description: Visitas, ingresos, paquetes y novedades de seguridad. Contrato escrito antes que el código (ADR-004);
-    se accede por el API Gateway.
+  description: Visitas, ingresos, paquetes y novedades de seguridad. Contrato escrito antes que el código (ADR-004); se accede
+    por el API Gateway.
 servers:
 - url: http://localhost:8085
   description: Local
@@ -47,7 +47,7 @@ paths:
         in: query
         required: true
         description: Fecha AAAA-MM-DD
-        schema: &id002
+        schema:
           type: string
           format: date
       responses:
@@ -123,7 +123,7 @@ paths:
         in: query
         required: true
         description: Apartamento
-        schema: &id001
+        schema:
           type: string
       responses:
         '200':
@@ -149,7 +149,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -232,20 +233,26 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
     VisitaNueva:
       type: object
       properties:
-        apartamentoId: &id003
+        apartamentoId:
           type: string
           description: Identificador del recurso
-        nombre: *id001
-        documento: *id001
-        fecha: *id002
+        nombre:
+          type: string
+        documento:
+          type: string
+        fecha:
+          type: string
+          format: date
       required:
       - apartamentoId
       - nombre
@@ -254,15 +261,25 @@ components:
     Visita:
       type: object
       properties:
-        id: *id003
-        apartamentoId: *id003
-        nombre: *id001
-        documento: *id001
-        fecha: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        nombre:
+          type: string
+        documento:
+          type: string
+        fecha:
+          type: string
+          format: date
     IngresoNuevo:
       type: object
       properties:
-        visitaId: *id003
+        visitaId:
+          type: string
+          description: Identificador del recurso
         tipo:
           type: string
           enum:
@@ -274,27 +291,41 @@ components:
     Ingreso:
       type: object
       properties:
-        id: *id003
-        visitaId: *id003
-        tipo: *id001
-        hora: &id004
+        id:
+          type: string
+          description: Identificador del recurso
+        visitaId:
+          type: string
+          description: Identificador del recurso
+        tipo:
+          type: string
+        hora:
           type: string
           format: date-time
-        registradoPor: *id001
+        registradoPor:
+          type: string
     PaqueteNuevo:
       type: object
       properties:
-        apartamentoId: *id003
-        descripcion: *id001
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
       required:
       - apartamentoId
       - descripcion
     Paquete:
       type: object
       properties:
-        id: *id003
-        apartamentoId: *id003
-        descripcion: *id001
+        id:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        descripcion:
+          type: string
         estado:
           type: string
           enum:
@@ -303,13 +334,20 @@ components:
     NovedadNueva:
       type: object
       properties:
-        texto: *id001
+        texto:
+          type: string
       required:
       - texto
     Novedad:
       type: object
       properties:
-        id: *id003
-        texto: *id001
-        autor: *id001
-        fecha: *id004
+        id:
+          type: string
+          description: Identificador del recurso
+        texto:
+          type: string
+        autor:
+          type: string
+        fecha:
+          type: string
+          format: date-time

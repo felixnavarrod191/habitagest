@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-reservas
   version: 1.0.0
-  description: Zonas comunes, disponibilidad y reservas. Contrato escrito antes que el código (ADR-004); se accede
-    por el API Gateway.
+  description: Zonas comunes, disponibilidad y reservas. Contrato escrito antes que el código (ADR-004); se accede por el
+    API Gateway.
 servers:
 - url: http://localhost:8083
   description: Local
@@ -63,7 +63,7 @@ paths:
         in: path
         required: true
         description: Identificador de la zona
-        schema: &id001
+        schema:
           type: string
       - name: fecha
         in: query
@@ -125,7 +125,8 @@ paths:
         in: path
         required: true
         description: Identificador de la reserva
-        schema: *id001
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -177,15 +178,18 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
     ZonaNueva:
       type: object
       properties:
-        nombre: *id001
+        nombre:
+          type: string
         horaInicio:
           type: string
           example: 08:00
@@ -199,19 +203,24 @@ components:
     Zona:
       type: object
       properties:
-        id: &id003
+        id:
           type: string
           description: Identificador del recurso
-        nombre: *id001
-        horaInicio: *id001
-        horaFin: *id001
+        nombre:
+          type: string
+        horaInicio:
+          type: string
+        horaFin:
+          type: string
     Horario:
       type: object
       properties:
-        inicio: &id002
+        inicio:
           type: string
           format: date-time
-        fin: *id002
+        fin:
+          type: string
+          format: date-time
         estado:
           type: string
           enum:
@@ -220,10 +229,18 @@ components:
     ReservaNueva:
       type: object
       properties:
-        zonaId: *id003
-        apartamentoId: *id003
-        inicio: *id002
-        fin: *id002
+        zonaId:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        inicio:
+          type: string
+          format: date-time
+        fin:
+          type: string
+          format: date-time
       required:
       - zonaId
       - apartamentoId
@@ -232,11 +249,21 @@ components:
     Reserva:
       type: object
       properties:
-        id: *id003
-        zonaId: *id003
-        apartamentoId: *id003
-        inicio: *id002
-        fin: *id002
+        id:
+          type: string
+          description: Identificador del recurso
+        zonaId:
+          type: string
+          description: Identificador del recurso
+        apartamentoId:
+          type: string
+          description: Identificador del recurso
+        inicio:
+          type: string
+          format: date-time
+        fin:
+          type: string
+          format: date-time
         estado:
           type: string
           enum:

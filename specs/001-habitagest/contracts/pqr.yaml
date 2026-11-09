@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: HabitaGest · ms-pqr
   version: 1.0.0
-  description: PQR con su flujo de estados, su auditoría y los comunicados. Contrato escrito antes que el código
-    (ADR-004); se accede por el API Gateway.
+  description: PQR con su flujo de estados, su auditoría y los comunicados. Contrato escrito antes que el código (ADR-004);
+    se accede por el API Gateway.
 servers:
 - url: http://localhost:8084
   description: Local
@@ -44,7 +44,7 @@ paths:
         in: query
         required: false
         description: Filtra por residente
-        schema: &id001
+        schema:
           type: string
       responses:
         '200':
@@ -68,7 +68,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -91,7 +92,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -124,7 +126,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -157,7 +160,8 @@ paths:
         in: path
         required: true
         description: Identificador
-        schema: *id001
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -240,19 +244,23 @@ components:
     Error:
       type: object
       properties:
-        codigo: *id001
-        mensaje: *id001
+        codigo:
+          type: string
+        mensaje:
+          type: string
       required:
       - codigo
       - mensaje
     PqrNueva:
       type: object
       properties:
-        residenteId: &id002
+        residenteId:
           type: string
           description: Identificador del recurso
-        asunto: *id001
-        descripcion: *id001
+        asunto:
+          type: string
+        descripcion:
+          type: string
       required:
       - residenteId
       - asunto
@@ -260,11 +268,18 @@ components:
     Pqr:
       type: object
       properties:
-        id: *id002
-        numero: *id001
-        residenteId: *id002
-        asunto: *id001
-        descripcion: *id001
+        id:
+          type: string
+          description: Identificador del recurso
+        numero:
+          type: string
+        residenteId:
+          type: string
+          description: Identificador del recurso
+        asunto:
+          type: string
+        descripcion:
+          type: string
         estado:
           type: string
           enum:
@@ -273,7 +288,8 @@ components:
           - EN_GESTION
           - RESUELTA
           - CERRADA
-        respuesta: *id001
+        respuesta:
+          type: string
         historial:
           type: array
           items:
@@ -292,24 +308,30 @@ components:
     CierrePqr:
       type: object
       properties:
-        respuesta: *id001
+        respuesta:
+          type: string
       required:
       - respuesta
     Cambio:
       type: object
       properties:
-        estadoAnterior: *id001
-        estadoNuevo: *id001
-        usuario: *id001
+        estadoAnterior:
+          type: string
+        estadoNuevo:
+          type: string
+        usuario:
+          type: string
         fecha:
           type: string
           format: date-time
     ComunicadoNuevo:
       type: object
       properties:
-        titulo: *id001
-        texto: *id001
-        vigenteHasta: &id003
+        titulo:
+          type: string
+        texto:
+          type: string
+        vigenteHasta:
           type: string
           format: date
       required:
@@ -319,7 +341,13 @@ components:
     Comunicado:
       type: object
       properties:
-        id: *id002
-        titulo: *id001
-        texto: *id001
-        vigenteHasta: *id003
+        id:
+          type: string
+          description: Identificador del recurso
+        titulo:
+          type: string
+        texto:
+          type: string
+        vigenteHasta:
+          type: string
+          format: date
