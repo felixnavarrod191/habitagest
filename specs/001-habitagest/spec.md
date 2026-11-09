@@ -3,9 +3,9 @@
 | Metadato | Valor |
 |---|---|
 | Versión | 1.0 |
-| Estado | En revisión (se aprueba en la Puerta 1: `docs/actas/puerta-1.md`) |
+| Estado | Aprobada (Puerta 1: `docs/actas/puerta-1.md`) |
 | Autoría | Felix José Navarro Ortiz, Angel Daniel Moreno Lazcano y Estiven Alexander Rodríguez Pérez |
-| Fecha | 2026-11-07 |
+| Fecha | 2026-11-08 |
 
 Describe el qué y el porqué, no el cómo. El cómo está en `plan.md`.
 
@@ -617,6 +617,6 @@ Cada requisito es una sola frase con el sistema como sujeto. Patrones: ubicuo, e
 
 | Versión | Fecha | Cambio |
 |---|---|---|
-| 0.1 | 2026-11-04 | Contexto, actores, historias con escenario, reglas (D03) |
-| 0.2 | 2026-11-06 | Parámetros del negocio definidos en la clarificación (D04, `docs/actas/clarificacion.md`) |
-| 1.0 | 2026-11-07 | Requisitos EARS, requisitos no funcionales y criterios de aceptación (D05) |
+| 0.1 | 2026-11-08 | Contexto, actores, historias con escenario, reglas (D03) |
+| 0.2 | 2026-11-08 | Parámetros del negocio definidos en la clarificación (D04, `docs/actas/clarificacion.md`) |
+| 1.0 | 2026-11-08 | Requisitos EARS, requisitos no funcionales y criterios de aceptación (D05) |
