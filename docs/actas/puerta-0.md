@@ -2,7 +2,7 @@
 
 - **Documento:** constitution.md y AGENTS.md
 - **Duración prevista:** 30 minutos
-- **Fecha:** ____ de noviembre de 2026
+- **Fecha:** 8 de noviembre de 2026
 - **Participantes:** Felix José Navarro Ortiz, Angel Daniel Moreno Lazcano y Estiven Alexander Rodríguez Pérez
 - **Autor:** Estiven Alexander Rodríguez Pérez · **Revisor:** Angel Daniel Moreno Lazcano
 
@@ -23,7 +23,7 @@
 
 ## Decisión
 
-- [ ] Aprobado
+- [ X ] Aprobado
 - [ ] Aprobado con cambios
 - [ ] Rechazado
 
