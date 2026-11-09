@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HabitaGest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">HabitaGest</a>
+        <form th:action="@{/logout}" method="post" class="d-flex align-items-center gap-3">
+            <span class="text-white" sec:authentication="name"></span>
+            <button class="btn btn-outline-light btn-sm" type="submit">Salir</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <h1 class="h4 mb-4">Tus opciones</h1>
+    <div class="row g-3">
+        <div class="col-md-4" sec:authorize="hasRole('ADMIN_SISTEMA')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/sistema}">
+                <h2 class="h5">Administrador del sistema</h2>
+                <p class="mb-0 text-muted">Usuarios, roles y parámetros.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('ADMIN_CONJUNTO')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/administracion}">
+                <h2 class="h5">Administrador del conjunto</h2>
+                <p class="mb-0 text-muted">Unidades, cartera, comunicados, PQR y órdenes de mantenimiento.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('CONSEJO')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/consejo}">
+                <h2 class="h5">Consejo de administración</h2>
+                <p class="mb-0 text-muted">Aprobación de gastos sobre el tope y resúmenes.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('PROPIETARIO')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/propietario}">
+                <h2 class="h5">Propietario</h2>
+                <p class="mb-0 text-muted">Estado de cuenta, reservas y PQR.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('RESIDENTE')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/residente}">
+                <h2 class="h5">Residente</h2>
+                <p class="mb-0 text-muted">Reservas, visitas autorizadas y PQR.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('PORTERO')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/porteria}">
+                <h2 class="h5">Portero</h2>
+                <p class="mb-0 text-muted">Ingreso y salida de visitantes y paquetes.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('VIGILANTE')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/vigilancia}">
+                <h2 class="h5">Vigilante</h2>
+                <p class="mb-0 text-muted">Novedades de seguridad.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('CONTADOR')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/contabilidad}">
+                <h2 class="h5">Contador</h2>
+                <p class="mb-0 text-muted">Pagos, mora y cartera.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('REVISOR_FISCAL')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/revision}">
+                <h2 class="h5">Revisor fiscal</h2>
+                <p class="mb-0 text-muted">Consulta en solo lectura y observaciones de auditoría.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('ENCARGADO_MANTENIMIENTO')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/mantenimiento}">
+                <h2 class="h5">Encargado de mantenimiento</h2>
+                <p class="mb-0 text-muted">Ejecución de órdenes y materiales.</p>
+            </a>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('PROVEEDOR')">
+            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/proveedor}">
+                <h2 class="h5">Proveedor</h2>
+                <p class="mb-0 text-muted">Órdenes de mantenimiento asignadas.</p>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
