@@ -1,0 +1,51 @@
+server:
+  port: ${PORT:8090}
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: copropiedad
+          uri: ${COPROPIEDAD_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/copropiedad/**
+          filters:
+            - StripPrefix=2
+        - id: finanzas
+          uri: ${FINANZAS_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/finanzas/**
+          filters:
+            - StripPrefix=2
+        - id: reservas
+          uri: ${RESERVAS_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/reservas/**
+          filters:
+            - StripPrefix=2
+        - id: pqr
+          uri: ${PQR_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/pqr/**
+          filters:
+            - StripPrefix=2
+        - id: porteria
+          uri: ${PORTERIA_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/porteria/**
+          filters:
+            - StripPrefix=2
+        - id: mantenimiento
+          uri: ${MANTENIMIENTO_URL:http://localhost:8086}
+          predicates:
+            - Path=/api/mantenimiento/**
+          filters:
+            - StripPrefix=2
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
