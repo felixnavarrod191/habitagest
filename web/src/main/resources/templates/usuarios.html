@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HabitaGest</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}">HabitaGest</a>
-        <form th:action="@{/logout}" method="post" class="d-flex align-items-center gap-3">
-            <span class="text-white" sec:authentication="name"></span>
-            <button class="btn btn-outline-light btn-sm" type="submit">Salir</button>
-        </form>
-    </div>
-</nav>
-<div class="container">
-    <h1 class="h4 mb-3">Usuarios</h1>
+<head th:replace="~{fragmentos :: cabecera}"></head>
+<body>
+<nav th:replace="~{fragmentos :: barra}"></nav>
+<main class="container pb-5">
+    <h1 class="h4 mb-3"><i class="bi bi-people-fill me-2"></i>Usuarios</h1>
     <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
     <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
-    <form th:action="@{/sistema/usuarios}" method="post" class="card card-body shadow-sm mb-4">
+    <form th:action="@{/sistema/usuarios}" method="post" class="panel-hg mb-4">
+        <h2 class="h6 mb-3">Crear usuario</h2>
         <div class="row g-3">
             <div class="col-md-4"><input class="form-control" name="usuario" placeholder="Usuario" required></div>
             <div class="col-md-4"><input class="form-control" type="password" name="contrasena" placeholder="Contraseña inicial (mínimo 8)" required></div>
@@ -29,24 +17,89 @@
                     <option th:each="r : ${roles}" th:value="${r}" th:text="${r.etiqueta()}"></option>
                 </select>
             </div>
-            <div class="col-md-1"><button class="btn btn-primary" type="submit">Crear</button></div>
+            <div class="col-md-1"><button class="btn btn-hg w-100" type="submit">Crear</button></div>
         </div>
     </form>
-    <table class="table table-sm bg-white">
-        <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
-        <tbody>
-            <tr th:each="u : ${usuarios}">
-                <td th:text="${u.usuario}"></td>
-                <td th:text="${u.rol.etiqueta()}"></td>
-                <td th:text="${u.activo} ? 'Activo' : 'Inactivo'"></td>
-                <td>
-                    <form th:action="@{/sistema/usuarios/{id}/estado(id=${u.id})}" method="post">
-                        <button class="btn btn-outline-secondary btn-sm" type="submit">Activar o desactivar</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="panel-hg mb-4">
+        <table class="table table-sm align-middle mb-0">
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+            <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.usuario}"></td>
+                    <td th:text="${u.rol.etiqueta()}"></td>
+                    <td><span class="badge" th:classappend="${u.activo} ? 'text-bg-success' : 'text-bg-secondary'" th:text="${u.activo} ? 'Activo' : 'Inactivo'"></span></td>
+                    <td>
+                        <form th:action="@{/sistema/usuarios/{id}/estado(id=${u.id})}" method="post">
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">Activar o desactivar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2 class="h5 mb-3">Los 11 roles del sistema</h2>
+    <div class="panel-hg">
+        <table class="table tabla-hg align-middle mb-0">
+            <thead><tr><th>Rol</th><th>Su área</th><th>Qué incluye</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #6f42c1;"><i class="bi bi-gear-fill"></i></span><strong>Administrador del sistema</strong></td>
+                    <td><code>/sistema</code></td>
+                    <td class="text-muted">Usuarios, roles y parámetros.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #0d6efd;"><i class="bi bi-buildings-fill"></i></span><strong>Administrador del conjunto</strong></td>
+                    <td><code>/administracion</code></td>
+                    <td class="text-muted">Unidades, cartera, comunicados, PQR y órdenes de mantenimiento.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #0aa2c0;"><i class="bi bi-people-fill"></i></span><strong>Consejo de administración</strong></td>
+                    <td><code>/consejo</code></td>
+                    <td class="text-muted">Aprobación de gastos sobre el tope y resúmenes.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #198754;"><i class="bi bi-house-door-fill"></i></span><strong>Propietario</strong></td>
+                    <td><code>/propietario</code></td>
+                    <td class="text-muted">Estado de cuenta, reservas y PQR.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #12a37f;"><i class="bi bi-person-fill"></i></span><strong>Residente</strong></td>
+                    <td><code>/residente</code></td>
+                    <td class="text-muted">Reservas, visitas autorizadas y PQR.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #fd7e14;"><i class="bi bi-door-open-fill"></i></span><strong>Portero</strong></td>
+                    <td><code>/porteria</code></td>
+                    <td class="text-muted">Ingreso y salida de visitantes y paquetes.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #dc3545;"><i class="bi bi-shield-check"></i></span><strong>Vigilante</strong></td>
+                    <td><code>/vigilancia</code></td>
+                    <td class="text-muted">Novedades de seguridad.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #0b7285;"><i class="bi bi-cash-coin"></i></span><strong>Contador</strong></td>
+                    <td><code>/contabilidad</code></td>
+                    <td class="text-muted">Pagos, mora y cartera.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #6c757d;"><i class="bi bi-clipboard2-check-fill"></i></span><strong>Revisor fiscal</strong></td>
+                    <td><code>/revision</code></td>
+                    <td class="text-muted">Consulta en solo lectura y observaciones de auditoría.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #d9822b;"><i class="bi bi-tools"></i></span><strong>Encargado de mantenimiento</strong></td>
+                    <td><code>/mantenimiento</code></td>
+                    <td class="text-muted">Ejecución de órdenes y materiales.</td>
+                </tr>
+                <tr>
+                    <td><span class="icono-rol" style="--acc: #8e5ea2;"><i class="bi bi-truck"></i></span><strong>Proveedor</strong></td>
+                    <td><code>/proveedor</code></td>
+                    <td class="text-muted">Órdenes de mantenimiento asignadas.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 </body>
 </html>
