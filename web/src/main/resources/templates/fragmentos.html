@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="cabecera">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HabitaGest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root { --hg-azul: #1b2a49; --hg-azul2: #2f4b8a; --hg-verde: #13a89e; }
+        body { background: #f3f5fa; color: #1f2937; font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif; }
+        .barra-hg { background: linear-gradient(90deg, #1b2a49, #2f4b8a); box-shadow: 0 2px 10px rgba(27, 42, 73, .25); }
+        .barra-hg .navbar-brand { color: #fff; font-weight: 700; letter-spacing: .3px; }
+        .logo-hg { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255, 255, 255, .15); }
+        .usuario-hg { color: #fff; font-weight: 600; font-size: .9rem; }
+        .rol-hg { color: #cdd7f0; font-size: .78rem; }
+        .bienvenida-hg { background: linear-gradient(120deg, #1b2a49 0%, #2f4b8a 60%, #13a89e 135%); color: #fff; border-radius: 18px; padding: 28px 32px; box-shadow: 0 8px 24px rgba(27, 42, 73, .18); }
+        .bienvenida-hg .etiqueta-rol { display: inline-block; background: rgba(255, 255, 255, .18); border-radius: 999px; padding: 4px 14px; font-size: .85rem; }
+        .tarjeta-rol { display: block; height: 100%; background: #fff; border-radius: 16px; padding: 22px; text-decoration: none; color: inherit; border: 1px solid #e5e9f2; border-top: 5px solid var(--acc, #2f4b8a); box-shadow: 0 4px 14px rgba(27, 42, 73, .07); transition: transform .15s, box-shadow .15s; }
+        .tarjeta-rol:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(27, 42, 73, .14); color: inherit; }
+        .icono-rol { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 14px; background: var(--acc, #2f4b8a); color: #fff; font-size: 1.5rem; }
+        .tarjeta-rol .icono-rol { margin-bottom: 12px; }
+        .tarjeta-rol h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .tarjeta-rol p { color: #5b6577; margin-bottom: 14px; font-size: .95rem; }
+        .tarjeta-rol .entrar { color: var(--acc, #2f4b8a); font-weight: 600; font-size: .9rem; }
+        .encabezado-area { display: flex; align-items: center; gap: 18px; background: #fff; border-radius: 18px; padding: 24px; border: 1px solid #e5e9f2; box-shadow: 0 4px 14px rgba(27, 42, 73, .07); }
+        .encabezado-area .icono-rol { width: 64px; height: 64px; font-size: 1.9rem; }
+        .panel-hg { background: #fff; border: 1px solid #e5e9f2; border-radius: 16px; padding: 20px; height: 100%; box-shadow: 0 4px 14px rgba(27, 42, 73, .05); }
+        .tabla-hg thead { background: #eef1f8; }
+        .tabla-hg .icono-rol { width: 30px; height: 30px; font-size: .95rem; border-radius: 8px; margin-right: 8px; vertical-align: middle; }
+        .fondo-acceso { background: linear-gradient(150deg, #1b2a49 0%, #2f4b8a 55%, #13a89e 140%); }
+        .logo-acceso { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #1b2a49, #2f4b8a); color: #fff; font-size: 1.9rem; box-shadow: 0 8px 18px rgba(27, 42, 73, .3); }
+        .tarjeta-acceso { width: 100%; max-width: 400px; background: #fff; border-radius: 18px; padding: 32px; border: 1px solid #e5e9f2; box-shadow: 0 12px 32px rgba(27, 42, 73, .12); }
+        .btn-hg { background: linear-gradient(90deg, #1b2a49, #2f4b8a); border: 0; color: #fff; font-weight: 600; padding: 10px; border-radius: 10px; }
+        .btn-hg:hover { color: #fff; filter: brightness(1.12); }
+    </style>
+</head>
+<body>
+<nav th:fragment="barra" class="navbar barra-hg mb-4">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
+            <span class="logo-hg"><i class="bi bi-buildings-fill"></i></span>
+            <span>HabitaGest</span>
+        </a>
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-end lh-sm d-none d-sm-block">
+                <div class="usuario-hg" sec:authentication="name"></div>
+                <div class="rol-hg"><span th:replace="~{fragmentos :: rol}"></span></div>
+            </div>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-outline-light btn-sm" type="submit"><i class="bi bi-box-arrow-right me-1"></i>Salir</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<span th:fragment="rol">
+        <span sec:authorize="hasRole('ADMIN_SISTEMA')">Administrador del sistema</span>
+        <span sec:authorize="hasRole('ADMIN_CONJUNTO')">Administrador del conjunto</span>
+        <span sec:authorize="hasRole('CONSEJO')">Consejo de administración</span>
+        <span sec:authorize="hasRole('PROPIETARIO')">Propietario</span>
+        <span sec:authorize="hasRole('RESIDENTE')">Residente</span>
+        <span sec:authorize="hasRole('PORTERO')">Portero</span>
+        <span sec:authorize="hasRole('VIGILANTE')">Vigilante</span>
+        <span sec:authorize="hasRole('CONTADOR')">Contador</span>
+        <span sec:authorize="hasRole('REVISOR_FISCAL')">Revisor fiscal</span>
+        <span sec:authorize="hasRole('ENCARGADO_MANTENIMIENTO')">Encargado de mantenimiento</span>
+        <span sec:authorize="hasRole('PROVEEDOR')">Proveedor</span>
+</span>
+<span th:fragment="icono" class="d-inline-flex">
+        <span class="icono-rol" style="--acc: #6f42c1;" sec:authorize="hasRole('ADMIN_SISTEMA')"><i class="bi bi-gear-fill"></i></span>
+        <span class="icono-rol" style="--acc: #0d6efd;" sec:authorize="hasRole('ADMIN_CONJUNTO')"><i class="bi bi-buildings-fill"></i></span>
+        <span class="icono-rol" style="--acc: #0aa2c0;" sec:authorize="hasRole('CONSEJO')"><i class="bi bi-people-fill"></i></span>
+        <span class="icono-rol" style="--acc: #198754;" sec:authorize="hasRole('PROPIETARIO')"><i class="bi bi-house-door-fill"></i></span>
+        <span class="icono-rol" style="--acc: #12a37f;" sec:authorize="hasRole('RESIDENTE')"><i class="bi bi-person-fill"></i></span>
+        <span class="icono-rol" style="--acc: #fd7e14;" sec:authorize="hasRole('PORTERO')"><i class="bi bi-door-open-fill"></i></span>
+        <span class="icono-rol" style="--acc: #dc3545;" sec:authorize="hasRole('VIGILANTE')"><i class="bi bi-shield-check"></i></span>
+        <span class="icono-rol" style="--acc: #0b7285;" sec:authorize="hasRole('CONTADOR')"><i class="bi bi-cash-coin"></i></span>
+        <span class="icono-rol" style="--acc: #6c757d;" sec:authorize="hasRole('REVISOR_FISCAL')"><i class="bi bi-clipboard2-check-fill"></i></span>
+        <span class="icono-rol" style="--acc: #d9822b;" sec:authorize="hasRole('ENCARGADO_MANTENIMIENTO')"><i class="bi bi-tools"></i></span>
+        <span class="icono-rol" style="--acc: #8e5ea2;" sec:authorize="hasRole('PROVEEDOR')"><i class="bi bi-truck"></i></span>
+</span>
+</body>
+</html>

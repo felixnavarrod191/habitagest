@@ -1,91 +1,105 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HabitaGest</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}">HabitaGest</a>
-        <form th:action="@{/logout}" method="post" class="d-flex align-items-center gap-3">
-            <span class="text-white" sec:authentication="name"></span>
-            <button class="btn btn-outline-light btn-sm" type="submit">Salir</button>
-        </form>
+<head th:replace="~{fragmentos :: cabecera}"></head>
+<body>
+<nav th:replace="~{fragmentos :: barra}"></nav>
+<main class="container pb-5">
+    <section class="bienvenida-hg mb-4">
+        <p class="mb-1 text-white-50">Bienvenido</p>
+        <h1 class="h3 mb-3">Hola, <span sec:authentication="name"></span></h1>
+        <span class="etiqueta-rol"><i class="bi bi-person-badge me-1"></i>Tu rol: <span th:replace="~{fragmentos :: rol}"></span></span>
+    </section>
+    <h2 class="h5 mb-3">Tus opciones</h2>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('ADMIN_SISTEMA')">
+            <a class="tarjeta-rol" style="--acc: #6f42c1;" th:href="@{/sistema}">
+                <span class="icono-rol"><i class="bi bi-gear-fill"></i></span>
+                <h3>Administrador del sistema</h3>
+                <p>Usuarios, roles y parámetros.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('ADMIN_CONJUNTO')">
+            <a class="tarjeta-rol" style="--acc: #0d6efd;" th:href="@{/administracion}">
+                <span class="icono-rol"><i class="bi bi-buildings-fill"></i></span>
+                <h3>Administrador del conjunto</h3>
+                <p>Unidades, cartera, comunicados, PQR y órdenes de mantenimiento.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('CONSEJO')">
+            <a class="tarjeta-rol" style="--acc: #0aa2c0;" th:href="@{/consejo}">
+                <span class="icono-rol"><i class="bi bi-people-fill"></i></span>
+                <h3>Consejo de administración</h3>
+                <p>Aprobación de gastos sobre el tope y resúmenes.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('PROPIETARIO')">
+            <a class="tarjeta-rol" style="--acc: #198754;" th:href="@{/propietario}">
+                <span class="icono-rol"><i class="bi bi-house-door-fill"></i></span>
+                <h3>Propietario</h3>
+                <p>Estado de cuenta, reservas y PQR.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('RESIDENTE')">
+            <a class="tarjeta-rol" style="--acc: #12a37f;" th:href="@{/residente}">
+                <span class="icono-rol"><i class="bi bi-person-fill"></i></span>
+                <h3>Residente</h3>
+                <p>Reservas, visitas autorizadas y PQR.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('PORTERO')">
+            <a class="tarjeta-rol" style="--acc: #fd7e14;" th:href="@{/porteria}">
+                <span class="icono-rol"><i class="bi bi-door-open-fill"></i></span>
+                <h3>Portero</h3>
+                <p>Ingreso y salida de visitantes y paquetes.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('VIGILANTE')">
+            <a class="tarjeta-rol" style="--acc: #dc3545;" th:href="@{/vigilancia}">
+                <span class="icono-rol"><i class="bi bi-shield-check"></i></span>
+                <h3>Vigilante</h3>
+                <p>Novedades de seguridad.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('CONTADOR')">
+            <a class="tarjeta-rol" style="--acc: #0b7285;" th:href="@{/contabilidad}">
+                <span class="icono-rol"><i class="bi bi-cash-coin"></i></span>
+                <h3>Contador</h3>
+                <p>Pagos, mora y cartera.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('REVISOR_FISCAL')">
+            <a class="tarjeta-rol" style="--acc: #6c757d;" th:href="@{/revision}">
+                <span class="icono-rol"><i class="bi bi-clipboard2-check-fill"></i></span>
+                <h3>Revisor fiscal</h3>
+                <p>Consulta en solo lectura y observaciones de auditoría.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('ENCARGADO_MANTENIMIENTO')">
+            <a class="tarjeta-rol" style="--acc: #d9822b;" th:href="@{/mantenimiento}">
+                <span class="icono-rol"><i class="bi bi-tools"></i></span>
+                <h3>Encargado de mantenimiento</h3>
+                <p>Ejecución de órdenes y materiales.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4" sec:authorize="hasRole('PROVEEDOR')">
+            <a class="tarjeta-rol" style="--acc: #8e5ea2;" th:href="@{/proveedor}">
+                <span class="icono-rol"><i class="bi bi-truck"></i></span>
+                <h3>Proveedor</h3>
+                <p>Órdenes de mantenimiento asignadas.</p>
+                <span class="entrar">Entrar al área <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
     </div>
-</nav>
-<div class="container">
-    <h1 class="h4 mb-4">Tus opciones</h1>
-    <div class="row g-3">
-        <div class="col-md-4" sec:authorize="hasRole('ADMIN_SISTEMA')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/sistema}">
-                <h2 class="h5">Administrador del sistema</h2>
-                <p class="mb-0 text-muted">Usuarios, roles y parámetros.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('ADMIN_CONJUNTO')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/administracion}">
-                <h2 class="h5">Administrador del conjunto</h2>
-                <p class="mb-0 text-muted">Unidades, cartera, comunicados, PQR y órdenes de mantenimiento.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('CONSEJO')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/consejo}">
-                <h2 class="h5">Consejo de administración</h2>
-                <p class="mb-0 text-muted">Aprobación de gastos sobre el tope y resúmenes.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('PROPIETARIO')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/propietario}">
-                <h2 class="h5">Propietario</h2>
-                <p class="mb-0 text-muted">Estado de cuenta, reservas y PQR.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('RESIDENTE')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/residente}">
-                <h2 class="h5">Residente</h2>
-                <p class="mb-0 text-muted">Reservas, visitas autorizadas y PQR.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('PORTERO')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/porteria}">
-                <h2 class="h5">Portero</h2>
-                <p class="mb-0 text-muted">Ingreso y salida de visitantes y paquetes.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('VIGILANTE')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/vigilancia}">
-                <h2 class="h5">Vigilante</h2>
-                <p class="mb-0 text-muted">Novedades de seguridad.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('CONTADOR')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/contabilidad}">
-                <h2 class="h5">Contador</h2>
-                <p class="mb-0 text-muted">Pagos, mora y cartera.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('REVISOR_FISCAL')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/revision}">
-                <h2 class="h5">Revisor fiscal</h2>
-                <p class="mb-0 text-muted">Consulta en solo lectura y observaciones de auditoría.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('ENCARGADO_MANTENIMIENTO')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/mantenimiento}">
-                <h2 class="h5">Encargado de mantenimiento</h2>
-                <p class="mb-0 text-muted">Ejecución de órdenes y materiales.</p>
-            </a>
-        </div>
-        <div class="col-md-4" sec:authorize="hasRole('PROVEEDOR')">
-            <a class="card card-body text-decoration-none shadow-sm" th:href="@{/proveedor}">
-                <h2 class="h5">Proveedor</h2>
-                <p class="mb-0 text-muted">Órdenes de mantenimiento asignadas.</p>
-            </a>
-        </div>
-    </div>
-</div>
+</main>
 </body>
 </html>
