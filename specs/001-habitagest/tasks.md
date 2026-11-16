@@ -41,61 +41,61 @@ Punto de control (Sprint 1): inicio de sesión de los 11 roles probado.
 
 Tareas de la fase 1 que se hacen en el Sprint 2:
 
-- [ ] T026 Componente común de auditoría de cambios de estado (usuario y fecha-hora) (NFR-PH-003)
-- [ ] T027 [P] Manejo de errores común con cuerpo `{codigo, mensaje}` en los 6 servicios
-- [ ] T028 Completar las rutas del gateway y su prueba de enrutamiento · api-gateway
+- [x] T026 Componente común de auditoría de cambios de estado (usuario y fecha-hora) (NFR-PH-003)
+- [x] T027 [P] Manejo de errores común con cuerpo `{codigo, mensaje}` en los 6 servicios
+- [x] T028 Completar las rutas del gateway y su prueba de enrutamiento · api-gateway
 
 ## Fase 2 · Copropiedad y cuotas (Sprint 2)
 
-- [ ] T029 [P] [US3] Prueba: AC-004.1 (REQ-PH-004) · ms-copropiedad
-- [ ] T030 [US3] Registrar apartamentos con torre, número y coeficiente (REQ-PH-004) · ms-copropiedad
-- [ ] T031 [P] [US3] Prueba: AC-005.1 (REQ-PH-005) · ms-copropiedad
-- [ ] T032 [US3] Rechazar coeficientes que superen el 100 % (REQ-PH-005) · ms-copropiedad
-- [ ] T033 [P] [US4] Prueba: AC-006.1 (REQ-PH-006) · ms-copropiedad
-- [ ] T034 [US4] Registrar propietarios y asociarlos a su apartamento (REQ-PH-006) · ms-copropiedad
-- [ ] T035 [P] [US5] Prueba: AC-007.1 (REQ-PH-007) · ms-copropiedad
-- [ ] T036 [US5] Registrar residentes de un apartamento (REQ-PH-007) · ms-copropiedad
-- [ ] T037 [P] [US6] Prueba: AC-008.1 (REQ-PH-008) · ms-finanzas
-- [ ] T038 [US6] Guardar el presupuesto mensual (REQ-PH-008) · ms-finanzas
-- [ ] T039 [P] [US7] Prueba: AC-009.1, AC-009.2 (REQ-PH-009) · ms-finanzas
-- [ ] T040 [US7] Calcular y generar las cuotas del mes (REQ-PH-009) · ms-finanzas
-- [ ] T041 [P] [US7] Prueba: AC-010.1 (REQ-PH-010) · ms-finanzas
-- [ ] T042 [US7] No generar cuotas sin presupuesto (REQ-PH-010) · ms-finanzas
+- [x] T029 [P] [US3] Prueba: AC-004.1 (REQ-PH-004) · ms-copropiedad
+- [x] T030 [US3] Registrar apartamentos con torre, número y coeficiente (REQ-PH-004) · ms-copropiedad
+- [x] T031 [P] [US3] Prueba: AC-005.1 (REQ-PH-005) · ms-copropiedad
+- [x] T032 [US3] Rechazar coeficientes que superen el 100 % (REQ-PH-005) · ms-copropiedad
+- [x] T033 [P] [US4] Prueba: AC-006.1 (REQ-PH-006) · ms-copropiedad
+- [x] T034 [US4] Registrar propietarios y asociarlos a su apartamento (REQ-PH-006) · ms-copropiedad
+- [x] T035 [P] [US5] Prueba: AC-007.1 (REQ-PH-007) · ms-copropiedad
+- [x] T036 [US5] Registrar residentes de un apartamento (REQ-PH-007) · ms-copropiedad
+- [x] T037 [P] [US6] Prueba: AC-008.1 (REQ-PH-008) · ms-finanzas
+- [x] T038 [US6] Guardar el presupuesto mensual (REQ-PH-008) · ms-finanzas
+- [x] T039 [P] [US7] Prueba: AC-009.1, AC-009.2 (REQ-PH-009) · ms-finanzas
+- [x] T040 [US7] Calcular y generar las cuotas del mes (REQ-PH-009) · ms-finanzas
+- [x] T041 [P] [US7] Prueba: AC-010.1 (REQ-PH-010) · ms-finanzas
+- [x] T042 [US7] No generar cuotas sin presupuesto (REQ-PH-010) · ms-finanzas
 
-Punto de control: todas las pruebas de la fase en verde y los contratos actualizados.
+Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 
 ## Fase 3 · Pagos, mora y reservas (Sprint 2)
 
-- [ ] T043 [P] [US8] Prueba: AC-011.1 (REQ-PH-011) · ms-finanzas
-- [ ] T044 [US8] Registrar pagos y descontarlos del saldo (REQ-PH-011) · ms-finanzas
-- [ ] T045 [P] [US8] Prueba: AC-012.1 (REQ-PH-012) · ms-finanzas
-- [ ] T046 [US8] Rechazar pagos mayores al saldo (REQ-PH-012) · ms-finanzas
-- [ ] T047 [P] [US9] Prueba: AC-013.1 (REQ-PH-013) · ms-finanzas
-- [ ] T048 [US9] Aplicar el interés de mora (REQ-PH-013) · ms-finanzas
-- [ ] T049 [P] [US11] Prueba: AC-014.1 (REQ-PH-014) · ms-finanzas
-- [ ] T050 [US11] Marcar apartamentos en mora (REQ-PH-014) · ms-finanzas
-- [ ] T051 [P] [US10] Prueba: AC-015.1 (REQ-PH-015) · ms-finanzas
-- [ ] T052 [US10] Estado de cuenta del propietario (REQ-PH-015) · ms-finanzas
-- [ ] T053 [P] [US11] Prueba: AC-016.1 (REQ-PH-016) · ms-finanzas
-- [ ] T054 [US11] Cartera filtrada por torre (REQ-PH-016) · ms-finanzas
-- [ ] T055 [P] [US12] Prueba: AC-017.1 (REQ-PH-017) · ms-finanzas
-- [ ] T056 [US12] Consulta de solo lectura del revisor fiscal (REQ-PH-017) · ms-finanzas
-- [ ] T057 [P] [US13] Prueba: AC-018.1 (REQ-PH-018) · ms-reservas
-- [ ] T058 [US13] Definir zonas comunes con su horario (REQ-PH-018) · ms-reservas
-- [ ] T059 [P] [US14] Prueba: AC-019.1 (REQ-PH-019) · ms-reservas
-- [ ] T060 [US14] Consultar la disponibilidad de una zona (REQ-PH-019) · ms-reservas
-- [ ] T061 [P] [US15] Prueba: AC-020.1 (REQ-PH-020) · ms-reservas
-- [ ] T062 [US15] Confirmar reservas en horario libre (REQ-PH-020) · ms-reservas
-- [ ] T063 [P] [US15] Prueba: AC-021.1 (REQ-PH-021) · ms-reservas
-- [ ] T064 [US15] Rechazar reservas con cruce de horario (REQ-PH-021) · ms-reservas
-- [ ] T065 [P] [US15] Prueba: AC-022.1, AC-022.2 (REQ-PH-022) · ms-reservas
-- [ ] T066 [US15] Rechazar reservas por mora, máximo mensual o duración (REQ-PH-022) · ms-reservas
-- [ ] T067 [P] [US16] Prueba: AC-023.1 (REQ-PH-023) · ms-reservas
-- [ ] T068 [US16] Cancelar reservas con 24 horas de anticipación (REQ-PH-023) · ms-reservas
-- [ ] T069 [P] [US16] Prueba: AC-024.1 (REQ-PH-024) · ms-reservas
-- [ ] T070 [US16] Rechazar cancelaciones con menos de 24 horas (REQ-PH-024) · ms-reservas
+- [x] T043 [P] [US8] Prueba: AC-011.1 (REQ-PH-011) · ms-finanzas
+- [x] T044 [US8] Registrar pagos y descontarlos del saldo (REQ-PH-011) · ms-finanzas
+- [x] T045 [P] [US8] Prueba: AC-012.1 (REQ-PH-012) · ms-finanzas
+- [x] T046 [US8] Rechazar pagos mayores al saldo (REQ-PH-012) · ms-finanzas
+- [x] T047 [P] [US9] Prueba: AC-013.1 (REQ-PH-013) · ms-finanzas
+- [x] T048 [US9] Aplicar el interés de mora (REQ-PH-013) · ms-finanzas
+- [x] T049 [P] [US11] Prueba: AC-014.1 (REQ-PH-014) · ms-finanzas
+- [x] T050 [US11] Marcar apartamentos en mora (REQ-PH-014) · ms-finanzas
+- [x] T051 [P] [US10] Prueba: AC-015.1 (REQ-PH-015) · ms-finanzas
+- [x] T052 [US10] Estado de cuenta del propietario (REQ-PH-015) · ms-finanzas
+- [x] T053 [P] [US11] Prueba: AC-016.1 (REQ-PH-016) · ms-finanzas
+- [x] T054 [US11] Cartera filtrada por torre (REQ-PH-016) · ms-finanzas
+- [x] T055 [P] [US12] Prueba: AC-017.1 (REQ-PH-017) · ms-finanzas
+- [x] T056 [US12] Consulta de solo lectura del revisor fiscal (REQ-PH-017) · ms-finanzas
+- [x] T057 [P] [US13] Prueba: AC-018.1 (REQ-PH-018) · ms-reservas
+- [x] T058 [US13] Definir zonas comunes con su horario (REQ-PH-018) · ms-reservas
+- [x] T059 [P] [US14] Prueba: AC-019.1 (REQ-PH-019) · ms-reservas
+- [x] T060 [US14] Consultar la disponibilidad de una zona (REQ-PH-019) · ms-reservas
+- [x] T061 [P] [US15] Prueba: AC-020.1 (REQ-PH-020) · ms-reservas
+- [x] T062 [US15] Confirmar reservas en horario libre (REQ-PH-020) · ms-reservas
+- [x] T063 [P] [US15] Prueba: AC-021.1 (REQ-PH-021) · ms-reservas
+- [x] T064 [US15] Rechazar reservas con cruce de horario (REQ-PH-021) · ms-reservas
+- [x] T065 [P] [US15] Prueba: AC-022.1, AC-022.2 (REQ-PH-022) · ms-reservas
+- [x] T066 [US15] Rechazar reservas por mora, máximo mensual o duración (REQ-PH-022) · ms-reservas
+- [x] T067 [P] [US16] Prueba: AC-023.1 (REQ-PH-023) · ms-reservas
+- [x] T068 [US16] Cancelar reservas con 24 horas de anticipación (REQ-PH-023) · ms-reservas
+- [x] T069 [P] [US16] Prueba: AC-024.1 (REQ-PH-024) · ms-reservas
+- [x] T070 [US16] Rechazar cancelaciones con menos de 24 horas (REQ-PH-024) · ms-reservas
 
-Punto de control: todas las pruebas de la fase en verde y los contratos actualizados.
+Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 
 ## Fase 4 · Convivencia y operación (Sprint 3)
 
@@ -136,7 +136,7 @@ Punto de control: todas las pruebas de la fase en verde y los contratos actualiz
 - [ ] T105 [P] [US30] Prueba: AC-042.1 (REQ-PH-042) · ms-mantenimiento
 - [ ] T106 [US30] Mostrar al proveedor solo sus órdenes (REQ-PH-042) · ms-mantenimiento
 
-Punto de control: todas las pruebas de la fase en verde y los contratos actualizados.
+Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 
 ## Fase 5 · Cierre (Sprint 4)
 
@@ -147,7 +147,7 @@ Punto de control: todas las pruebas de la fase en verde y los contratos actualiz
 - [ ] T111 [P] [US5] Prueba: AC-045.1 (REQ-PH-045) · transversal
 - [ ] T112 [US5] Verificar el tratamiento de datos personales (REQ-PH-045) · transversal
 
-Punto de control: todas las pruebas de la fase en verde y los contratos actualizados.
+Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 
 ### Despliegue y cierre (Sprint 4)
 

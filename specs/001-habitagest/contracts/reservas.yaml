@@ -36,6 +36,7 @@ paths:
           $ref: '#/components/responses/E403'
         '409':
           $ref: '#/components/responses/E409'
+      description: Las horas van en formato HH:mm de 24 horas; el cierre debe ser posterior a la apertura.
     get:
       tags:
       - Zonas
@@ -114,6 +115,13 @@ paths:
           $ref: '#/components/responses/E404'
         '409':
           $ref: '#/components/responses/E409'
+      parameters:
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
   /reservas/{id}/cancelaciones:
     post:
       tags:
@@ -125,6 +133,12 @@ paths:
         in: path
         required: true
         description: Identificador de la reserva
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
         schema:
           type: string
       requestBody:
@@ -218,9 +232,11 @@ components:
         inicio:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
         fin:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
         estado:
           type: string
           enum:
@@ -238,9 +254,11 @@ components:
         inicio:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
         fin:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
       required:
       - zonaId
       - apartamentoId
@@ -261,9 +279,11 @@ components:
         inicio:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
         fin:
           type: string
           format: date-time
+          description: Hora de Colombia, sin zona horaria (AAAA-MM-DDTHH:MM:SS)
         estado:
           type: string
           enum:

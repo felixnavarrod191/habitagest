@@ -40,6 +40,20 @@ paths:
           $ref: '#/components/responses/E403'
         '409':
           $ref: '#/components/responses/E409'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
     get:
       tags:
       - Presupuestos
@@ -50,6 +64,13 @@ paths:
         in: query
         required: true
         description: Mes en formato AAAA-MM
+        schema:
+          type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
         schema:
           type: string
       responses:
@@ -90,6 +111,20 @@ paths:
           $ref: '#/components/responses/E403'
         '409':
           $ref: '#/components/responses/E409'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
   /cuotas:
     get:
       tags:
@@ -107,6 +142,13 @@ paths:
         in: query
         required: false
         description: Filtra por mes (AAAA-MM)
+        schema:
+          type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
         schema:
           type: string
       responses:
@@ -147,6 +189,20 @@ paths:
           $ref: '#/components/responses/E404'
         '409':
           $ref: '#/components/responses/E409'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
   /mora/aplicaciones:
     post:
       tags:
@@ -172,6 +228,20 @@ paths:
           $ref: '#/components/responses/E400'
         '403':
           $ref: '#/components/responses/E403'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
   /apartamentos/{id}/mora:
     get:
       tags:
@@ -183,6 +253,13 @@ paths:
         in: path
         required: true
         description: Identificador del apartamento
+        schema:
+          type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
         schema:
           type: string
       responses:
@@ -209,6 +286,13 @@ paths:
         description: Filtra por torre
         schema:
           type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
       responses:
         '200':
           description: Operación exitosa
@@ -231,6 +315,13 @@ paths:
         in: path
         required: true
         description: Identificador del apartamento
+        schema:
+          type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
         schema:
           type: string
       responses:
@@ -267,6 +358,20 @@ paths:
           $ref: '#/components/responses/E400'
         '403':
           $ref: '#/components/responses/E403'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      - name: X-Usuario
+        in: header
+        required: false
+        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        schema:
+          type: string
     get:
       tags:
       - Observaciones
@@ -283,6 +388,14 @@ paths:
                   $ref: '#/components/schemas/Observacion'
         '403':
           $ref: '#/components/responses/E403'
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
   /resumen:
     get:
       tags:
@@ -294,6 +407,13 @@ paths:
         in: query
         required: true
         description: Mes en formato AAAA-MM
+        schema:
+          type: string
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
         schema:
           type: string
       responses:
@@ -392,6 +512,7 @@ components:
         saldo:
           type: number
           format: double
+          description: Saldo pendiente, incluida la mora.
         mora:
           type: number
           format: double
@@ -418,7 +539,8 @@ components:
       properties:
         mes:
           type: string
-          description: AAAA-MM; si se omite, todas las cuotas vencidas
+          description: Mes de las cuotas (AAAA-MM). Sin mes, la mora se aplica a todas las cuotas vencidas; una cuota recibe
+            la mora una sola vez por mes.
     EstadoMora:
       type: object
       properties:
