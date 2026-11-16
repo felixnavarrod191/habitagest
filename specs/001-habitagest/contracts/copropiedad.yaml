@@ -290,7 +290,8 @@ components:
         coeficiente:
           type: number
           format: double
-          description: Porcentaje, entre 0 y 100
+          description: 'Porcentaje de copropiedad: 1,5 significa 1,5 %. La suma de todos los apartamentos no puede superar
+            100 %.'
       required:
       - torre
       - numero
@@ -308,6 +309,8 @@ components:
         coeficiente:
           type: number
           format: double
+          description: 'Porcentaje de copropiedad: 1,5 significa 1,5 %. La suma de todos los apartamentos no puede superar
+            100 %.'
         propietarioId:
           type: string
           description: Identificador del recurso
