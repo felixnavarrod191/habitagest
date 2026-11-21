@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragmentos :: cabecera}"></head>
+<body>
+<nav th:replace="~{fragmentos :: barra}"></nav>
+<main class="container pb-5">
+    <p class="text-muted small mb-3">
+        <a class="text-decoration-none" th:href="@{/}">Inicio</a> /
+        <a class="text-decoration-none" th:href="@{${rutaArea}}" th:text="${p.area()}">Área</a> /
+        <span th:text="${p.titulo()}">Pantalla</span>
+    </p>
+    <section class="encabezado-area">
+        <span th:replace="~{fragmentos :: icono}"></span>
+        <div>
+            <h1 class="h3 mb-1" th:text="${p.titulo()}">Pantalla</h1>
+            <p class="mb-0 text-muted" th:text="${p.descripcion()}"></p>
+        </div>
+    </section>
+
+    <div class="my-3"></div>
+
+    <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-warning" th:each="aviso : ${p.avisos()}" th:text="${aviso}"></div>
+
+    <form th:each="f : ${p.formularios()}" th:action="@{${f.accion()}}" th:method="${f.metodo()}" class="panel-hg mb-4">
+        <h2 class="h6 mb-3" th:text="${f.titulo()}"></h2>
+        <div class="row g-3 align-items-end">
+            <th:block th:each="c : ${f.campos()}">
+                <input type="hidden" th:if="${c.tipo() == 'hidden'}" th:name="${c.nombre()}" th:value="${c.valor()}">
+                <div class="col-md-4" th:unless="${c.tipo() == 'hidden'}">
+                    <label class="form-label small mb-1" th:text="${c.etiqueta()}"></label>
+                    <select class="form-select" th:if="${c.tipo() == 'select'}" th:name="${c.nombre()}"
+                            th:required="${!#strings.contains(c.etiqueta(), 'opcional')}">
+                        <option th:each="o : ${c.opciones()}" th:value="${o.valor()}" th:text="${o.texto()}"
+                                th:selected="${o.valor() == c.valor()}"></option>
+                    </select>
+                    <textarea class="form-control" rows="3" th:if="${c.tipo() == 'textarea'}" th:name="${c.nombre()}"
+                              th:text="${c.valor()}" required></textarea>
+                    <input class="form-control" step="any" th:if="${c.tipo() != 'select' and c.tipo() != 'textarea'}"
+                           th:type="${c.tipo()}" th:name="${c.nombre()}" th:value="${c.valor()}"
+                           th:required="${!#strings.contains(c.etiqueta(), 'opcional')}">
+                </div>
+            </th:block>
+            <div class="col-auto">
+                <button class="btn btn-hg px-4" type="submit" th:text="${f.boton()}">Guardar</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="panel-hg mb-4" th:each="t : ${p.tablas()}">
+        <h2 class="h6 mb-3" th:text="${t.titulo()}"></h2>
+        <div class="table-responsive" th:if="${!t.filas().isEmpty()}">
+            <table class="table table-sm tabla-hg align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th th:each="c : ${t.columnas()}" th:text="${c}"></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="fila : ${t.filas()}">
+                        <td th:each="celda : ${fila.celdas()}" th:text="${celda}"></td>
+                        <td class="text-end text-nowrap">
+                            <form th:each="a : ${fila.acciones()}" class="d-inline" method="post" th:action="@{${a.accion()}}">
+                                <input type="hidden" th:each="o : ${a.ocultos()}" th:name="${o.key}" th:value="${o.value}">
+                                <button class="btn btn-outline-primary btn-sm" type="submit" th:text="${a.boton()}"></button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-muted mb-0" th:if="${t.filas().isEmpty()}" th:text="${t.vacio()}"></p>
+    </div>
+
+    <div class="mt-4">
+        <a class="btn btn-outline-primary" th:href="@{${rutaArea}}"><i class="bi bi-arrow-left me-1"></i>Volver a mi área</a>
+    </div>
+</main>
+</body>
+</html>

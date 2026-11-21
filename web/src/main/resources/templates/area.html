@@ -12,18 +12,15 @@
             <p class="mb-0 text-muted" th:text="${descripcion}"></p>
         </div>
     </section>
-    <div class="row g-4 mt-1">
-        <div class="col-md-6">
-            <div class="panel-hg">
-                <h2 class="h6"><i class="bi bi-lock-fill me-1"></i>Tu área</h2>
-                <p class="mb-0 text-muted">Esta pantalla es la de tu rol. Los demás roles no pueden abrirla.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel-hg">
-                <h2 class="h6"><i class="bi bi-calendar-check me-1"></i>Próximos sprints</h2>
-                <p class="mb-0 text-muted">Las funciones de negocio de esta área se agregan en los siguientes sprints.</p>
-            </div>
+    <h2 class="h5 mt-4 mb-3">Qué puedes hacer</h2>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="o : ${opciones}">
+            <a class="tarjeta-rol" th:href="@{${o.ruta()}}">
+                <span class="icono-rol"><i class="bi" th:classappend="${o.icono()}"></i></span>
+                <h3 th:text="${o.texto()}">Opción</h3>
+                <p th:text="${o.descripcion()}"></p>
+                <span class="entrar">Abrir <i class="bi bi-arrow-right"></i></span>
+            </a>
         </div>
     </div>
     <div class="mt-4 d-flex gap-2">

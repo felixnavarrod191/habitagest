@@ -10,11 +10,17 @@
     <form th:action="@{/sistema/usuarios}" method="post" class="panel-hg mb-4">
         <h2 class="h6 mb-3">Crear usuario</h2>
         <div class="row g-3">
-            <div class="col-md-4"><input class="form-control" name="usuario" placeholder="Usuario" required></div>
-            <div class="col-md-4"><input class="form-control" type="password" name="contrasena" placeholder="Contraseña inicial (mínimo 8)" required></div>
-            <div class="col-md-3">
+            <div class="col-md-3"><input class="form-control" name="usuario" placeholder="Usuario" required></div>
+            <div class="col-md-3"><input class="form-control" type="password" name="contrasena" placeholder="Contraseña inicial (mínimo 8)" required></div>
+            <div class="col-md-2">
                 <select class="form-select" name="rol" required>
                     <option th:each="r : ${roles}" th:value="${r}" th:text="${r.etiqueta()}"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="apartamentoId" title="Solo para propietario y residente">
+                    <option value="">Apartamento (solo propietario y residente)</option>
+                    <option th:each="a : ${apartamentos}" th:value="${a.valor()}" th:text="${a.texto()}"></option>
                 </select>
             </div>
             <div class="col-md-1"><button class="btn btn-hg w-100" type="submit">Crear</button></div>
@@ -22,11 +28,24 @@
     </form>
     <div class="panel-hg mb-4">
         <table class="table table-sm align-middle mb-0">
-            <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Apartamento</th><th>Estado</th><th></th></tr></thead>
             <tbody>
                 <tr th:each="u : ${usuarios}">
                     <td th:text="${u.usuario}"></td>
                     <td th:text="${u.rol.etiqueta()}"></td>
+                    <td>
+                        <form th:if="${u.rol.name() == 'RESIDENTE' or u.rol.name() == 'PROPIETARIO'}"
+                              th:action="@{/sistema/usuarios/apartamento}" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="usuario" th:value="${u.usuario}">
+                            <select class="form-select form-select-sm" name="apartamentoId">
+                                <option value="">Sin apartamento</option>
+                                <option th:each="a : ${apartamentos}" th:value="${a.valor()}" th:text="${a.texto()}"
+                                        th:selected="${a.valor() == u.apartamentoId}"></option>
+                            </select>
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">Guardar</button>
+                        </form>
+                        <span class="text-muted" th:unless="${u.rol.name() == 'RESIDENTE' or u.rol.name() == 'PROPIETARIO'}">—</span>
+                    </td>
                     <td><span class="badge" th:classappend="${u.activo} ? 'text-bg-success' : 'text-bg-secondary'" th:text="${u.activo} ? 'Activo' : 'Inactivo'"></span></td>
                     <td>
                         <form th:action="@{/sistema/usuarios/{id}/estado(id=${u.id})}" method="post">

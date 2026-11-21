@@ -38,6 +38,11 @@ public class ControladorReservas {
         return servicio.disponibilidad(id, fecha);
     }
 
+    @GetMapping("/reservas")
+    public List<Reserva> reservas(@RequestParam(required = false) String apartamentoId) {
+        return servicio.listarReservas(apartamentoId);
+    }
+
     @PostMapping("/reservas")
     @ResponseStatus(HttpStatus.CREATED)
     public Reserva reservar(@Valid @RequestBody ReservaNueva cuerpo,
