@@ -18,6 +18,12 @@ public class Usuario {
     private Rol rol;
     private boolean activo;
 
+    /** Solo propietarios y residentes: el apartamento que el administrador del sistema les asignó. */
+    private String apartamentoId;
+
+    /** Texto del apartamento asignado (por ejemplo "Torre 1 · Apto 102"), para mostrarlo en el menú. */
+    private String apartamentoNombre;
+
     public Usuario(String usuario, String contrasenaCifrada, Rol rol, boolean activo) {
         this.usuario = usuario;
         this.contrasenaCifrada = contrasenaCifrada;
@@ -47,5 +53,21 @@ public class Usuario {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public String getApartamentoId() {
+        return apartamentoId;
+    }
+
+    public void setApartamentoId(String apartamentoId) {
+        this.apartamentoId = apartamentoId;
+    }
+
+    public String getApartamentoNombre() {
+        return apartamentoNombre;
+    }
+
+    public void setApartamentoNombre(String apartamentoNombre) {
+        this.apartamentoNombre = apartamentoNombre;
     }
 }

@@ -240,4 +240,17 @@ class ServicioReservasTest {
         assertEquals(404, assertThrows(ErrorDeNegocio.class,
                 () -> elSabado.cancelar("no-existe", Solicitante.ADMINISTRADOR, "admin")).estado());
     }
+
+    /** El residente consulta sus reservas (la web las muestra por apartamento). */
+    @Test
+    void laListaDeReservasSePuedeFiltrarPorApartamento() {
+        ServicioReservas servicio = servicioElJueves();
+        Zona salon = servicio.crearZona("Salón social", "08:00", "22:00");
+        servicio.reservar(salon.getId(), "a1", sabado(14), sabado(16), "residente1");
+        servicio.reservar(salon.getId(), "a2", sabado(17), sabado(19), "residente2");
+
+        assertEquals(2, servicio.listarReservas(null).size());
+        assertEquals(1, servicio.listarReservas("a2").size());
+        assertEquals(sabado(17), servicio.listarReservas("a2").get(0).getInicio());
+    }
 }

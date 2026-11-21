@@ -12,11 +12,13 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.habitagest.web.api.ClienteApi;
 import com.habitagest.web.seguridad.Rol;
 import com.habitagest.web.seguridad.SeguridadConfig;
 import com.habitagest.web.usuarios.ControladorUsuarios;
 import com.habitagest.web.usuarios.Usuario;
 import com.habitagest.web.usuarios.UsuarioRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ class UsuariosControladorTest {
 
     @MockBean
     private UsuarioRepository repositorio;
+
+    @MockBean
+    private ClienteApi api;
 
     @Test
     void creaElUsuarioConSuRolYLaContrasenaCifrada() throws Exception {
@@ -72,6 +77,31 @@ class UsuariosControladorTest {
         mvc.perform(post("/sistema/usuarios").with(user("portero1").roles("PORTERO")).with(csrf())
                 .param("usuario", "otro").param("contrasena", "ClaveDePrueba1").param("rol", "CONTADOR"))
                 .andExpect(status().isForbidden());
+
+        verify(repositorio, never()).save(any(Usuario.class));
+    }
+
+    @Test
+    void asignaElApartamentoAUnResidente() throws Exception {
+        Usuario rosa = new Usuario("rosa", "x", Rol.RESIDENTE, true);
+        when(repositorio.findByUsuario("rosa")).thenReturn(Optional.of(rosa));
+
+        mvc.perform(post("/sistema/usuarios/apartamento").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                .param("usuario", "rosa").param("apartamentoId", "ap7"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(repositorio).save(rosa);
+        assertEquals("ap7", rosa.getApartamentoId());
+    }
+
+    @Test
+    void soloPropietariosYResidentesTienenApartamento() throws Exception {
+        Usuario contador = new Usuario("conta", "x", Rol.CONTADOR, true);
+        when(repositorio.findByUsuario("conta")).thenReturn(Optional.of(contador));
+
+        mvc.perform(post("/sistema/usuarios/apartamento").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                .param("usuario", "conta").param("apartamentoId", "ap7"))
+                .andExpect(status().is3xxRedirection());
 
         verify(repositorio, never()).save(any(Usuario.class));
     }

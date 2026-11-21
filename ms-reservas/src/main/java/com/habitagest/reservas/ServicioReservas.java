@@ -57,6 +57,15 @@ public class ServicioReservas {
         return zonas.findAll();
     }
 
+    /** Las reservas, de la más próxima a la más lejana; con apartamentoId, solo las de ese apartamento. */
+    public List<Reserva> listarReservas(String apartamentoId) {
+        return reservas.findAll().stream()
+                .filter(reserva -> apartamentoId == null || apartamentoId.isBlank()
+                        || apartamentoId.trim().equals(reserva.getApartamentoId()))
+                .sorted(java.util.Comparator.comparing(Reserva::getInicio))
+                .toList();
+    }
+
     /** REQ-PH-019: los horarios libres y ocupados de una zona en una fecha. */
     public List<Horario> disponibilidad(String zonaId, String fecha) {
         Zona zona = zonaOError(zonaId);

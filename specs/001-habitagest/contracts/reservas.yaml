@@ -122,6 +122,29 @@ paths:
         description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
         schema:
           type: string
+    get:
+      tags:
+      - Reservas
+      summary: Listar las reservas, o solo las de un apartamento
+      x-requisitos: REQ-PH-023
+      parameters:
+      - name: apartamentoId
+        in: query
+        required: false
+        description: Filtra por apartamento
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+        '403':
+          $ref: '#/components/responses/E403'
   /reservas/{id}/cancelaciones:
     post:
       tags:
