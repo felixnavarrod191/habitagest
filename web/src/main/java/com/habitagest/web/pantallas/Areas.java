@@ -15,7 +15,7 @@ public final class Areas {
                     new Enlace("Usuarios", "/sistema/usuarios", "bi-people-fill", "Crear usuarios, activarlos y ver los 11 roles."),
                     new Enlace("Parámetros", "/sistema/parametros", "bi-sliders", "Valores de negocio que usa el sistema."));
             case ADMIN_CONJUNTO -> List.of(
-                    new Enlace("Unidades", "/administracion/copropiedad", "bi-building", "Torres, apartamentos, propietarios y residentes."),
+                    new Enlace("Unidades", "/administracion/copropiedad", "bi-building", "Torres, apartamentos con su coeficiente y quién vive en cada uno."),
                     new Enlace("Cuotas y cartera", "/administracion/finanzas", "bi-cash-stack", "Presupuesto, cuotas, mora y cartera."),
                     new Enlace("Reservas", "/administracion/reservas", "bi-calendar-check", "Zonas comunes y cancelación de reservas."),
                     new Enlace("PQR", "/administracion/pqr", "bi-chat-left-text", "Gestionar y cerrar las PQR."),

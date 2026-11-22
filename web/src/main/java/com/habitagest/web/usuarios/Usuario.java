@@ -24,6 +24,10 @@ public class Usuario {
     /** Texto del apartamento asignado (por ejemplo "Torre 1 · Apto 102"), para mostrarlo en el menú. */
     private String apartamentoNombre;
 
+    /** Solo propietarios y residentes: su nombre completo y su documento, los mismos que se registran en copropiedad. */
+    private String nombreCompleto;
+    private String documento;
+
     public Usuario(String usuario, String contrasenaCifrada, Rol rol, boolean activo) {
         this.usuario = usuario;
         this.contrasenaCifrada = contrasenaCifrada;
@@ -69,5 +73,21 @@ public class Usuario {
 
     public void setApartamentoNombre(String apartamentoNombre) {
         this.apartamentoNombre = apartamentoNombre;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 }
