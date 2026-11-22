@@ -99,42 +99,42 @@ Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contrat
 
 ## Fase 4 · Convivencia y operación (Sprint 3)
 
-- [ ] T071 [P] [US17] Prueba: AC-025.1 (REQ-PH-025) · ms-pqr
-- [ ] T072 [US17] Radicar PQR en estado Radicada (REQ-PH-025) · ms-pqr
-- [ ] T073 [P] [US18] Prueba: AC-026.1 (REQ-PH-026) · ms-pqr
-- [ ] T074 [US18] Pasar la PQR al estado siguiente con historial (REQ-PH-026) · ms-pqr
-- [ ] T075 [P] [US18] Prueba: AC-027.1 (REQ-PH-027) · ms-pqr
-- [ ] T076 [US18] Rechazar saltos de estado de la PQR (REQ-PH-027) · ms-pqr
-- [ ] T077 [P] [US19] Prueba: AC-028.1 (REQ-PH-028) · ms-pqr
-- [ ] T078 [US19] Mostrar a cada residente solo sus PQR (REQ-PH-028) · ms-pqr
-- [ ] T079 [P] [US20] Prueba: AC-029.1 (REQ-PH-029) · ms-pqr
-- [ ] T080 [US20] Cerrar PQR resueltas con respuesta (REQ-PH-029) · ms-pqr
-- [ ] T081 [P] [US18] Prueba: AC-030.1 (REQ-PH-030) · ms-pqr y ms-mantenimiento
-- [ ] T082 [US18] Auditar los cambios de estado de PQR y órdenes (REQ-PH-030) · ms-pqr y ms-mantenimiento
-- [ ] T083 [P] [US21] Prueba: AC-031.1 (REQ-PH-031) · ms-pqr
-- [ ] T084 [US21] Publicar y mostrar comunicados vigentes (REQ-PH-031) · ms-pqr
-- [ ] T085 [P] [US22] Prueba: AC-032.1 (REQ-PH-032) · ms-pqr
-- [ ] T086 [US22] Ocultar comunicados vencidos (REQ-PH-032) · ms-pqr
-- [ ] T087 [P] [US23] Prueba: AC-033.1 (REQ-PH-033) · ms-porteria
-- [ ] T088 [US23] Autorizar visitas (REQ-PH-033) · ms-porteria
-- [ ] T089 [P] [US24] Prueba: AC-034.1 (REQ-PH-034) · ms-porteria
-- [ ] T090 [US24] Registrar ingreso y salida de visitantes (REQ-PH-034) · ms-porteria
-- [ ] T091 [P] [US24] Prueba: AC-035.1 (REQ-PH-035) · ms-porteria
-- [ ] T092 [US24] Rechazar visitantes no autorizados (REQ-PH-035) · ms-porteria
-- [ ] T093 [P] [US25] Prueba: AC-036.1 (REQ-PH-036) · ms-porteria
-- [ ] T094 [US25] Registrar paquetes y mostrarlos al residente (REQ-PH-036) · ms-porteria
-- [ ] T095 [P] [US26] Prueba: AC-037.1 (REQ-PH-037) · ms-porteria
-- [ ] T096 [US26] Registrar novedades de seguridad (REQ-PH-037) · ms-porteria
-- [ ] T097 [P] [US27] Prueba: AC-038.1 (REQ-PH-038) · ms-mantenimiento
-- [ ] T098 [US27] Crear órdenes de mantenimiento (REQ-PH-038) · ms-mantenimiento
-- [ ] T099 [P] [US27] Prueba: AC-039.1 (REQ-PH-039) · ms-mantenimiento
-- [ ] T100 [US27] Aprobar órdenes bajo el tope (REQ-PH-039) · ms-mantenimiento
-- [ ] T101 [P] [US28] Prueba: AC-040.1 (REQ-PH-040) · ms-mantenimiento
-- [ ] T102 [US28] Exigir al Consejo la aprobación sobre el tope (REQ-PH-040) · ms-mantenimiento
-- [ ] T103 [P] [US29] Prueba: AC-041.1 (REQ-PH-041) · ms-mantenimiento
-- [ ] T104 [US29] Ejecutar órdenes y registrar materiales (REQ-PH-041) · ms-mantenimiento
-- [ ] T105 [P] [US30] Prueba: AC-042.1 (REQ-PH-042) · ms-mantenimiento
-- [ ] T106 [US30] Mostrar al proveedor solo sus órdenes (REQ-PH-042) · ms-mantenimiento
+- [x] T071 [P] [US17] Prueba: AC-025.1 (REQ-PH-025) · ms-pqr
+- [x] T072 [US17] Radicar PQR en estado Radicada (REQ-PH-025) · ms-pqr
+- [x] T073 [P] [US18] Prueba: AC-026.1 (REQ-PH-026) · ms-pqr
+- [x] T074 [US18] Pasar la PQR al estado siguiente con historial (REQ-PH-026) · ms-pqr
+- [x] T075 [P] [US18] Prueba: AC-027.1 (REQ-PH-027) · ms-pqr
+- [x] T076 [US18] Rechazar saltos de estado de la PQR (REQ-PH-027) · ms-pqr
+- [x] T077 [P] [US19] Prueba: AC-028.1 (REQ-PH-028) · ms-pqr
+- [x] T078 [US19] Mostrar a cada residente solo sus PQR (REQ-PH-028) · ms-pqr
+- [x] T079 [P] [US20] Prueba: AC-029.1 (REQ-PH-029) · ms-pqr
+- [x] T080 [US20] Cerrar PQR resueltas con respuesta (REQ-PH-029) · ms-pqr
+- [x] T081 [P] [US18] Prueba: AC-030.1 (REQ-PH-030) · ms-pqr y ms-mantenimiento
+- [x] T082 [US18] Auditar los cambios de estado de PQR y órdenes (REQ-PH-030) · ms-pqr y ms-mantenimiento
+- [x] T083 [P] [US21] Prueba: AC-031.1 (REQ-PH-031) · ms-pqr
+- [x] T084 [US21] Publicar y mostrar comunicados vigentes (REQ-PH-031) · ms-pqr
+- [x] T085 [P] [US22] Prueba: AC-032.1 (REQ-PH-032) · ms-pqr
+- [x] T086 [US22] Ocultar comunicados vencidos (REQ-PH-032) · ms-pqr
+- [x] T087 [P] [US23] Prueba: AC-033.1 (REQ-PH-033) · ms-porteria
+- [x] T088 [US23] Autorizar visitas (REQ-PH-033) · ms-porteria
+- [x] T089 [P] [US24] Prueba: AC-034.1 (REQ-PH-034) · ms-porteria
+- [x] T090 [US24] Registrar ingreso y salida de visitantes (REQ-PH-034) · ms-porteria
+- [x] T091 [P] [US24] Prueba: AC-035.1 (REQ-PH-035) · ms-porteria
+- [x] T092 [US24] Rechazar visitantes no autorizados (REQ-PH-035) · ms-porteria
+- [x] T093 [P] [US25] Prueba: AC-036.1 (REQ-PH-036) · ms-porteria
+- [x] T094 [US25] Registrar paquetes y mostrarlos al residente (REQ-PH-036) · ms-porteria
+- [x] T095 [P] [US26] Prueba: AC-037.1 (REQ-PH-037) · ms-porteria
+- [x] T096 [US26] Registrar novedades de seguridad (REQ-PH-037) · ms-porteria
+- [x] T097 [P] [US27] Prueba: AC-038.1 (REQ-PH-038) · ms-mantenimiento
+- [x] T098 [US27] Crear órdenes de mantenimiento (REQ-PH-038) · ms-mantenimiento
+- [x] T099 [P] [US27] Prueba: AC-039.1 (REQ-PH-039) · ms-mantenimiento
+- [x] T100 [US27] Aprobar órdenes bajo el tope (REQ-PH-039) · ms-mantenimiento
+- [x] T101 [P] [US28] Prueba: AC-040.1 (REQ-PH-040) · ms-mantenimiento
+- [x] T102 [US28] Exigir al Consejo la aprobación sobre el tope (REQ-PH-040) · ms-mantenimiento
+- [x] T103 [P] [US29] Prueba: AC-041.1 (REQ-PH-041) · ms-mantenimiento
+- [x] T104 [US29] Ejecutar órdenes y registrar materiales (REQ-PH-041) · ms-mantenimiento
+- [x] T105 [P] [US30] Prueba: AC-042.1 (REQ-PH-042) · ms-mantenimiento
+- [x] T106 [US30] Mostrar al proveedor solo sus órdenes (REQ-PH-042) · ms-mantenimiento
 
 Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 

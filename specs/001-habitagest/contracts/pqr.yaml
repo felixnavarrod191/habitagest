@@ -294,6 +294,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Cambio'
+        fecha:
+          type: string
+          format: date-time
     CambioEstado:
       type: object
       properties:
@@ -351,3 +354,6 @@ components:
         vigenteHasta:
           type: string
           format: date
+        publicado:
+          type: string
+          format: date-time
