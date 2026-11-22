@@ -73,21 +73,27 @@ public class ControladorAdministracion extends ControladorBase {
             filas.add(fila(celdas(t(apartamento, "torre"), t(apartamento, "numero"),
                     String.format("%.2f %%", d(apartamento, "coeficiente")))));
         }
+        List<Fila> habitantes = new ArrayList<>();
+        for (Usuario persona : usuarios.findAll()) {
+            if (persona.getApartamentoId() != null && !persona.getApartamentoId().isBlank()) {
+                String nombre = persona.getNombreCompleto() == null || persona.getNombreCompleto().isBlank()
+                        ? persona.getUsuario() : persona.getNombreCompleto();
+                habitantes.add(fila(celdas(nombre, persona.getDocumento() == null ? "" : persona.getDocumento(),
+                        persona.getRol().etiqueta(), persona.getUsuario(),
+                        persona.getApartamentoNombre() == null ? "" : persona.getApartamentoNombre())));
+            }
+        }
         return mostrar(modelo, ROL, "/administracion/copropiedad", "Unidades",
-                "Torres, apartamentos con su coeficiente, propietarios y residentes.", carga,
+                "Torres y apartamentos con su coeficiente, y quién vive en cada uno. Los propietarios y residentes se registran al crear su usuario.", carga,
                 List.of(post("Crear torre", "/administracion/copropiedad/torres", "Crear torre",
                                 texto("nombre", "Nombre de la torre")),
                         post("Crear apartamento", "/administracion/copropiedad/apartamentos", "Crear apartamento",
                                 seleccion("torre", "Torre", opcionesTorres), texto("numero", "Número"),
-                                numero("coeficiente", "Coeficiente (%)")),
-                        post("Registrar propietario", "/administracion/copropiedad/propietarios", "Registrar",
-                                seleccion("apartamentoId", "Apartamento", opcionesDeApartamentos(apartamentos)),
-                                texto("nombre", "Nombre"), texto("documento", "Documento")),
-                        post("Registrar residente", "/administracion/copropiedad/residentes", "Registrar",
-                                seleccion("apartamentoId", "Apartamento", opcionesDeApartamentos(apartamentos)),
-                                texto("nombre", "Nombre"), texto("documento", "Documento"))),
+                                numero("coeficiente", "Coeficiente (%)"))),
                 List.of(tabla("Apartamentos (suma de coeficientes " + String.format("%.2f", suma) + " % de 100 %)",
-                        "Todavía no hay apartamentos.", columnas("Torre", "Número", "Coeficiente"), filas)));
+                                "Todavía no hay apartamentos.", columnas("Torre", "Número", "Coeficiente"), filas),
+                        tabla("Propietarios y residentes", "Todavía no hay propietarios ni residentes con apartamento.",
+                                columnas("Nombre", "Documento", "Rol", "Usuario", "Apartamento"), habitantes)));
     }
 
     @PostMapping("/administracion/copropiedad/torres")
@@ -102,22 +108,6 @@ public class ControladorAdministracion extends ControladorBase {
         return hacer(redireccion, "/administracion/copropiedad", "Apartamento creado.",
                 () -> api.post("/copropiedad/apartamentos", Map.of("torre", limpio(torre), "numero", limpio(numero),
                         "coeficiente", numero(coeficiente))));
-    }
-
-    @PostMapping("/administracion/copropiedad/propietarios")
-    public String crearPropietario(@RequestParam String apartamentoId, @RequestParam String nombre,
-            @RequestParam String documento, RedirectAttributes redireccion) {
-        return hacer(redireccion, "/administracion/copropiedad", "Propietario registrado.",
-                () -> api.post("/copropiedad/propietarios", Map.of("apartamentoId", apartamentoId,
-                        "nombre", limpio(nombre), "documento", limpio(documento))));
-    }
-
-    @PostMapping("/administracion/copropiedad/residentes")
-    public String crearResidente(@RequestParam String apartamentoId, @RequestParam String nombre,
-            @RequestParam String documento, RedirectAttributes redireccion) {
-        return hacer(redireccion, "/administracion/copropiedad", "Residente registrado.",
-                () -> api.post("/copropiedad/residentes", Map.of("apartamentoId", apartamentoId,
-                        "nombre", limpio(nombre), "documento", limpio(documento))));
     }
 
     // ================= Cuotas y cartera (HU-06 a HU-12) =================
