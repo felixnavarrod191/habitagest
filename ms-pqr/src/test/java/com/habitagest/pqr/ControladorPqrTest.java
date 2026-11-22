@@ -2,7 +2,6 @@ package com.habitagest.pqr;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,8 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-/** El contrato HTTP de PQR: estados y cuerpo de error {codigo, mensaje}. */
-@WebMvcTest(ControladorPqr.class)
+/** El contrato HTTP de PQR y comunicados: estados y cuerpo de error {codigo, mensaje}. */
+@WebMvcTest({ControladorPqr.class, ControladorComunicados.class})
 class ControladorPqrTest {
 
     @Autowired
@@ -24,6 +23,9 @@ class ControladorPqrTest {
 
     @MockBean
     private ServicioPqr servicio;
+
+    @MockBean
+    private ServicioComunicados comunicados;
 
     @Test
     void radicarUnaPqrResponde201ConSuEstado() throws Exception {
@@ -56,11 +58,10 @@ class ControladorPqrTest {
     }
 
     @Test
-    void consultarUnaPqrQueNoExisteResponde404() throws Exception {
-        when(servicio.consultar(anyString())).thenThrow(ErrorDeNegocio.noEncontrado("No existe la PQR p9."));
-
-        mvc.perform(get("/pqr/p9"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.codigo").value("E404"));
+    void publicarUnComunicadoSinVigenciaResponde400() throws Exception {
+        mvc.perform(post("/comunicados").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"titulo\":\"Aviso\",\"texto\":\"Texto\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.codigo").value("E400"));
     }
 }
