@@ -130,7 +130,7 @@ public final class Pantallas {
     /** "Torre 1": no repite la palabra si el nombre ya empieza por "Torre" ("Torre 2" no pasa a "Torre Torre 2"). */
     public static String nombreTorre(String nombre) {
         String limpio = limpio(nombre);
-        return limpio.toLowerCase(java.util.Locale.ROOT).startsWith("torre") ? limpio : "Torre " + limpio;
+        return limpio.toLowerCase(java.util.Locale.ROOT).startsWith("torre") ? "Torre" + limpio.substring(5) : "Torre " + limpio;
     }
 
     /** "Torre 1 · Apto 301" para listas de apartamentos. */
