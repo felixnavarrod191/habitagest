@@ -293,6 +293,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Cambio'
+        aprobadaPor:
+          type: string
+        creada:
+          type: string
+          format: date-time
+        completada:
+          type: string
+          format: date-time
     Aprobacion:
       type: object
       properties:

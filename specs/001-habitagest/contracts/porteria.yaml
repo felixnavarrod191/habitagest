@@ -274,6 +274,8 @@ components:
         fecha:
           type: string
           format: date
+        estado:
+          type: string
     IngresoNuevo:
       type: object
       properties:
@@ -331,6 +333,9 @@ components:
           enum:
           - PENDIENTE
           - ENTREGADO
+        recibido:
+          type: string
+          format: date-time
     NovedadNueva:
       type: object
       properties:

@@ -28,24 +28,24 @@ Cadena: necesidad (PBI e historia) → requisito (REQ) → criterio (AC) → tar
 | REQ-PH-022 | HU-15 | PBI-07 | AC-022.1, AC-022.2 | T065 | T066 | ServicioReservasTest |
 | REQ-PH-023 | HU-16 | PBI-07 | AC-023.1 | T067 | T068 | ServicioReservasTest |
 | REQ-PH-024 | HU-16 | PBI-07 | AC-024.1 | T069 | T070 | ServicioReservasTest |
-| REQ-PH-025 | HU-17 | PBI-08 | AC-025.1 | T071 | T072 | — |
-| REQ-PH-026 | HU-18 | PBI-08 | AC-026.1 | T073 | T074 | — |
-| REQ-PH-027 | HU-18 | PBI-08 | AC-027.1 | T075 | T076 | — |
-| REQ-PH-028 | HU-19 | PBI-08 | AC-028.1 | T077 | T078 | — |
-| REQ-PH-029 | HU-20 | PBI-08 | AC-029.1 | T079 | T080 | — |
-| REQ-PH-030 | HU-18, HU-27, HU-29 | PBI-08 | AC-030.1 | T081 | T082 | — |
-| REQ-PH-031 | HU-21, HU-22 | PBI-09 | AC-031.1 | T083 | T084 | — |
-| REQ-PH-032 | HU-22 | PBI-09 | AC-032.1 | T085 | T086 | — |
-| REQ-PH-033 | HU-23 | PBI-10 | AC-033.1 | T087 | T088 | — |
-| REQ-PH-034 | HU-24 | PBI-10 | AC-034.1 | T089 | T090 | — |
-| REQ-PH-035 | HU-24 | PBI-10 | AC-035.1 | T091 | T092 | — |
-| REQ-PH-036 | HU-25 | PBI-10 | AC-036.1 | T093 | T094 | — |
-| REQ-PH-037 | HU-26 | PBI-10 | AC-037.1 | T095 | T096 | — |
-| REQ-PH-038 | HU-27 | PBI-11 | AC-038.1 | T097 | T098 | — |
-| REQ-PH-039 | HU-27 | PBI-11 | AC-039.1 | T099 | T100 | — |
-| REQ-PH-040 | HU-28 | PBI-11 | AC-040.1 | T101 | T102 | — |
-| REQ-PH-041 | HU-29 | PBI-11 | AC-041.1 | T103 | T104 | — |
-| REQ-PH-042 | HU-30 | PBI-11 | AC-042.1 | T105 | T106 | — |
+| REQ-PH-025 | HU-17 | PBI-08 | AC-025.1 | T071 | T072 | ServicioPqrTest |
+| REQ-PH-026 | HU-18 | PBI-08 | AC-026.1 | T073 | T074 | ServicioPqrTest |
+| REQ-PH-027 | HU-18 | PBI-08 | AC-027.1 | T075 | T076 | ServicioPqrTest |
+| REQ-PH-028 | HU-19 | PBI-08 | AC-028.1 | T077 | T078 | ServicioPqrTest |
+| REQ-PH-029 | HU-20 | PBI-08 | AC-029.1 | T079 | T080 | ServicioPqrTest |
+| REQ-PH-030 | HU-18, HU-27, HU-29 | PBI-08 | AC-030.1 | T081 | T082 | ServicioPqrTest |
+| REQ-PH-031 | HU-21, HU-22 | PBI-09 | AC-031.1 | T083 | T084 | ServicioComunicadosTest |
+| REQ-PH-032 | HU-22 | PBI-09 | AC-032.1 | T085 | T086 | ServicioComunicadosTest |
+| REQ-PH-033 | HU-23 | PBI-10 | AC-033.1 | T087 | T088 | ServicioPorteriaTest |
+| REQ-PH-034 | HU-24 | PBI-10 | AC-034.1 | T089 | T090 | ServicioPorteriaTest |
+| REQ-PH-035 | HU-24 | PBI-10 | AC-035.1 | T091 | T092 | ServicioPorteriaTest |
+| REQ-PH-036 | HU-25 | PBI-10 | AC-036.1 | T093 | T094 | ServicioPorteriaTest |
+| REQ-PH-037 | HU-26 | PBI-10 | AC-037.1 | T095 | T096 | ServicioPorteriaTest |
+| REQ-PH-038 | HU-27 | PBI-11 | AC-038.1 | T097 | T098 | ServicioOrdenesTest |
+| REQ-PH-039 | HU-27 | PBI-11 | AC-039.1 | T099 | T100 | ServicioOrdenesTest |
+| REQ-PH-040 | HU-28 | PBI-11 | AC-040.1 | T101 | T102 | ServicioOrdenesTest |
+| REQ-PH-041 | HU-29 | PBI-11 | AC-041.1 | T103 | T104 | ServicioOrdenesTest |
+| REQ-PH-042 | HU-30 | PBI-11 | AC-042.1 | T105 | T106 | ServicioOrdenesTest |
 | REQ-PH-043 | HU-31 | PBI-12 | AC-043.1 | T107 | T108 | — |
 | REQ-PH-044 | HU-32 | PBI-12 | AC-044.1 | T109 | T110 | — |
 | REQ-PH-045 | HU-05 | PBI-04 | AC-045.1 | T111 | T112 | — |
