@@ -1,11 +1,12 @@
 package com.habitagest.web;
 
+import com.habitagest.web.pantallas.Areas;
 import com.habitagest.web.seguridad.Rol;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-/** Inicio de cada área por rol. La funcionalidad de negocio de cada área llega en los sprints siguientes. */
+/** Inicio de cada área por rol: las pantallas de cada rol salen de {@link Areas}. */
 @Controller
 public class ControladorAreas {
 
@@ -67,6 +68,7 @@ public class ControladorAreas {
     private String area(Model modelo, Rol rol, String descripcion) {
         modelo.addAttribute("titulo", rol.etiqueta());
         modelo.addAttribute("descripcion", descripcion);
+        modelo.addAttribute("opciones", Areas.menu(rol));
         return "area";
     }
 }

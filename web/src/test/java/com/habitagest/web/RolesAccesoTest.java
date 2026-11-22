@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.habitagest.web.seguridad.Rol;
 import com.habitagest.web.seguridad.SeguridadConfig;
+import com.habitagest.web.api.ClienteApi;
 import com.habitagest.web.usuarios.ControladorUsuarios;
 import com.habitagest.web.usuarios.UsuarioRepository;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ class RolesAccesoTest {
 
     @MockBean
     private UsuarioRepository usuarios;
+
+    @MockBean
+    private ClienteApi api;
 
     static Stream<Arguments> combinaciones() {
         List<Arguments> casos = new ArrayList<>();
