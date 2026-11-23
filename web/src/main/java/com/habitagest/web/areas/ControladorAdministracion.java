@@ -200,10 +200,17 @@ public class ControladorAdministracion extends ControladorBase {
         List<JsonNode> lista = carga.lista("/pqr/pqr");
         List<Fila> filas = new ArrayList<>();
         List<Opcion> resueltas = new ArrayList<>();
+        java.util.Map<String, String> apartamentoDe = new java.util.HashMap<>();
+        for (Usuario persona : usuarios.findAll()) {
+            if (persona.getApartamentoNombre() != null && !persona.getApartamentoNombre().isBlank()) {
+                apartamentoDe.put(persona.getUsuario(), persona.getApartamentoNombre());
+            }
+        }
         for (JsonNode pqr : lista) {
             String estado = t(pqr, "estado");
             String siguiente = siguienteEstado(estado);
-            filas.add(fila(celdas(t(pqr, "numero"), t(pqr, "residenteId"), t(pqr, "asunto"), estado,
+            filas.add(fila(celdas(t(pqr, "numero"), t(pqr, "residenteId"),
+                    apartamentoDe.getOrDefault(t(pqr, "residenteId"), "—"), t(pqr, "asunto"), t(pqr, "descripcion"), estado,
                     fechaHora(t(pqr, "fecha")), historial(pqr), t(pqr, "respuesta")),
                     siguiente == null ? new Accion[0]
                             : new Accion[] {accion("/administracion/pqr/estado",
@@ -217,7 +224,7 @@ public class ControladorAdministracion extends ControladorBase {
                 List.of(post("Cerrar una PQR resuelta con su respuesta", "/administracion/pqr/cierre", "Cerrar PQR",
                         seleccion("id", "PQR resuelta", resueltas), area("respuesta", "Respuesta"))),
                 List.of(tabla("Todas las PQR", "Todavía no hay PQR radicadas.",
-                        columnas("Número", "Residente", "Asunto", "Estado", "Fecha", "Historial", "Respuesta"), filas)));
+                        columnas("Número", "Residente", "Apartamento", "Asunto", "Descripción", "Estado", "Fecha", "Historial", "Respuesta"), filas)));
     }
 
     @PostMapping("/administracion/pqr/estado")
