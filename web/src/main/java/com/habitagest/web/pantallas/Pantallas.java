@@ -101,6 +101,21 @@ public final class Pantallas {
         return "$" + String.format("%,.0f", valor).replace(',', '.');
     }
 
+    /** Materiales de una orden: "Pintura ($400.000); Rodillos ($50.000)", o "—" si todavía no tiene. */
+    public static String materiales(JsonNode orden) {
+        StringBuilder texto = new StringBuilder();
+        JsonNode lista = orden == null ? null : orden.path("materiales");
+        if (lista != null && lista.isArray()) {
+            for (JsonNode material : lista) {
+                if (texto.length() > 0) {
+                    texto.append("; ");
+                }
+                texto.append(t(material, "descripcion")).append(" (").append(pesos(d(material, "valor"))).append(")");
+            }
+        }
+        return texto.length() == 0 ? "—" : texto.toString();
+    }
+
     /** "2026-11-19T10:00:00" se muestra como "2026-11-19 10:00". */
     public static String fechaHora(String iso) {
         if (iso == null || iso.isBlank()) {

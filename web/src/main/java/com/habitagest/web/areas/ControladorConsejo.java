@@ -56,7 +56,7 @@ public class ControladorConsejo extends ControladorBase {
         List<Fila> todas = new ArrayList<>();
         for (JsonNode orden : carga.lista("/mantenimiento/ordenes")) {
             todas.add(fila(celdas(t(orden, "descripcion"), pesos(d(orden, "costoEstimado")), t(orden, "estado"),
-                    t(orden, "aprobadaPor"))));
+                    t(orden, "aprobadaPor"), materiales(orden))));
         }
         return mostrar(modelo, ROL, "/consejo/ordenes", "Aprobar órdenes",
                 "El Consejo aprueba las órdenes de mantenimiento, en especial las de más de $2.000.000.", carga,
@@ -64,7 +64,7 @@ public class ControladorConsejo extends ControladorBase {
                 List.of(tabla("Órdenes por aprobar", "No hay órdenes por aprobar.",
                                 columnas("Descripción", "Zona", "Costo estimado", "Aprobación", "Proveedor"), pendientes),
                         tabla("Todas las órdenes", "Todavía no hay órdenes.",
-                                columnas("Descripción", "Costo estimado", "Estado", "Aprobada por"), todas)));
+                                columnas("Descripción", "Costo estimado", "Estado", "Aprobada por", "Materiales"), todas)));
     }
 
     @PostMapping("/consejo/ordenes/aprobar")

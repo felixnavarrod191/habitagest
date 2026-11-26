@@ -238,7 +238,7 @@ public class ControladorResidentes extends ControladorBase {
         Carga carga = carga();
         List<Fila> filas = new ArrayList<>();
         for (JsonNode pqr : carga.lista("/pqr/pqr?residenteId=" + ClienteApi.codificar(persona.getName()))) {
-            filas.add(fila(celdas(t(pqr, "numero"), t(pqr, "asunto"), t(pqr, "estado"), fechaHora(t(pqr, "fecha")),
+            filas.add(fila(celdas(t(pqr, "numero"), t(pqr, "asunto"), t(pqr, "descripcion"), t(pqr, "estado"), fechaHora(t(pqr, "fecha")),
                     ControladorAdministracion.historial(pqr), t(pqr, "respuesta"))));
         }
         return mostrar(modelo, rol, "/" + area + "/pqr", "PQR",
@@ -246,7 +246,7 @@ public class ControladorResidentes extends ControladorBase {
                 List.of(post("Radicar una PQR", "/" + area + "/pqr", "Radicar", texto("asunto", "Asunto"),
                         area("descripcion", "Descripción"))),
                 List.of(tabla("Mis PQR", "Todavía no has radicado PQR.",
-                        columnas("Número", "Asunto", "Estado", "Fecha", "Historial", "Respuesta"), filas)));
+                        columnas("Número", "Asunto", "Descripción", "Estado", "Fecha", "Historial", "Respuesta"), filas)));
     }
 
     @PostMapping("/" + AREAS + "/pqr")

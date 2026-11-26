@@ -22,3 +22,24 @@
 - **Qué se aceptó:** el código y las pruebas generados, tras leer el diff completo. La web registra a la persona en ms-copropiedad al crear el usuario, de modo que la regla de un solo propietario por apartamento sigue en el servicio.
 - **Qué se descartó y por qué:** cambiar el apartamento de un usuario que ya lo tiene, porque ms-copropiedad no tiene operación para modificar o dar de baja a un propietario o residente y los dos registros quedarían distintos.
 - **Cómo se verificó:** `mvn verify` de web y recorrido de la guía de pruebas en la web (pasos A12 a A14 y B1.5 a B1.7).
+
+## 2026-11-25 · Descripción y apartamento en las PQR, materiales en las órdenes de mantenimiento (modificación aparte)
+
+- **Herramienta:** Claude (asistente de IA).
+- **Tarea:** modificación aparte, sin PBI, sin puntos y sin tarea T### · **Responsable:** Felix José Navarro Ortiz
+- **Qué se pidió:** que en las tablas de PQR se vea la descripción, que el administrador del conjunto vea la torre y el apartamento de quien radica la PQR, y que las tablas de órdenes de mantenimiento muestren los materiales registrados.
+- **Archivos generados:** web/…/areas/ControladorAdministracion.java, ControladorConsejo.java, ControladorMantenimientoWeb.java, ControladorResidentes.java y pantallas/Pantallas.java.
+- **Qué se aceptó:** el código generado, tras leer el diff completo.
+- **Qué se descartó y por qué:** nada se descartó.
+- **Cómo se verificó:** `mvn verify` de web y recorrido en el navegador con los usuarios de demostración.
+
+## 2026-11-25 · Página de aterrizaje del conjunto (modificación aparte, a pedido del docente)
+
+- **Herramienta:** Claude (asistente de IA).
+- **Tarea:** modificación aparte, sin PBI, sin puntos y sin tarea T### · **Responsable:** Felix José Navarro Ortiz
+- **Qué se pidió:** una página de aterrizaje en la web, con el nombre del conjunto, el acceso, lo que hace cada rol, el contacto del equipo y modo claro y oscuro. Se escogió la opción C (entrada por roles) entre tres propuestas de diseño, y se quitó el nombre HabitaGest de la página.
+- **Archivos generados:** web/…/templates/aterrizaje.html, ControladorInicio.java, seguridad/SeguridadConfig.java, templates/fragmentos.html (título de la pestaña) y AterrizajeTest.java.
+- **Qué se aceptó:** el código y las pruebas generados, tras leer el diff completo. Sin sesión, `/` muestra la página de aterrizaje; con sesión muestra las opciones del rol. `/login` redirige a `/`.
+- **Qué se descartó y por qué:** la plantilla login.html queda sin uso y no se borró.
+- **Cómo se verificó:** `mvn verify` de web (AterrizajeTest, 3 pruebas) y recorrido en el navegador: modo claro y oscuro, clave incorrecta, ingreso y salida.
+
