@@ -36,10 +36,10 @@ public class ControladorMantenimientoWeb extends ControladorBase {
     static Fila filaOrden(JsonNode orden) {
         String costoFinal = orden.hasNonNull("costoFinal") ? pesos(d(orden, "costoFinal")) : "";
         return fila(celdas(t(orden, "descripcion"), t(orden, "zona"), pesos(d(orden, "costoEstimado")), costoFinal,
-                t(orden, "estado"), t(orden, "proveedorId"), t(orden, "aprobadaPor")));
+                materiales(orden), t(orden, "estado"), t(orden, "proveedorId"), t(orden, "aprobadaPor")));
     }
 
-    static final List<String> COLUMNAS = columnas("Descripción", "Zona", "Costo estimado", "Costo final", "Estado",
+    static final List<String> COLUMNAS = columnas("Descripción", "Zona", "Costo estimado", "Costo final", "Materiales", "Estado",
             "Proveedor", "Aprobada por");
 
     @GetMapping("/mantenimiento/ordenes")

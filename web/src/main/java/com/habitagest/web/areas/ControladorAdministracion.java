@@ -11,6 +11,7 @@ import static com.habitagest.web.pantallas.Pantallas.fechaHora;
 import static com.habitagest.web.pantallas.Pantallas.fila;
 import static com.habitagest.web.pantallas.Pantallas.hora;
 import static com.habitagest.web.pantallas.Pantallas.limpio;
+import static com.habitagest.web.pantallas.Pantallas.materiales;
 import static com.habitagest.web.pantallas.Pantallas.mes;
 import static com.habitagest.web.pantallas.Pantallas.nombreApartamento;
 import static com.habitagest.web.pantallas.Pantallas.nombreTorre;
@@ -302,7 +303,7 @@ public class ControladorAdministracion extends ControladorBase {
             boolean solicitada = "SOLICITADA".equals(t(orden, "estado"));
             String detalle = costo > TOPE_DE_APROBACION ? "Requiere al Consejo" : "";
             filas.add(fila(celdas(t(orden, "descripcion"), t(orden, "zona"), pesos(costo), t(orden, "estado"),
-                    t(orden, "proveedorId"), t(orden, "aprobadaPor"), detalle),
+                    t(orden, "proveedorId"), t(orden, "aprobadaPor"), materiales(orden), detalle),
                     solicitada && costo <= TOPE_DE_APROBACION
                             ? new Accion[] {accion("/administracion/mantenimiento/aprobar",
                                     "Aprobar", "id", t(orden, "id"))}
@@ -316,7 +317,7 @@ public class ControladorAdministracion extends ControladorBase {
                         numero("costoEstimado", "Costo estimado ($)"),
                         seleccion("proveedorId", "Proveedor (opcional)", proveedores))),
                 List.of(tabla("Órdenes", "Todavía no hay órdenes.",
-                        columnas("Descripción", "Zona", "Costo estimado", "Estado", "Proveedor", "Aprobada por", "Nota"),
+                        columnas("Descripción", "Zona", "Costo estimado", "Estado", "Proveedor", "Aprobada por", "Materiales", "Nota"),
                         filas)));
     }
 
