@@ -21,14 +21,14 @@ public class SeguridadConfig {
     @Bean
     public SecurityFilterChain cadenaDeSeguridad(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(acceso -> {
-            acceso.requestMatchers("/login", "/403", "/error", "/actuator/health").permitAll();
+            acceso.requestMatchers("/", "/login", "/403", "/error", "/actuator/health").permitAll();
             for (Rol rol : Rol.values()) {
                 acceso.requestMatchers(rol.rutaBase(), rol.rutaBase() + "/**").hasRole(rol.name());
             }
             acceso.anyRequest().authenticated();
         });
-        http.formLogin(formulario -> formulario.loginPage("/login").defaultSuccessUrl("/", true).permitAll());
-        http.logout(salida -> salida.logoutSuccessUrl("/login?salio").permitAll());
+        http.formLogin(formulario -> formulario.loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/?error").permitAll());
+        http.logout(salida -> salida.logoutSuccessUrl("/?salio").permitAll());
         http.exceptionHandling(errores -> errores.accessDeniedPage("/403"));
         return http.build();
     }
