@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera}"></head>
+<body>
+<style>
+    .ag-hero { background: linear-gradient(180deg, #241E5C 0%, #2F2680 100%); color: #fff; }
+    [data-bs-theme="dark"] .ag-hero { background: linear-gradient(180deg, #0F0C26 0%, #1A1545 100%); }
+    .ag-logo { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: #fff; color: #5B3FD6; font-size: 1.3rem; }
+    .ag-suave { color: #D9D4F5; }
+    .ag-tema { border: 1px solid rgba(255, 255, 255, .45); background: rgba(255, 255, 255, .08); color: #fff; border-radius: 999px; padding: 10px 20px; font-weight: 600; }
+    .ag-tema:hover { background: rgba(255, 255, 255, .18); color: #fff; }
+    .ag-titulo { font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: clamp(2rem, 4vw, 2.9rem); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; }
+    .ag-tarjeta { background: var(--hg-superficie); color: var(--hg-tinta); border: 1px solid var(--hg-borde); border-radius: 20px; padding: 32px; box-shadow: 0 24px 60px rgba(10, 8, 40, .45); }
+    .ag-seccion h2 { font-weight: 800; color: var(--hg-tinta); }
+    .ag-rol { height: 100%; background: var(--hg-superficie); border: 1px solid var(--hg-borde); border-radius: 16px; padding: 22px; }
+    .ag-rol h3 { font-size: 1.05rem; font-weight: 700; margin: 14px 0 6px; color: var(--hg-tinta); }
+    .ag-rol p { margin: 0; font-size: .9rem; line-height: 1.55; color: var(--hg-suave); }
+    .ag-rol-icono { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; font-size: 1.25rem; color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, transparent); }
+    [data-bs-theme="dark"] .ag-rol-icono { color: color-mix(in srgb, var(--acc) 55%, white); }
+    .ag-contacto { background: var(--hg-superficie); border: 1px solid var(--hg-borde); border-radius: 16px; padding: 22px; height: 100%; }
+    .ag-contacto a { overflow-wrap: anywhere; font-weight: 500; }
+    .ag-pie { background: #17133A; color: #BDB9E3; font-size: .9rem; }
+    [data-bs-theme="dark"] .ag-pie { background: #0B0920; }
+</style>
+
+<header class="ag-hero">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-4">
+            <div class="d-flex align-items-center gap-3">
+                <span class="ag-logo"><i class="bi bi-buildings-fill"></i></span>
+                <div class="lh-sm">
+                    <div class="fw-bold fs-5">Torres del Mirador</div>
+                    <div class="small ag-suave">Portal web · Bucaramanga</div>
+                </div>
+            </div>
+            <button type="button" class="btn ag-tema" onclick="cambiarTema()">
+                <span class="solo-claro"><i class="bi bi-moon-stars me-1"></i>Modo oscuro</span>
+                <span class="solo-oscuro"><i class="bi bi-sun me-1"></i>Modo claro</span>
+            </button>
+        </div>
+        <div class="row g-5 align-items-center py-5">
+            <div class="col-lg-7">
+                <h1 class="ag-titulo mb-3">Portal web del Conjunto Residencial Torres del Mirador</h1>
+                <p class="fs-5 ag-suave mb-0" style="max-width: 540px;">Tres torres y 120 apartamentos en Bucaramanga. Desde aquí se gestionan las cuotas, las reservas de zonas comunes, las PQR, la portería y el mantenimiento del conjunto. Ingresa con tu usuario para ver tu área.</p>
+            </div>
+            <div class="col-lg-5">
+                <div class="ag-tarjeta ms-lg-auto" style="max-width: 460px;">
+                    <h2 class="h4 fw-bold mb-1">Iniciar sesión</h2>
+                    <p class="text-muted small mb-4">Usa el usuario que te creó la administración del conjunto.</p>
+                    <div class="alert alert-danger" th:if="${param.error}">Usuario o contraseña incorrectos.</div>
+                    <div class="alert alert-success" th:if="${param.salio}">Cerraste la sesión.</div>
+                    <form th:action="@{/login}" method="post">
+                        <label class="form-label" for="username">Usuario</label>
+                        <input class="form-control mb-3" type="text" id="username" name="username" required autofocus>
+                        <label class="form-label" for="password">Contraseña</label>
+                        <input class="form-control mb-4" type="password" id="password" name="password" required>
+                        <button class="btn btn-hg w-100" type="submit">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="ag-seccion py-5">
+    <div class="container py-4">
+        <h2 class="mb-2">¿Qué puedes hacer según tu rol?</h2>
+        <p class="text-muted mb-4" style="max-width: 640px;">Al iniciar sesión, el sistema te lleva directo a tu área.</p>
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #6f42c1;"><span class="ag-rol-icono"><i class="bi bi-gear-fill"></i></span><h3>Administrador del sistema</h3><p>Crea usuarios, asigna apartamentos y define los parámetros.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #0d6efd;"><span class="ag-rol-icono"><i class="bi bi-buildings-fill"></i></span><h3>Administrador del conjunto</h3><p>Unidades, cuotas, reservas, PQR, comunicados y mantenimiento.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #0aa2c0;"><span class="ag-rol-icono"><i class="bi bi-people-fill"></i></span><h3>Consejo de administración</h3><p>Aprueba las órdenes de mantenimiento que superan el tope.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #198754;"><span class="ag-rol-icono"><i class="bi bi-house-door-fill"></i></span><h3>Propietario</h3><p>Estado de cuenta, reservas, PQR y comunicados de su apartamento.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #12a37f;"><span class="ag-rol-icono"><i class="bi bi-person-fill"></i></span><h3>Residente</h3><p>Reservas, visitas, paquetes y PQR de su apartamento.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #fd7e14;"><span class="ag-rol-icono"><i class="bi bi-door-open-fill"></i></span><h3>Portero</h3><p>Registra la entrada y salida de visitas y entrega los paquetes.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #dc3545;"><span class="ag-rol-icono"><i class="bi bi-shield-check"></i></span><h3>Vigilante</h3><p>Registra las novedades de seguridad del conjunto.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #0b7285;"><span class="ag-rol-icono"><i class="bi bi-cash-coin"></i></span><h3>Contador</h3><p>Presupuesto, cuotas, pagos y mora.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #6c757d;"><span class="ag-rol-icono"><i class="bi bi-clipboard2-check-fill"></i></span><h3>Revisor fiscal</h3><p>Consulta la cartera y los estados de cuenta, sin modificar nada.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #d9822b;"><span class="ag-rol-icono"><i class="bi bi-tools"></i></span><h3>Encargado de mantenimiento</h3><p>Ejecuta las órdenes aprobadas y registra sus materiales.</p></div></div>
+            <div class="col-md-6 col-lg-4 col-xl-3"><div class="ag-rol" style="--acc: #8e5ea2;"><span class="ag-rol-icono"><i class="bi bi-truck"></i></span><h3>Proveedor</h3><p>Consulta las órdenes de mantenimiento asignadas a él.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="ag-seccion pb-5">
+    <div class="container pb-4">
+        <h2 class="h3 mb-2">¿Necesitas ayuda para ingresar?</h2>
+        <p class="text-muted mb-4" style="max-width: 640px;">Escríbele al equipo que mantiene este portal.</p>
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-4"><div class="ag-contacto"><div class="fw-bold">Felix José Navarro Ortiz</div><a href="mailto:felixnavarro111o@gmail.com">felixnavarro111o@gmail.com</a></div></div>
+            <div class="col-md-6 col-lg-4"><div class="ag-contacto"><div class="fw-bold">Angel Daniel Moreno Lazcano</div><a href="mailto:pandalcoholic@gmail.com">pandalcoholic@gmail.com</a></div></div>
+            <div class="col-md-6 col-lg-4"><div class="ag-contacto"><div class="fw-bold">Estiven Alexander Rodríguez Pérez</div><a href="mailto:estivenalexanderr7@gmail.com">estivenalexanderr7@gmail.com</a></div></div>
+        </div>
+    </div>
+</section>
+
+<footer class="ag-pie py-4">
+    <div class="container"><strong class="text-white">Portal web del Conjunto Residencial Torres del Mirador</strong> · Bucaramanga</div>
+</footer>
+</body>
+</html>
