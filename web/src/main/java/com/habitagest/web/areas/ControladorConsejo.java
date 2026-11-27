@@ -78,18 +78,19 @@ public class ControladorConsejo extends ControladorBase {
         Carga carga = carga();
         String periodo = mes == null || mes.isBlank()
                 ? YearMonth.now(ZoneId.of("America/Bogota")).toString() : mes.trim();
-        List<Fila> gastos = new ArrayList<>();
-        JsonNode total = carga.objeto("/mantenimiento/gastos?mes=" + ClienteApi.codificar(periodo));
-        if (total != null) {
-            gastos.add(fila(celdas(t(total, "mes"), pesos(d(total, "total")))));
+        JsonNode resumen = carga.objeto("/finanzas/resumen?mes=" + ClienteApi.codificar(periodo));
+        List<Fila> conceptos = new ArrayList<>();
+        if (resumen != null && resumen.isObject()) {
+            conceptos.add(fila(celdas("Cartera pendiente de las cuotas del mes", pesos(d(resumen, "totalCartera")))));
+            conceptos.add(fila(celdas("Gastos de mantenimiento completados en el mes",
+                    pesos(d(resumen, "gastosMantenimiento")))));
         }
         return mostrar(modelo, ROL, "/consejo/resumen", "Resumen",
-                "Cartera por apartamento y gastos de mantenimiento del mes.", carga,
-                List.of(consulta("Gastos de otro mes", "/consejo/resumen", "Consultar",
-                        mes("mes", "Mes"))),
-                List.of(PantallasFinanzas.cartera(carga.lista("/finanzas/cartera")),
-                        tabla("Gastos de mantenimiento completados", "Sin gastos.",
-                                columnas("Mes", "Total"), gastos)));
+                "Total de cartera y de gastos de mantenimiento del mes, y la cartera por apartamento.", carga,
+                List.of(consulta("Resumen de otro mes", "/consejo/resumen", "Consultar", mes("mes", "Mes"))),
+                List.of(tabla("Resumen de " + periodo, "No hay datos para este mes.", columnas("Concepto", "Total"),
+                                conceptos),
+                        PantallasFinanzas.cartera(carga.lista("/finanzas/cartera"))));
     }
 
     @GetMapping("/consejo/comunicados")

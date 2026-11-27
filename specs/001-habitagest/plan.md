@@ -32,6 +32,7 @@ El requisito REQ-PH-030 (auditoría) lo cumplen ms-pqr y ms-mantenimiento con un
 | ms-reservas | ms-finanzas | Saber si el apartamento está en mora antes de reservar | REQ-PH-022 |
 | ms-reservas | ms-copropiedad | Validar que el apartamento y quien reserva existen | REQ-PH-020 |
 | ms-finanzas | ms-copropiedad | Obtener los coeficientes al generar las cuotas | REQ-PH-009 |
+| ms-finanzas | ms-mantenimiento | Obtener los gastos del mes para el resumen del Consejo (ADR-006) | REQ-PH-043 |
 | ms-porteria | ms-copropiedad | Validar el apartamento de una visita | REQ-PH-033 |
 | web | api-gateway | Todas las operaciones de negocio | Todos |
 
@@ -71,7 +72,7 @@ Un componente común de cada servicio registra usuario, fecha-hora, estado anter
 ## 7. Despliegue
 
 - Un servicio de Render por módulo (Docker, con su carpeta raíz) y un clúster de Atlas con una base de datos por servicio.
-- Variables de entorno: `MONGODB_URI`, las direcciones de los servicios para el gateway (`COPROPIEDAD_URL`, `FINANZAS_URL`, `RESERVAS_URL`, `PQR_URL`, `PORTERIA_URL`, `MANTENIMIENTO_URL`) y, en la web, `GATEWAY_URL`, `ADMIN_PASSWORD` y `APP_DEMO`.
+- Variables de entorno: `MONGODB_URI`, las direcciones de los servicios para el gateway (`COPROPIEDAD_URL`, `FINANZAS_URL`, `RESERVAS_URL`, `PQR_URL`, `PORTERIA_URL`, `MANTENIMIENTO_URL`), las de los servicios que llaman a otros (`COPROPIEDAD_URL` en ms-finanzas, ms-reservas y ms-porteria; `FINANZAS_URL` en ms-reservas; `MANTENIMIENTO_URL` en ms-finanzas) y, en la web, `GATEWAY_URL`, `ADMIN_PASSWORD` y `APP_DEMO`.
 - Los servicios del plan gratuito se duermen tras un periodo sin uso.
 
 ## 8. Cobertura del plan frente a la spec

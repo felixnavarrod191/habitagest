@@ -362,14 +362,14 @@ paths:
       - name: X-Rol
         in: header
         required: false
-        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
-          recibe 403.'
+        description: 'Rol del usuario (lo agrega la web). Dejar una observación solo puede hacerlo el REVISOR_FISCAL;
+          consultarlas, el REVISOR_FISCAL y el ADMIN_CONJUNTO. Otro rol, o sin rol, recibe 403.'
         schema:
           type: string
       - name: X-Usuario
         in: header
         required: false
-        description: Usuario que hace el cambio; queda en la auditoría. Sin él se usa "sistema".
+        description: Usuario que deja la observación; queda como su autor. Es obligatorio.
         schema:
           type: string
     get:
@@ -392,8 +392,8 @@ paths:
       - name: X-Rol
         in: header
         required: false
-        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
-          recibe 403.'
+        description: 'Rol del usuario (lo agrega la web). Dejar una observación solo puede hacerlo el REVISOR_FISCAL;
+          consultarlas, el REVISOR_FISCAL y el ADMIN_CONJUNTO. Otro rol, o sin rol, recibe 403.'
         schema:
           type: string
   /resumen:

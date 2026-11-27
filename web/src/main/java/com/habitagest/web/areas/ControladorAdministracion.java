@@ -357,6 +357,15 @@ public class ControladorAdministracion extends ControladorBase {
                         filas)));
     }
 
+    // ================= Observaciones de auditoría (HU-32) =================
+    @GetMapping("/administracion/observaciones")
+    public String observaciones(Model modelo) {
+        Carga carga = carga();
+        return mostrar(modelo, ROL, "/administracion/observaciones", "Observaciones de auditoría",
+                "Las observaciones que deja el revisor fiscal sobre pagos y órdenes, con su fecha y autor.", carga,
+                List.of(), List.of(ControladorRevision.tablaObservaciones(carga.lista("/finanzas/observaciones"))));
+    }
+
     // ----- utilidades -----
     private static String nombreDe(List<JsonNode> zonas, String id) {
         for (JsonNode zona : zonas) {
