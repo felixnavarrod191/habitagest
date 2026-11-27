@@ -1,0 +1,127 @@
+# Blueprint de Render para el conjunto residencial Torres del Mirador (HU-33, NFR-PH-005).
+# Un servicio por módulo, construido con el Dockerfile de su carpeta. Ver docs/despliegue-render.md.
+services:
+  - type: web
+    name: torres-mirador-copropiedad
+    runtime: docker
+    rootDir: ms-copropiedad
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+  - type: web
+    name: torres-mirador-finanzas
+    runtime: docker
+    rootDir: ms-finanzas
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+      - key: COPROPIEDAD_URL
+        value: https://torres-mirador-copropiedad.onrender.com
+      - key: MANTENIMIENTO_URL
+        value: https://torres-mirador-mantenimiento.onrender.com
+  - type: web
+    name: torres-mirador-reservas
+    runtime: docker
+    rootDir: ms-reservas
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+      - key: COPROPIEDAD_URL
+        value: https://torres-mirador-copropiedad.onrender.com
+      - key: FINANZAS_URL
+        value: https://torres-mirador-finanzas.onrender.com
+  - type: web
+    name: torres-mirador-pqr
+    runtime: docker
+    rootDir: ms-pqr
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+  - type: web
+    name: torres-mirador-porteria
+    runtime: docker
+    rootDir: ms-porteria
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+      - key: COPROPIEDAD_URL
+        value: https://torres-mirador-copropiedad.onrender.com
+  - type: web
+    name: torres-mirador-mantenimiento
+    runtime: docker
+    rootDir: ms-mantenimiento
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+  - type: web
+    name: torres-mirador-gateway
+    runtime: docker
+    rootDir: api-gateway
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: COPROPIEDAD_URL
+        value: https://torres-mirador-copropiedad.onrender.com
+      - key: FINANZAS_URL
+        value: https://torres-mirador-finanzas.onrender.com
+      - key: RESERVAS_URL
+        value: https://torres-mirador-reservas.onrender.com
+      - key: PQR_URL
+        value: https://torres-mirador-pqr.onrender.com
+      - key: PORTERIA_URL
+        value: https://torres-mirador-porteria.onrender.com
+      - key: MANTENIMIENTO_URL
+        value: https://torres-mirador-mantenimiento.onrender.com
+  - type: web
+    name: torres-mirador-web
+    runtime: docker
+    rootDir: web
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=70 -XX:+UseSerialGC
+      - key: MONGODB_URI
+        sync: false
+      - key: GATEWAY_URL
+        value: https://torres-mirador-gateway.onrender.com
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: APP_DEMO
+        value: "true"
+      - key: DEMO_PASSWORD
+        sync: false

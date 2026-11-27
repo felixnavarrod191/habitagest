@@ -30,6 +30,10 @@ Nunca se guardan en el repositorio.
 | `ADMIN_PASSWORD` | web | Contraseña del administrador del sistema que se crea si la base está vacía. |
 | `APP_DEMO` y `DEMO_PASSWORD` | web | Con `APP_DEMO=true` crea un usuario de demostración por rol, con la contraseña de `DEMO_PASSWORD`. |
 | `COPROPIEDAD_URL`, `FINANZAS_URL`, `RESERVAS_URL`, `PQR_URL`, `PORTERIA_URL`, `MANTENIMIENTO_URL` | api-gateway | Direcciones de los servicios (por defecto, localhost). |
+| `COPROPIEDAD_URL` y `MANTENIMIENTO_URL` | ms-finanzas | Direcciones de ms-copropiedad (coeficientes) y de ms-mantenimiento (gastos del resumen). |
+| `COPROPIEDAD_URL` y `FINANZAS_URL` | ms-reservas | Direcciones de ms-copropiedad y ms-finanzas. |
+| `COPROPIEDAD_URL` | ms-porteria | Dirección de ms-copropiedad. |
+| `GATEWAY_URL` | web | Dirección del api-gateway (por defecto, `http://localhost:8090`). |
 
 ## Cómo arrancar un módulo en local
 
@@ -41,6 +45,10 @@ Nunca se guardan en el repositorio.
 ## Docker
 
 Cada módulo tiene su `Dockerfile` de dos etapas: `docker build -t habitagest-<modulo> .` dentro de la carpeta del módulo.
+
+## Despliegue en Render
+
+El archivo `render.yaml` describe los 8 servicios. Los pasos, las variables y la verificación están en `docs/despliegue-render.md`; `verificar-despliegue.ps1` comprueba que los 8 respondan.
 
 ## Documentación del proyecto
 
