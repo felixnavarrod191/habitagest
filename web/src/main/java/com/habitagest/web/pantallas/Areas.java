@@ -21,7 +21,8 @@ public final class Areas {
                     new Enlace("PQR", "/administracion/pqr", "bi-chat-left-text", "Gestionar y cerrar las PQR."),
                     new Enlace("Comunicados", "/administracion/comunicados", "bi-megaphone", "Publicar y consultar comunicados."),
                     new Enlace("Mantenimiento", "/administracion/mantenimiento", "bi-tools", "Crear y aprobar órdenes."),
-                    new Enlace("Novedades", "/administracion/novedades", "bi-shield-check", "Novedades de seguridad registradas."));
+                    new Enlace("Novedades", "/administracion/novedades", "bi-shield-check", "Novedades de seguridad registradas."),
+                    new Enlace("Observaciones", "/administracion/observaciones", "bi-clipboard-check", "Observaciones de auditoría del revisor fiscal."));
             case CONSEJO -> List.of(
                     new Enlace("Aprobar órdenes", "/consejo/ordenes", "bi-check2-square", "Órdenes sobre el tope de $2.000.000."),
                     new Enlace("Resumen", "/consejo/resumen", "bi-graph-up", "Cartera y gastos de mantenimiento."),
@@ -49,7 +50,8 @@ public final class Areas {
                     new Enlace("Cartera", "/contabilidad/cartera", "bi-clipboard-data", "Saldo y mora por apartamento."));
             case REVISOR_FISCAL -> List.of(
                     new Enlace("Cartera", "/revision/cartera", "bi-clipboard-data", "Consulta en solo lectura."),
-                    new Enlace("Estado de cuenta", "/revision/estado-de-cuenta", "bi-receipt", "Cuotas y pagos de un apartamento."));
+                    new Enlace("Estado de cuenta", "/revision/estado-de-cuenta", "bi-receipt", "Cuotas y pagos de un apartamento."),
+                    new Enlace("Observaciones", "/revision/observaciones", "bi-clipboard-check", "Dejar observaciones de auditoría sobre pagos y órdenes."));
             case ENCARGADO_MANTENIMIENTO -> List.of(
                     new Enlace("Órdenes", "/mantenimiento/ordenes", "bi-tools", "Ejecutar órdenes aprobadas y registrar materiales."));
             case PROVEEDOR -> List.of(
