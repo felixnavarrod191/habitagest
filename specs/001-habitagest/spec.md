@@ -37,7 +37,7 @@ Los 11 roles del sistema: administrador del sistema, administrador del conjunto,
 
 ## 4. Historias de usuario
 
-Cada historia sigue la plantilla: Como [rol] quiero [capacidad] para [beneficio]; escenario con datos; reglas; requisitos; criterios; fuera de alcance. Las historias HU-35 a HU-38 son el objetivo extendido (lista de reserva) y se especifican cuando se toman.
+Cada historia sigue la plantilla: Como [rol] quiero [capacidad] para [beneficio]; escenario con datos; reglas; requisitos; criterios; fuera de alcance.
 
 ### HU-01 · Crear usuarios y asignarles uno de los 11 roles
 
@@ -103,7 +103,7 @@ Como administrador del conjunto quiero definir el presupuesto mensual de adminis
 - **Reglas:** RN-01
 - **Requisitos:** REQ-PH-008
 - **Criterios:** AC-008.1
-- **Fuera de alcance:** presupuesto anual por rubros (objetivo extendido).
+- **Fuera de alcance:** presupuesto anual por rubros.
 
 ### HU-07 · Generar las cuotas del mes de todos los apartamentos según su coeficiente
 
@@ -323,7 +323,7 @@ Como vigilante quiero registrar las novedades de seguridad para dejar constancia
 - **Reglas:** RN-12
 - **Requisitos:** REQ-PH-037
 - **Criterios:** AC-037.1
-- **Fuera de alcance:** rondas de vigilancia (objetivo extendido).
+- **Fuera de alcance:** rondas de vigilancia.
 
 ### HU-27 · Crear una orden de mantenimiento para una zona o un equipo
 
@@ -367,7 +367,7 @@ Como proveedor quiero consultar las órdenes de mantenimiento que me asignaron p
 - **Reglas:** RN-11
 - **Requisitos:** REQ-PH-042
 - **Criterios:** AC-042.1
-- **Fuera de alcance:** cotizaciones y facturas (objetivo extendido).
+- **Fuera de alcance:** cotizaciones y facturas.
 
 ### HU-31 · Ver el resumen de cartera y de gastos de mantenimiento
 
@@ -378,7 +378,7 @@ Como consejo de administración quiero ver el resumen de cartera y de gastos de 
 - **Reglas:** RN-11
 - **Requisitos:** REQ-PH-043
 - **Criterios:** AC-043.1
-- **Fuera de alcance:** presupuesto anual (objetivo extendido).
+- **Fuera de alcance:** presupuesto anual.
 
 ### HU-32 · Dejar observaciones de auditoría sobre pagos y órdenes
 
@@ -595,7 +595,7 @@ Cada requisito es una sola frase con el sistema como sujeto. Patrones: ubicuo, e
 
 **Riesgos**
 
-- Carga: el backlog comprometido es ajustado para un equipo de 3 (unos 25 puntos por sprint); el objetivo extendido absorbe la variación.
+- Carga: el backlog comprometido es ajustado para un equipo de 3 (unos 25 puntos por sprint); un cambio de alcance entra como PBI de tipo Cambio (CR-###).
 - Despliegue: la mayor incertidumbre técnica es desplegar 8 módulos en Render (PBI-13, 13 puntos).
 - Alcance: si la clarificación abre alcance nuevo, entra como solicitud de cambio (CR-###) por el Product Backlog.
 

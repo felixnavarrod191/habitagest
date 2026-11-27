@@ -26,4 +26,4 @@ Versión 1.0 · 2026-11-26 · HU-34, NFR-PH-007. Un requisito comprometido sin c
 
 ## 3. Alcance entregado
 
-34 historias comprometidas (HU-01 a HU-34) en los PBI-01 a PBI-14. Fuera del release, como objetivo extendido sin comprometer: PBI-15 (presupuesto anual y gastos), PBI-16 (rondas de vigilancia) y PBI-17 (cotizaciones y facturas de proveedores).
+34 historias comprometidas (HU-01 a HU-34) en los PBI-01 a PBI-14.
