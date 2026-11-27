@@ -16,7 +16,6 @@ Al terminar el sprint, HabitaGest está desplegado en la nube con sus 11 roles, 
 | PBI-13 | 13 | Despliegue de los servicios en Render |
 | PBI-14 | 5 | Calidad, trazabilidad final y preparación del release |
 
-El objetivo extendido (PBI-15 a PBI-17, 16 puntos) no se compromete: solo se inicia si sobra capacidad y el equipo lo acuerda.
 
 ## Responsables y revisores
 

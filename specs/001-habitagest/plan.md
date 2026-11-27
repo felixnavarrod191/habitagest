@@ -96,4 +96,4 @@ ADR-001 una base de datos por servicio · ADR-002 API Gateway como punto de entr
 ## 10. Riesgos
 
 - Despliegue de 8 módulos en el plan gratuito de Render (memoria y tiempo activo): se mitiga con la opción de memoria de la JVM y arrancando los servicios antes de cada demostración.
-- Carga del equipo de 3 personas: el objetivo extendido absorbe la variación.
+- Carga del equipo de 3 personas: un cambio de alcance entra como PBI de tipo Cambio (CR-###).
