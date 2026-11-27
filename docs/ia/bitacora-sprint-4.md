@@ -56,3 +56,14 @@ Continúa la bitácora del Sprint 3 (`bitacora-sprint-3.md`). Registro de cada u
 - **Qué se descartó y por qué:** nada se descartó.
 - **Cómo se verificó:** `mvn verify` de web y de ms-finanzas; el revisor comprueba la matriz contra las clases de prueba existentes.
 - **Ajustes tras la verificación:** ninguno registrado.
+
+## 2026-11-27 · Correcciones y mejoras tras las pruebas web del Sprint 4 (PR-30)
+
+- **Herramienta:** Claude (asistente de IA).
+- **Tarea:** modificación aparte tras las pruebas web (sin T###) · **Responsable de la tarjeta:** Felix José Navarro Ortiz · **Revisa:** Angel Daniel Moreno Lazcano
+- **Qué se pidió:** las correcciones y mejoras que salieron de las pruebas web de los tres integrantes: nombre y documento obligatorios para todos los roles, lista de presupuestos, resumen del Consejo que conserva el mes y avisa cuando no hay datos, hora de entrada y salida en las visitas, página de error 404 propia y fondo de la página de aterrizaje según el modo claro u oscuro.
+- **Archivos generados:** docs/correcciones-sprint4.md, docs/tratamiento-de-datos.md, web/ (ControladorUsuarios, DatosIniciales, usuarios.html, ControladorContabilidad, ControladorConsejo, ControladorPorteriaWeb, Pantallas, SeguridadConfig, aterrizaje.html, error/404.html, las imágenes de fondo y sus pruebas), ms-finanzas (GET /presupuestos/todos), ms-porteria (GET /ingresos) y sus contratos OpenAPI.
+- **Qué se aceptó:** el código y las pruebas generados, con la lectura completa del diff por el revisor.
+- **Qué se descartó y por qué:** guardar la hora de entrada y salida en la visita, porque el servicio ya la guarda en cada ingreso; solo se agregó la consulta.
+- **Cómo se verificó:** `mvn verify` en web, ms-finanzas y ms-porteria, y repetición de las pruebas web afectadas.
+- **Ajustes tras la verificación:** ninguno registrado.

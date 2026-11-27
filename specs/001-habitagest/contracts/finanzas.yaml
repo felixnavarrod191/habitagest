@@ -84,6 +84,31 @@ paths:
           $ref: '#/components/responses/E403'
         '404':
           $ref: '#/components/responses/E404'
+  /presupuestos/todos:
+    get:
+      tags:
+      - Presupuestos
+      summary: Listar todos los presupuestos guardados, del mes más reciente al más antiguo
+      x-requisitos: REQ-PH-008
+      parameters:
+      - name: X-Rol
+        in: header
+        required: false
+        description: 'Rol del usuario (lo agrega la web). El REVISOR_FISCAL solo puede consultar: cualquier otra operación
+          recibe 403.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Presupuesto'
+        '403':
+          $ref: '#/components/responses/E403'
   /cuotas/generaciones:
     post:
       tags:

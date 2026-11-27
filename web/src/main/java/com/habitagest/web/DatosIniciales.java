@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatosIniciales implements CommandLineRunner {
 
+    static final String NOMBRE_ADMIN = "Administrador del sistema";
+    static final String DOCUMENTO_ADMIN = "1000000001";
+
     private final UsuarioRepository repositorio;
     private final PasswordEncoder codificador;
     private final String contrasenaAdmin;
@@ -39,7 +42,8 @@ public class DatosIniciales implements CommandLineRunner {
                 throw new IllegalStateException(
                         "Falta la variable de entorno ADMIN_PASSWORD para crear el administrador inicial.");
             }
-            repositorio.save(new Usuario("admin", codificador.encode(contrasenaAdmin), Rol.ADMIN_SISTEMA, true));
+            repositorio.save(conDatos(new Usuario("admin", codificador.encode(contrasenaAdmin), Rol.ADMIN_SISTEMA, true),
+                    NOMBRE_ADMIN, DOCUMENTO_ADMIN));
         }
         if (demo) {
             if (contrasenaDemo.isBlank()) {
@@ -48,9 +52,39 @@ public class DatosIniciales implements CommandLineRunner {
             for (Rol rol : Rol.values()) {
                 String nombre = "demo_" + rol.name().toLowerCase();
                 if (!repositorio.existsByUsuario(nombre)) {
-                    repositorio.save(new Usuario(nombre, codificador.encode(contrasenaDemo), rol, true));
+                    repositorio.save(conDatos(new Usuario(nombre, codificador.encode(contrasenaDemo), rol, true),
+                            nombreDemo(rol), documentoDemo(rol)));
                 }
             }
         }
+        completarDatosFaltantes();
+    }
+
+    /** Todo usuario lleva nombre y documento: al administrador y a los de demostración creados antes se los completa. */
+    private void completarDatosFaltantes() {
+        for (Usuario existente : repositorio.findAll()) {
+            if (existente.getNombreCompleto() != null && !existente.getNombreCompleto().isBlank()) {
+                continue;
+            }
+            if ("admin".equals(existente.getUsuario())) {
+                repositorio.save(conDatos(existente, NOMBRE_ADMIN, DOCUMENTO_ADMIN));
+            } else if (existente.getUsuario() != null && existente.getUsuario().startsWith("demo_") && existente.getRol() != null) {
+                repositorio.save(conDatos(existente, nombreDemo(existente.getRol()), documentoDemo(existente.getRol())));
+            }
+        }
+    }
+
+    static String nombreDemo(Rol rol) {
+        return "Demo " + rol.etiqueta();
+    }
+
+    static String documentoDemo(Rol rol) {
+        return String.valueOf(9000000 + rol.ordinal() + 1);
+    }
+
+    private static Usuario conDatos(Usuario usuario, String nombreCompleto, String documento) {
+        usuario.setNombreCompleto(nombreCompleto);
+        usuario.setDocumento(documento);
+        return usuario;
     }
 }

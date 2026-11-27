@@ -18,17 +18,19 @@
                 </select>
             </div>
         </div>
+        <div class="row g-3 mt-1">
+            <div class="col-md-6"><input class="form-control" name="nombreCompleto" placeholder="Nombre completo" required></div>
+            <div class="col-md-6"><input class="form-control" name="documento" placeholder="Documento" required></div>
+        </div>
         <div class="row g-3 mt-1 vivienda" id="vivienda-nuevo" hidden>
-            <div class="col-12"><small class="text-muted">Un propietario o residente se crea con su nombre, su documento y el apartamento donde vive.</small></div>
-            <div class="col-md-3"><input class="form-control" name="nombreCompleto" placeholder="Nombre completo" disabled></div>
-            <div class="col-md-3"><input class="form-control" name="documento" placeholder="Documento" disabled></div>
-            <div class="col-md-3">
+            <div class="col-12"><small class="text-muted">Un propietario o residente también se crea con el apartamento donde vive.</small></div>
+            <div class="col-md-6">
                 <select class="form-select sel-torre" aria-label="Torre" disabled>
                     <option value="">Torre</option>
                     <option th:each="t : ${torres}" th:value="${t}" th:text="${t}"></option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <select class="form-select sel-apto" name="apartamentoId" aria-label="Apartamento" disabled>
                     <option value="">Apartamento</option>
                     <option th:each="u : ${unidades}" th:value="${u.id()}" th:attr="data-torre=${u.torre()}" th:text="'Apto ' + ${u.numero()}" hidden></option>
@@ -46,7 +48,14 @@
                     <td th:text="${u.rol.etiqueta()}"></td>
                     <td>
                         <span th:if="${u.nombreCompleto != null}" th:text="${u.nombreCompleto} + ' · ' + ${u.documento}"></span>
-                        <span class="text-muted" th:if="${u.nombreCompleto == null}">—</span>
+                        <form th:if="${u.nombreCompleto == null and !(u.rol.name() == 'RESIDENTE' or u.rol.name() == 'PROPIETARIO')}"
+                              th:action="@{/sistema/usuarios/datos}" method="post" class="row g-2">
+                            <input type="hidden" name="usuario" th:value="${u.usuario}">
+                            <div class="col-5"><input class="form-control form-control-sm" name="nombreCompleto" placeholder="Nombre completo" required></div>
+                            <div class="col-4"><input class="form-control form-control-sm" name="documento" placeholder="Documento" required></div>
+                            <div class="col-3"><button class="btn btn-outline-secondary btn-sm w-100" type="submit">Guardar</button></div>
+                        </form>
+                        <span class="text-muted" th:if="${u.nombreCompleto == null and (u.rol.name() == 'RESIDENTE' or u.rol.name() == 'PROPIETARIO')}">—</span>
                     </td>
                     <td>
                         <span th:if="${u.apartamentoId != null and !u.apartamentoId.isEmpty()}" th:text="${u.apartamentoNombre}"></span>
@@ -159,7 +168,7 @@
             });
         });
     });
-    // Solo el propietario y el residente llevan nombre, documento, torre y apartamento; los demás roles no los muestran.
+    // Solo el propietario y el residente llevan además torre y apartamento; los demás roles no los muestran.
     (function () {
         var rol = document.getElementById('rol-nuevo');
         var bloque = document.getElementById('vivienda-nuevo');

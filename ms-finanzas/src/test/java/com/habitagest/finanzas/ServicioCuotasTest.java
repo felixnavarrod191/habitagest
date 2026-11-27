@@ -144,4 +144,23 @@ class ServicioCuotasTest {
         cuota.setSaldo(0);
         assertEquals("PAGADA", CuotaVista.estadoDe(cuota, LocalDate.of(2026, 11, 11)));
     }
+
+    /** REQ-PH-008: la lista trae todos los presupuestos guardados, primero el mes más reciente. */
+    @Test
+    void listaTodosLosPresupuestosDelMasRecienteAlMasAntiguo() {
+        ServicioCuotas servicio = servicioConApartamentos(1.5);
+
+        assertTrue(servicio.listarPresupuestos().isEmpty());
+
+        servicio.guardarPresupuesto("2026-10", 9_000_000);
+        servicio.guardarPresupuesto("2026-12", 11_000_000);
+        servicio.guardarPresupuesto("2026-11", 10_000_000);
+
+        List<Presupuesto> lista = servicio.listarPresupuestos();
+        assertEquals(3, lista.size());
+        assertEquals("2026-12", lista.get(0).getMes());
+        assertEquals("2026-11", lista.get(1).getMes());
+        assertEquals("2026-10", lista.get(2).getMes());
+        assertEquals(10_000_000, lista.get(1).getValor());
+    }
 }

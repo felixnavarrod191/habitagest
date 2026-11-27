@@ -57,12 +57,15 @@ class UsuariosControladorTest {
         when(repositorio.save(any(Usuario.class))).thenAnswer(invocacion -> invocacion.getArgument(0));
 
         mvc.perform(post("/sistema/usuarios").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
-                .param("usuario", "contador1").param("contrasena", "ClaveDePrueba1").param("rol", "CONTADOR"))
+                .param("usuario", "contador1").param("contrasena", "ClaveDePrueba1").param("rol", "CONTADOR")
+                .param("nombreCompleto", "Marta Gómez").param("documento", "1002003004"))
                 .andExpect(status().is3xxRedirection());
 
         ArgumentCaptor<Usuario> guardado = ArgumentCaptor.forClass(Usuario.class);
         verify(repositorio).save(guardado.capture());
         assertEquals(Rol.CONTADOR, guardado.getValue().getRol());
+        assertEquals("Marta Gómez", guardado.getValue().getNombreCompleto());
+        assertEquals("1002003004", guardado.getValue().getDocumento());
         assertNotEquals("ClaveDePrueba1", guardado.getValue().getContrasenaCifrada());
         assertTrue(codificador.matches("ClaveDePrueba1", guardado.getValue().getContrasenaCifrada()));
     }
@@ -167,13 +170,13 @@ class UsuariosControladorTest {
 
         mvc.perform(post("/sistema/usuarios").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
                 .param("usuario", "portero1").param("contrasena", "ClaveDePrueba1").param("rol", "PORTERO")
-                .param("apartamentoId", "ap7").param("nombreCompleto", "X").param("documento", "9"))
+                .param("apartamentoId", "ap7").param("nombreCompleto", "Pedro Ríos").param("documento", "80123456"))
                 .andExpect(status().is3xxRedirection());
 
         ArgumentCaptor<Usuario> guardado = ArgumentCaptor.forClass(Usuario.class);
         verify(repositorio).save(guardado.capture());
         assertNull(guardado.getValue().getApartamentoId());
-        assertNull(guardado.getValue().getNombreCompleto());
+        assertEquals("Pedro Ríos", guardado.getValue().getNombreCompleto());
         verify(api, never()).post(any(String.class), anyMap());
     }
 
@@ -220,5 +223,55 @@ class UsuariosControladorTest {
                 .andExpect(status().is3xxRedirection());
 
         verify(repositorio, never()).save(any(Usuario.class));
+    }
+
+    @Test
+    void todoUsuarioNecesitaNombreCompletoYDocumento() throws Exception {
+        for (Rol rol : Rol.values()) {
+            if (rol == Rol.PROPIETARIO || rol == Rol.RESIDENTE) {
+                continue;
+            }
+            mvc.perform(post("/sistema/usuarios").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                    .param("usuario", "sin_nombre_" + rol.name()).param("contrasena", "ClaveDePrueba1").param("rol", rol.name()))
+                    .andExpect(status().is3xxRedirection());
+            mvc.perform(post("/sistema/usuarios").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                    .param("usuario", "sin_doc_" + rol.name()).param("contrasena", "ClaveDePrueba1").param("rol", rol.name())
+                    .param("nombreCompleto", "Alguien"))
+                    .andExpect(status().is3xxRedirection());
+        }
+
+        verify(repositorio, never()).save(any(Usuario.class));
+    }
+
+    @Test
+    void completaElNombreYElDocumentoDeUnUsuarioQueNoLosTenia() throws Exception {
+        Usuario portero = new Usuario("portero1", "x", Rol.PORTERO, true);
+        when(repositorio.findByUsuario("portero1")).thenReturn(Optional.of(portero));
+
+        mvc.perform(post("/sistema/usuarios/datos").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                .param("usuario", "portero1").param("nombreCompleto", "Pedro Ríos").param("documento", "80123456"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(repositorio).save(portero);
+        assertEquals("Pedro Ríos", portero.getNombreCompleto());
+        assertEquals("80123456", portero.getDocumento());
+    }
+
+    @Test
+    void noCompletaDatosVaciosNiLosDeUnPropietario() throws Exception {
+        Usuario portero = new Usuario("portero1", "x", Rol.PORTERO, true);
+        Usuario dueno = new Usuario("dueno", "x", Rol.PROPIETARIO, true);
+        when(repositorio.findByUsuario("portero1")).thenReturn(Optional.of(portero));
+        when(repositorio.findByUsuario("dueno")).thenReturn(Optional.of(dueno));
+
+        mvc.perform(post("/sistema/usuarios/datos").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                .param("usuario", "portero1").param("nombreCompleto", "Pedro Ríos"))
+                .andExpect(status().is3xxRedirection());
+        mvc.perform(post("/sistema/usuarios/datos").with(user("admin").roles("ADMIN_SISTEMA")).with(csrf())
+                .param("usuario", "dueno").param("nombreCompleto", "Carlos").param("documento", "1001"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(repositorio, never()).save(any(Usuario.class));
+        assertNull(portero.getNombreCompleto());
     }
 }

@@ -10,6 +10,7 @@ import com.habitagest.web.pantallas.ControladorBase;
 import com.habitagest.web.pantallas.Fila;
 import com.habitagest.web.seguridad.Rol;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,11 @@ public class ControladorPorteriaWeb extends ControladorBase {
         String dia = fecha == null || fecha.isBlank() ? ControladorResidentes.hoy() : fecha;
         List<JsonNode> apartamentos = carga.lista("/copropiedad/apartamentos");
         List<Fila> filas = new ArrayList<>();
+        Map<String, String> entradas = new HashMap<>();
+        Map<String, String> salidas = new HashMap<>();
+        for (JsonNode ingreso : carga.lista("/porteria/ingresos?fecha=" + ClienteApi.codificar(dia))) {
+            ("ENTRADA".equals(t(ingreso, "tipo")) ? entradas : salidas).put(t(ingreso, "visitaId"), horaDe(ingreso));
+        }
         for (JsonNode visita : carga.lista("/porteria/visitas?fecha=" + ClienteApi.codificar(dia))) {
             String estado = t(visita, "estado");
             Accion[] acciones = switch (estado) {
@@ -46,13 +52,20 @@ public class ControladorPorteriaWeb extends ControladorBase {
             };
             filas.add(fila(celdas(t(visita, "nombre"), t(visita, "documento"),
                     nombreDeApartamento(apartamentos, t(visita, "apartamentoId")),
-                    ControladorResidentes.estadoVisita(estado)), acciones));
+                    ControladorResidentes.estadoVisita(estado), entradas.getOrDefault(t(visita, "id"), "—"),
+                    salidas.getOrDefault(t(visita, "id"), "—")), acciones));
         }
         return mostrar(modelo, ROL, "/porteria/visitas", "Visitas",
                 "Registra la entrada y la salida de las visitas que autorizaron los residentes.", carga,
                 List.of(consulta("Ver las visitas de un día", "/porteria/visitas", "Ver", fecha("fecha", "Día", dia))),
                 List.of(tabla("Visitas del " + dia, "No hay visitas autorizadas ese día.",
-                        columnas("Visitante", "Documento", "Apartamento", "Estado"), filas)));
+                        columnas("Visitante", "Documento", "Apartamento", "Estado", "Entrada", "Salida"), filas)));
+    }
+
+    /** La hora de un ingreso o salida, por ejemplo "10:05", de "2026-11-26T10:05:33". */
+    static String horaDe(JsonNode ingreso) {
+        String iso = t(ingreso, "hora");
+        return iso.length() >= 16 ? iso.substring(11, 16) : "—";
     }
 
     @PostMapping("/porteria/visitas/ingreso")

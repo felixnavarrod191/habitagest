@@ -37,6 +37,14 @@ public final class Pantallas {
         return new Campo(nombre, etiqueta, "month", actual, List.of());
     }
 
+    /** Selector de mes con el mes dado (AAAA-MM); si no es un mes válido, propone el mes actual. */
+    public static Campo mes(String nombre, String etiqueta, String valor) {
+        if (valor == null || !valor.matches("\\d{4}-(0[1-9]|1[0-2])")) {
+            return mes(nombre, etiqueta);
+        }
+        return new Campo(nombre, etiqueta, "month", valor, List.of());
+    }
+
     public static Campo hora(String nombre, String etiqueta, String valor) {
         return new Campo(nombre, etiqueta, "time", valor, List.of());
     }

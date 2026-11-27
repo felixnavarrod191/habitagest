@@ -53,4 +53,18 @@ class AterrizajeTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
     }
+
+    @Test
+    void laPaginaUsaElFondoDeTardeEnModoClaroYElDeNocheEnModoOscuro() throws Exception {
+        mvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("/img/fondo-conjunto-atardecer.svg")))
+                .andExpect(content().string(containsString("/img/fondo-conjunto-noche.svg")));
+    }
+
+    @Test
+    void lasImagenesDeFondoSeSirvenSinIniciarSesion() throws Exception {
+        mvc.perform(get("/img/fondo-conjunto-atardecer.svg")).andExpect(status().isOk());
+        mvc.perform(get("/img/fondo-conjunto-noche.svg")).andExpect(status().isOk());
+    }
 }

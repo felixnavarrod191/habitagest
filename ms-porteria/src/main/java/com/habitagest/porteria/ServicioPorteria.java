@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,16 @@ public class ServicioPorteria {
             throw ErrorDeNegocio.solicitudInvalida("La fecha debe tener el formato AAAA-MM-DD.");
         }
         return visitas.findByFecha(dia).stream().sorted(Comparator.comparing(Visita::getNombre)).toList();
+    }
+
+    /** REQ-PH-034: los ingresos y salidas, con su hora, de las visitas autorizadas para una fecha (AAAA-MM-DD). */
+    public List<Ingreso> ingresosDeLaFecha(String fecha) {
+        List<Ingreso> registros = new ArrayList<>();
+        for (Visita visita : visitasDeLaFecha(fecha)) {
+            registros.addAll(ingresos.findByVisitaId(visita.getId()));
+        }
+        registros.sort(Comparator.comparing(Ingreso::getHora));
+        return registros;
     }
 
     /**
