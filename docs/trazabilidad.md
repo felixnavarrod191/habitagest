@@ -46,18 +46,18 @@ Cadena: necesidad (PBI e historia) → requisito (REQ) → criterio (AC) → tar
 | REQ-PH-040 | HU-28 | PBI-11 | AC-040.1 | T101 | T102 | ServicioOrdenesTest |
 | REQ-PH-041 | HU-29 | PBI-11 | AC-041.1 | T103 | T104 | ServicioOrdenesTest |
 | REQ-PH-042 | HU-30 | PBI-11 | AC-042.1 | T105 | T106 | ServicioOrdenesTest |
-| REQ-PH-043 | HU-31 | PBI-12 | AC-043.1 | T107 | T108 | — |
-| REQ-PH-044 | HU-32 | PBI-12 | AC-044.1 | T109 | T110 | — |
-| REQ-PH-045 | HU-05 | PBI-04 | AC-045.1 | T111 | T112 | — |
+| REQ-PH-043 | HU-31 | PBI-12 | AC-043.1 | T107 | T108 | ServicioResumenTest |
+| REQ-PH-044 | HU-32 | PBI-12 | AC-044.1 | T109 | T110 | ServicioObservacionesTest |
+| REQ-PH-045 | HU-05 | PBI-04 | AC-045.1 | T111 | T112 | DatosPersonalesTest |
 
 ## Requisitos no funcionales
 
 | Requisito | Historia | Verificación |
 |---|---|---|
-| NFR-PH-001 | HU-10 | Prueba de rendimiento del estado de cuenta (Fase 5) |
+| NFR-PH-001 | HU-10 | `RendimientoEstadoDeCuentaTest` (120 apartamentos, menos de 1 segundo) |
 | NFR-PH-002 | HU-01, HU-02 | `RolesAccesoTest` (11 roles) |
-| NFR-PH-003 | HU-18, HU-27, HU-29 | Prueba de auditoría (Fase 1 y Fase 4) |
-| NFR-PH-004 | HU-05 | Revisión de datos de prueba y búsqueda de datos reales en cada pull request |
+| NFR-PH-003 | HU-18, HU-27, HU-29 | `ServicioAuditoriaTest` en los módulos que auditan |
+| NFR-PH-004 | HU-05 | `DatosPersonalesTest` y revisión de datos en cada pull request |
 | NFR-PH-005 | HU-33 | `ConfiguracionObligatoriaTest` en cada módulo |
-| NFR-PH-006 | HU-33 | Pruebas de contrato (Fase 5) |
-| NFR-PH-007 | HU-34 | Esta matriz, completa y sin huecos |
+| NFR-PH-006 | HU-33 | `ContratoOpenApiTest` en los 6 servicios de negocio |
+| NFR-PH-007 | HU-34 | Esta matriz, completa y sin huecos, comprobada por `TrazabilidadTest` |

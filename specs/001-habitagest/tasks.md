@@ -140,28 +140,28 @@ Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contrat
 
 ## Fase 5 · Cierre (Sprint 4)
 
-- [ ] T107 [P] [US31] Prueba: AC-043.1 (REQ-PH-043) · ms-finanzas
-- [ ] T108 [US31] Resumen de cartera y gastos para el Consejo (REQ-PH-043) · ms-finanzas
-- [ ] T109 [P] [US32] Prueba: AC-044.1 (REQ-PH-044) · ms-finanzas
-- [ ] T110 [US32] Observaciones de auditoría del revisor fiscal (REQ-PH-044) · ms-finanzas
-- [ ] T111 [P] [US5] Prueba: AC-045.1 (REQ-PH-045) · transversal
-- [ ] T112 [US5] Verificar el tratamiento de datos personales (REQ-PH-045) · transversal
+- [x] T107 [P] [US31] Prueba: AC-043.1 (REQ-PH-043) · ms-finanzas
+- [x] T108 [US31] Resumen de cartera y gastos para el Consejo (REQ-PH-043) · ms-finanzas
+- [x] T109 [P] [US32] Prueba: AC-044.1 (REQ-PH-044) · ms-finanzas
+- [x] T110 [US32] Observaciones de auditoría del revisor fiscal (REQ-PH-044) · ms-finanzas
+- [x] T111 [P] [US5] Prueba: AC-045.1 (REQ-PH-045) · transversal
+- [x] T112 [US5] Verificar el tratamiento de datos personales (REQ-PH-045) · transversal
 
 Punto de control (Sprint 2): todas las pruebas de la fase en verde y los contratos actualizados.
 
 ### Despliegue y cierre (Sprint 4)
 
-- [ ] T113 [P] [US33] Servicio de Render para ms-copropiedad con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-copropiedad
-- [ ] T114 [P] [US33] Servicio de Render para ms-finanzas con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-finanzas
-- [ ] T115 [P] [US33] Servicio de Render para ms-reservas con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-reservas
-- [ ] T116 [P] [US33] Servicio de Render para ms-pqr con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-pqr
-- [ ] T117 [P] [US33] Servicio de Render para ms-porteria con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-porteria
-- [ ] T118 [P] [US33] Servicio de Render para ms-mantenimiento con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-mantenimiento
-- [ ] T119 [P] [US33] Servicio de Render para api-gateway con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · api-gateway
-- [ ] T120 [P] [US33] Servicio de Render para web con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · web
-- [ ] T121 [P] [US10] Prueba de rendimiento del estado de cuenta con 120 apartamentos (NFR-PH-001) · ms-finanzas
-- [ ] T122 [P] [US33] Pruebas de contrato de cada servicio contra su OpenAPI (NFR-PH-006)
-- [ ] T123 [US34] Completar la matriz de trazabilidad: requisito, criterio, tarea y prueba (NFR-PH-007)
-- [ ] T124 [US34] Preparar el release: revisar que ningún requisito comprometido quede sin prueba (HU-34)
+- [x] T113 [P] [US33] Servicio de Render para ms-copropiedad con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-copropiedad
+- [x] T114 [P] [US33] Servicio de Render para ms-finanzas con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-finanzas
+- [x] T115 [P] [US33] Servicio de Render para ms-reservas con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-reservas
+- [x] T116 [P] [US33] Servicio de Render para ms-pqr con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-pqr
+- [x] T117 [P] [US33] Servicio de Render para ms-porteria con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-porteria
+- [x] T118 [P] [US33] Servicio de Render para ms-mantenimiento con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · ms-mantenimiento
+- [x] T119 [P] [US33] Servicio de Render para api-gateway con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · api-gateway
+- [x] T120 [P] [US33] Servicio de Render para web con su Dockerfile y sus variables de entorno (HU-33, NFR-PH-005) · web
+- [x] T121 [P] [US10] Prueba de rendimiento del estado de cuenta con 120 apartamentos (NFR-PH-001) · ms-finanzas
+- [x] T122 [P] [US33] Pruebas de contrato de cada servicio contra su OpenAPI (NFR-PH-006)
+- [x] T123 [US34] Completar la matriz de trazabilidad: requisito, criterio, tarea y prueba (NFR-PH-007)
+- [x] T124 [US34] Preparar el release: revisar que ningún requisito comprometido quede sin prueba (HU-34)
 
 Punto de control final: el 100 % de los requisitos comprometidos tiene criterio, tarea y prueba.
