@@ -31,6 +31,11 @@ public class ControladorCuotas {
         return servicio.consultarPresupuesto(mes);
     }
 
+    @GetMapping("/presupuestos/todos")
+    public List<Presupuesto> todosLosPresupuestos() {
+        return servicio.listarPresupuestos();
+    }
+
     @PostMapping("/cuotas/generaciones")
     @ResponseStatus(HttpStatus.CREATED)
     public List<CuotaVista> generar(@Valid @RequestBody GeneracionCuotas cuerpo) {

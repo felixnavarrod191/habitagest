@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,13 @@ public class ServicioCuotas {
         String clave = periodo(mes).toString();
         return presupuestos.findByMes(clave)
                 .orElseThrow(() -> ErrorDeNegocio.noEncontrado("No hay presupuesto para " + clave + "."));
+    }
+
+    /** REQ-PH-008: todos los presupuestos guardados, del mes más reciente al más antiguo. */
+    public List<Presupuesto> listarPresupuestos() {
+        List<Presupuesto> lista = new ArrayList<>(presupuestos.findAll());
+        lista.sort(Comparator.comparing(Presupuesto::getMes).reversed());
+        return lista;
     }
 
     /** REQ-PH-009 y REQ-PH-010: genera las cuotas del mes, o informa por qué no las genera. */

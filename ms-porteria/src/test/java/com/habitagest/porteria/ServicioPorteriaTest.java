@@ -124,4 +124,23 @@ class ServicioPorteriaTest {
         assertNotNull(novedades.get(0).getFecha());
         assertEquals(400, assertThrows(ErrorDeNegocio.class, () -> servicio.registrarNovedad(" ", "v")).estado());
     }
+
+    /** REQ-PH-034: la lista de ingresos de una fecha trae la entrada y la salida de cada visita con su hora. */
+    @Test
+    void laListaDeIngresosDeLaFechaTraeLaEntradaYLaSalidaConSuHora() {
+        Visita visita = carlos();
+        assertEquals(0, servicio.ingresosDeLaFecha("2026-11-19").size());
+
+        servicio.registrar(visita.getId(), TipoIngreso.ENTRADA, "portero1");
+        servicio.registrar(visita.getId(), TipoIngreso.SALIDA, "portero1");
+
+        List<Ingreso> registros = servicio.ingresosDeLaFecha("2026-11-19");
+        assertEquals(2, registros.size());
+        assertEquals("ENTRADA", registros.get(0).getTipo());
+        assertEquals("SALIDA", registros.get(1).getTipo());
+        assertEquals(visita.getId(), registros.get(0).getVisitaId());
+        assertNotNull(registros.get(0).getHora());
+        assertEquals(0, servicio.ingresosDeLaFecha("2026-11-20").size());
+        assertEquals(400, assertThrows(ErrorDeNegocio.class, () -> servicio.ingresosDeLaFecha("hoy")).estado());
+    }
 }

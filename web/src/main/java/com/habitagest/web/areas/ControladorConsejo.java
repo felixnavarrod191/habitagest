@@ -80,15 +80,18 @@ public class ControladorConsejo extends ControladorBase {
                 ? YearMonth.now(ZoneId.of("America/Bogota")).toString() : mes.trim();
         JsonNode resumen = carga.objeto("/finanzas/resumen?mes=" + ClienteApi.codificar(periodo));
         List<Fila> conceptos = new ArrayList<>();
-        if (resumen != null && resumen.isObject()) {
+        boolean conDatos = resumen != null && resumen.isObject()
+                && (d(resumen, "totalCartera") != 0 || d(resumen, "gastosMantenimiento") != 0);
+        if (conDatos) {
             conceptos.add(fila(celdas("Cartera pendiente de las cuotas del mes", pesos(d(resumen, "totalCartera")))));
             conceptos.add(fila(celdas("Gastos de mantenimiento completados en el mes",
                     pesos(d(resumen, "gastosMantenimiento")))));
         }
         return mostrar(modelo, ROL, "/consejo/resumen", "Resumen",
                 "Total de cartera y de gastos de mantenimiento del mes, y la cartera por apartamento.", carga,
-                List.of(consulta("Resumen de otro mes", "/consejo/resumen", "Consultar", mes("mes", "Mes"))),
-                List.of(tabla("Resumen de " + periodo, "No hay datos para este mes.", columnas("Concepto", "Total"),
+                List.of(consulta("Resumen de otro mes", "/consejo/resumen", "Consultar", mes("mes", "Mes", periodo))),
+                List.of(tabla("Resumen de " + periodo, "No hay datos para este mes. No hay cartera pendiente ni gastos de mantenimiento completados en "
+                                + periodo + ".", columnas("Concepto", "Total"),
                                 conceptos),
                         PantallasFinanzas.cartera(carga.lista("/finanzas/cartera"))));
     }

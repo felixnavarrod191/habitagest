@@ -5,9 +5,11 @@ import static com.habitagest.web.pantallas.Pantallas.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.habitagest.web.api.ClienteApi;
 import com.habitagest.web.pantallas.Carga;
+import com.habitagest.web.pantallas.Fila;
 import com.habitagest.web.pantallas.ControladorBase;
 import com.habitagest.web.pantallas.Opcion;
 import com.habitagest.web.pantallas.PantallasFinanzas;
+import com.habitagest.web.pantallas.Tabla;
 import com.habitagest.web.seguridad.Rol;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,18 @@ public class ControladorContabilidad extends ControladorBase {
                         post("Generar las cuotas del mes", "/contabilidad/cuotas", "Generar cuotas",
                                 mes("mes", "Mes")),
                         post("Aplicar la mora a las cuotas vencidas", "/contabilidad/mora", "Aplicar mora")),
-                List.of(PantallasFinanzas.cuotas("Cuotas generadas", carga.lista("/finanzas/cuotas"), apartamentos)));
+                List.of(presupuestos(carga.lista("/finanzas/presupuestos/todos")),
+                        PantallasFinanzas.cuotas("Cuotas generadas", carga.lista("/finanzas/cuotas"), apartamentos)));
+    }
+
+    /** Presupuestos guardados, del mes más reciente al más antiguo (REQ-PH-008). */
+    static Tabla presupuestos(List<JsonNode> lista) {
+        List<Fila> filas = new ArrayList<>();
+        for (JsonNode presupuesto : lista) {
+            filas.add(fila(celdas(t(presupuesto, "mes"), pesos(d(presupuesto, "valor")))));
+        }
+        return tabla("Presupuestos guardados", "Todavía no hay presupuestos guardados.",
+                columnas("Mes", "Presupuesto"), filas);
     }
 
     @PostMapping("/contabilidad/presupuestos")

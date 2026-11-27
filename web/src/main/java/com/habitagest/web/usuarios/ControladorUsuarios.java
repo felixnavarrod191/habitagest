@@ -22,8 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * HU-01 y REQ-PH-002: el administrador del sistema crea usuarios con un rol y una contraseña cifrada.
- * Un propietario o residente se crea con su nombre, su documento, su torre y su apartamento: esos datos
- * quedan en el usuario y se registran en ms-copropiedad (que aplica la regla de un solo propietario por apartamento).
+ * Todo usuario, de cualquier rol, se crea con su nombre completo y su documento. Un propietario o residente
+ * además lleva su torre y su apartamento: esos datos se registran en ms-copropiedad (que aplica la regla de un
+ * solo propietario por apartamento).
  */
 @Controller
 @RequestMapping("/sistema/usuarios")
@@ -140,6 +141,13 @@ public class ControladorUsuarios {
                 avisos.addFlashAttribute("error", error);
                 return LISTA;
             }
+        } else {
+            if (nombreCompleto.isBlank() || documento.isBlank()) {
+                avisos.addFlashAttribute("error", "Todo usuario necesita nombre completo y documento.");
+                return LISTA;
+            }
+            nuevo.setNombreCompleto(nombreCompleto.trim());
+            nuevo.setDocumento(documento.trim());
         }
         try {
             repositorio.save(nuevo);
@@ -175,6 +183,30 @@ public class ControladorUsuarios {
                 repositorio.save(persona);
                 avisos.addFlashAttribute("mensaje", "Apartamento asignado a " + usuario + ".");
             }
+        }
+        return LISTA;
+    }
+
+    /**
+     * Completa el nombre y el documento de un usuario sin apartamento que quedó sin esos datos (por ejemplo, el
+     * creado antes de que fueran obligatorios para todos los roles). Propietarios y residentes los dan al asignar su apartamento.
+     */
+    @PostMapping("/datos")
+    public String completarDatos(@RequestParam String usuario, @RequestParam(defaultValue = "") String nombreCompleto,
+            @RequestParam(defaultValue = "") String documento, RedirectAttributes avisos) {
+        Optional<Usuario> encontrado = repositorio.findByUsuario(usuario);
+        if (encontrado.isEmpty()) {
+            avisos.addFlashAttribute("error", "No existe el usuario " + usuario + ".");
+        } else if (tieneApartamento(encontrado.get().getRol())) {
+            avisos.addFlashAttribute("error", "El nombre y el documento de un propietario o residente se registran al asignarle su apartamento.");
+        } else if (nombreCompleto.isBlank() || documento.isBlank()) {
+            avisos.addFlashAttribute("error", "El nombre completo y el documento son obligatorios.");
+        } else {
+            Usuario persona = encontrado.get();
+            persona.setNombreCompleto(nombreCompleto.trim());
+            persona.setDocumento(documento.trim());
+            repositorio.save(persona);
+            avisos.addFlashAttribute("mensaje", "Datos guardados para " + usuario + ".");
         }
         return LISTA;
     }

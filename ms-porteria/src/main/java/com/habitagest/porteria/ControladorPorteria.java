@@ -33,6 +33,11 @@ public class ControladorPorteria {
         return servicio.visitasDeLaFecha(fecha);
     }
 
+    @GetMapping("/ingresos")
+    public List<Ingreso> ingresos(@RequestParam String fecha) {
+        return servicio.ingresosDeLaFecha(fecha);
+    }
+
     @PostMapping("/ingresos")
     @ResponseStatus(HttpStatus.CREATED)
     public Ingreso registrar(@Valid @RequestBody IngresoNuevo cuerpo,

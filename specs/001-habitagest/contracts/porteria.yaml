@@ -90,6 +90,31 @@ paths:
           $ref: '#/components/responses/E404'
         '409':
           $ref: '#/components/responses/E409'
+    get:
+      tags:
+      - Visitas
+      summary: Listar los ingresos y salidas, con su hora, de las visitas de una fecha
+      x-requisitos: REQ-PH-034
+      parameters:
+      - name: fecha
+        in: query
+        required: true
+        description: Fecha en formato AAAA-MM-DD
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingreso'
+        '400':
+          $ref: '#/components/responses/E400'
+        '403':
+          $ref: '#/components/responses/E403'
   /paquetes:
     post:
       tags:

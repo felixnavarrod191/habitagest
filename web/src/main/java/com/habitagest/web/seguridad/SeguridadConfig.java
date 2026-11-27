@@ -21,7 +21,7 @@ public class SeguridadConfig {
     @Bean
     public SecurityFilterChain cadenaDeSeguridad(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(acceso -> {
-            acceso.requestMatchers("/", "/login", "/403", "/error", "/actuator/health").permitAll();
+            acceso.requestMatchers("/", "/login", "/403", "/error", "/actuator/health", "/img/**").permitAll();
             for (Rol rol : Rol.values()) {
                 acceso.requestMatchers(rol.rutaBase(), rol.rutaBase() + "/**").hasRole(rol.name());
             }
